@@ -1,0 +1,131 @@
+plugins {
+	id 'fabric-loom' version '1.2-SNAPSHOT'
+	id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+	mavenCentral() // DevLogin
+	maven { url = "https://maven.parchmentmc.net/" } // Parchment Mappings
+	maven { url = "https://api.modrinth.com/maven" } // Modern Industrialization
+	maven { url = "https://maven.shedaniel.me/" } // Cloth Config API
+	// EMI
+	maven {
+		url = "https://maven.terraformersmc.com/releases/"
+		content {
+			includeGroup "dev.emi"
+		}
+	}
+	maven {
+		url = 'https://jitpack.io'
+		content {
+			// Magna
+			includeGroup "com.github.Technici4n"
+			includeGroup "com.github.Draylar.omega-config"
+		}
+	}
+	// Reach entity attributes (required by Magna)
+	maven {
+		url = "https://maven.jamieswhiteshirt.com/libs-release/"
+		content {
+			includeGroup "com.jamieswhiteshirt"
+		}
+	}
+	// PlayerAbilityLib (required by MI)
+	maven {
+		url = 'https://ladysnake.jfrog.io/artifactory/mods'
+		content {
+			includeGroup 'io.github.ladysnake'
+			//includeGroupByRegex 'io\\.github\\.onyxstudios.*'
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.layered() {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_mappings}@zip")
+	}
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	modImplementation "com.ptsmods:devlogin:${project.devlogin_version}"
+
+	modImplementation("maven.modrinth:modern-industrialization:${project.modern_industrialization_version}") {
+		exclude group: "net.fabricmc.fabric-api"
+	}
+
+	modImplementation("com.github.Technici4n:magna:${project.magna_version}") {
+		exclude group: "io.github.prospector"
+		exclude group: "me.shedaniel.cloth"
+		exclude group: "net.fabricmc.fabric-api"
+	}
+
+	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+		exclude group: "net.fabricmc.fabric-api"
+	}
+
+	modApi("teamreborn:energy:${project.teamreborn_energy_version}") {
+		exclude group: "net.fabricmc.fabric-api"
+	}
+
+	modImplementation("io.github.ladysnake:PlayerAbilityLib:${project.playerabilitylib_version}") {
+		exclude group: "net.fabricmc.fabric-api"
+	}
+
+	modImplementation("dev.emi:emi:${project.emi_version}+${project.minecraft_version}") {
+		exclude group: "net.fabricmc.fabric-api"
+	}
+}
+
+base {
+	archivesName = project.archives_base_name
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.getRelease().set(17)
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${base.archivesName.get()}"}
+	}
+}
+
+publishing {
+	publications {
+		//noinspection GroovyAssignabilityCheck
+		mavenJava(MavenPublication) {
+			//noinspection GroovyAssignabilityCheck
+			from components.java
+		}
+	}
+
+	repositories {}
+}
+
+loom {
+	runs {
+		client {
+			programArgs("--mimicPlayer", "Swedz")
+		}
+	}
+}
