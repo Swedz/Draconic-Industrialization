@@ -106,7 +106,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${base.archivesName.get()}"}
+		rename { "${it}_${base.archivesName.get()}" }
 	}
 }
 
@@ -124,8 +124,28 @@ publishing {
 
 loom {
 	runs {
+		datagen {
+			inherit client
+
+			name "Minecraft Data"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+			vmArg "-Dfabric-api.datagen.modid=draconic_industrialization"
+
+			runDir "build/datagen"
+		}
 		client {
 			programArgs("--mimicPlayer", "Swedz")
 		}
 	}
 }
+
+sourceSets {
+	main {
+		resources {
+			srcDirs += ["src/main/generated"]
+		}
+	}
+}
+
+assemble.dependsOn runDatagen

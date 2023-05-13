@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "net.swedz.draconic_industrialization.DraconicIndustrialization"
+    ],
+    "fabric-datagen": [
+      "net.swedz.draconic_industrialization.datagen.DIDatagenEntrypoint"
     ]
   },
   "mixins": [

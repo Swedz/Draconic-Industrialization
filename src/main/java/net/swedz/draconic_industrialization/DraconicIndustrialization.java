@@ -2,6 +2,7 @@ package net.swedz.draconic_industrialization;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.ResourceLocation;
+import net.swedz.draconic_industrialization.items.DIItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,6 @@ public final class DraconicIndustrialization implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-	
+		DIItems.init();
 	}
 }
