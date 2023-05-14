@@ -61,11 +61,7 @@ public final class DIBlocks
 				DraconicIndustrialization.id(id),
 				new Block(properties)
 		);
-		Item blockItem = DIItems.blockItem(id, material.fullEnglishName(partTemplate), block, (s) -> s
-				.materialPart(material, partTemplate, recipeActions)
-				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL)
-				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_RECIPE)
-				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_TAG));
+		Item blockItem = DIItems.blockItemMaterialPart(block, material, recipeActions);
 		return register(block, blockItem, properties);
 	}
 	

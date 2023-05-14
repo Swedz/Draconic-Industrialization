@@ -66,6 +66,17 @@ public final class DIItems
 		return register(id, new BlockItem(block, settings), settings);
 	}
 	
+	public static Item blockItemMaterialPart(Block block, DIMaterial material, RecipeGenerator... recipeActions)
+	{
+		final PartTemplate partTemplate = MIParts.BLOCK.of(null);
+		final String id = material.fullId(partTemplate);
+		return blockItem(id, material.fullEnglishName(partTemplate), block, (s) -> s
+				.materialPart(material, partTemplate, recipeActions)
+				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL)
+				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_RECIPE)
+				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_TAG));
+	}
+	
 	public static Item generic(String id, String englishName, Consumer<DIItemSettings> settingsConsumer)
 	{
 		final DIItemSettings settings = new DIItemSettings()
