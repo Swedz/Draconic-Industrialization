@@ -32,6 +32,10 @@ public final class ItemMaterialPartTextureDatagenFunction extends ClientDatagenF
 	public void run(DatagenProvider provider, CachedOutput output, DIItem item) throws IOException
 	{
 		final DIItemSettings settings = item.settings();
+		if(item.isBlock())
+		{
+			return;
+		}
 		if(!settings.isMaterial())
 		{
 			throw new IllegalArgumentException("Provided non-material item to ItemMaterialPartTextureDatagenFunction '%s'".formatted(item.id(true)));

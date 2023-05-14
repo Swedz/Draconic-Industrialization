@@ -6,7 +6,8 @@ import net.swedz.draconic_industrialization.datagen.client.functions.block.Basic
 import net.swedz.draconic_industrialization.datagen.client.functions.item.BasicItemModelDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.client.functions.item.ItemMaterialPartTextureDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.block.BlockLootTableDatagenFunction;
-import net.swedz.draconic_industrialization.datagen.server.functions.block.VariableBlockTagDatagenFunction;
+import net.swedz.draconic_industrialization.datagen.server.functions.block.BlockTagDatagenFunction;
+import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialRecipeDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialTagDatagenFunction;
 
 import java.io.IOException;
@@ -38,15 +39,16 @@ public final class DatagenFunctions
 	{
 		public static final class Block extends FunctionStorage<Block>
 		{
-			public static final BlockLootTableDatagenFunction   LOOT_TABLE   = new BlockLootTableDatagenFunction();
-			public static final VariableBlockTagDatagenFunction VARIABLE_TAG = new VariableBlockTagDatagenFunction();
+			public static final BlockLootTableDatagenFunction LOOT_TABLE = new BlockLootTableDatagenFunction();
+			public static final BlockTagDatagenFunction       TAG        = new BlockTagDatagenFunction();
 			
 			public static final Block INSTANCE = new Block().collect();
 		}
 		
 		public static final class Item extends FunctionStorage<Item>
 		{
-			public static final ItemMaterialTagDatagenFunction MATERIAL_TAG = new ItemMaterialTagDatagenFunction();
+			public static final ItemMaterialRecipeDatagenFunction MATERIAL_RECIPE = new ItemMaterialRecipeDatagenFunction();
+			public static final ItemMaterialTagDatagenFunction    MATERIAL_TAG    = new ItemMaterialTagDatagenFunction();
 			
 			public static final Item INSTANCE = new Item().collect();
 		}

@@ -1,6 +1,7 @@
 package net.swedz.draconic_industrialization.items;
 
 import aztech.modern_industrialization.materials.part.PartKeyProvider;
+import aztech.modern_industrialization.materials.part.PartTemplate;
 import aztech.modern_industrialization.materials.set.MaterialSet;
 import net.fabricmc.fabric.api.item.v1.CustomDamageHandler;
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
@@ -11,6 +12,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
+import net.swedz.draconic_industrialization.datagen.client.DIDatagenClient;
+import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 
 public final class DIItemSettings extends FabricItemSettings
 {
@@ -41,17 +44,27 @@ public final class DIItemSettings extends FabricItemSettings
 		return materialPart;
 	}
 	
-	public DIItemSettings materialPart(String name, PartKeyProvider partKey, MaterialSet materialSet)
+	public DIItemSettings materialPart(String name, PartTemplate part, MaterialSet materialSet, RecipeGenerator... recipeActions)
 	{
-		this.materialPart = new MaterialPart(name, partKey, materialSet);
+		this.materialPart = new MaterialPart(name, part, materialSet, recipeActions);
 		return this;
 	}
 	
-	public record MaterialPart(String name, PartKeyProvider partKey, MaterialSet materialSet)
+	public record MaterialPart(String name, PartTemplate part, MaterialSet materialSet, RecipeGenerator... recipeActions)
 	{
 		public String partId()
 		{
-			return partKey.key().key;
+			return part.key().key;
+		}
+		
+		public String tag()
+		{
+			return DIDatagenClient.tagMaterialTarget(name, this.partId());
+		}
+		
+		public boolean isPart(PartKeyProvider other)
+		{
+			return this.partId().equals(other.key().key);
 		}
 	}
 	

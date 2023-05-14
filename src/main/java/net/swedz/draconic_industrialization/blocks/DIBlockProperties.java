@@ -53,7 +53,7 @@ public final class DIBlockProperties extends FabricBlockSettings
 	
 	private DatagenFunctionContainer<DIBlock> datagenFunctions = new DatagenFunctionContainer()
 			.add(DatagenFunctions.Server.Block.LOOT_TABLE)
-			.add(DatagenFunctions.Server.Block.VARIABLE_TAG);
+			.add(DatagenFunctions.Server.Block.TAG);
 	
 	private Set<TagKey<Block>> tags = Sets.newHashSet();
 	

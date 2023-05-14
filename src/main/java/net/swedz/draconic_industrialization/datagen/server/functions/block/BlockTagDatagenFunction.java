@@ -9,7 +9,7 @@ import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionCategory;
 import net.swedz.draconic_industrialization.datagen.api.DatagenProvider;
 import net.swedz.draconic_industrialization.datagen.api.TagDatagenFunction;
 
-public final class VariableBlockTagDatagenFunction extends TagDatagenFunction<DIBlock, Block>
+public final class BlockTagDatagenFunction extends TagDatagenFunction<DIBlock, Block>
 {
 	@Override
 	protected Registry registry()

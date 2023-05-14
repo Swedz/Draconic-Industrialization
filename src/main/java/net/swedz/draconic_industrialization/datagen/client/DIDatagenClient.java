@@ -19,6 +19,11 @@ public final class DIDatagenClient
 		return "data/%s/tags/%ss/%s.json".formatted(modId, type, id);
 	}
 	
+	public static String tagMaterialTarget(String materialName, String partId)
+	{
+		return "c:%s_%ss".formatted(materialName, partId);
+	}
+	
 	public static String modelPath(String modId, String type, String id)
 	{
 		return "assets/%s/models/%s/%s.json".formatted(modId, type, id);

@@ -3,8 +3,11 @@ package net.swedz.draconic_industrialization.datagen.api;
 import com.google.common.collect.Sets;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.server.packs.resources.ResourceProvider;
+import org.apache.commons.compress.utils.Lists;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 public final class DatagenFunctionContainer<T>
@@ -19,7 +22,9 @@ public final class DatagenFunctionContainer<T>
 	
 	public void executeAll(DatagenFunctionCategory category, DatagenProvider provider, CachedOutput output, ResourceProvider resourceProvider, T entry) throws IOException
 	{
-		for(DatagenFunction<T> function : functions)
+		List<DatagenFunction<T>> orderedFunctions = Lists.newArrayList(functions.iterator());
+		orderedFunctions.sort(Comparator.comparingInt(DatagenFunction::priority));
+		for(DatagenFunction<T> function : orderedFunctions)
 		{
 			if(function.category() == category)
 			{

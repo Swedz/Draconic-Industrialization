@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionCategory;
 import net.swedz.draconic_industrialization.datagen.api.DatagenProvider;
 import net.swedz.draconic_industrialization.datagen.api.TagDatagenFunction;
+import net.swedz.draconic_industrialization.datagen.server.DIDatagenServer;
 import net.swedz.draconic_industrialization.items.DIItem;
 import net.swedz.draconic_industrialization.items.DIItemSettings;
 
@@ -31,10 +32,9 @@ public final class ItemMaterialTagDatagenFunction extends TagDatagenFunction<DII
 		{
 			throw new IllegalArgumentException("Provided non-material item to ItemMaterialTagDatagenFunction '%s'".formatted(item.id(true)));
 		}
-		final String itemId = item.id(false);
-		final DIItemSettings.MaterialPart materialPart = settings.materialPart();
-		final String partId = materialPart.partId();
 		
-		this.tag("c:%s_%ss".formatted(itemId, partId)).add(item.item());
+		final String tag = settings.materialPart().tag();
+		this.tag(tag).add(item.item());
+		DIDatagenServer.trackTag(tag);
 	}
 }

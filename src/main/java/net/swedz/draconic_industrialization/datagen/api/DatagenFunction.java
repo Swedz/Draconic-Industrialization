@@ -12,6 +12,16 @@ public interface DatagenFunction<T>
 	
 	DatagenFunctionCategory category();
 	
+	/**
+	 * Value used to sort the functions before they are called. Functions are sorted by priority in ascending order (i.e. larger numbers run later).
+	 *
+	 * @return the priority
+	 */
+	default int priority()
+	{
+		return 0;
+	}
+	
 	default void globalInit(DatagenProvider provider, CachedOutput output)
 	{
 	}
