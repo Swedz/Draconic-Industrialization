@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.items.DIItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,5 +29,6 @@ public final class DraconicIndustrialization implements ModInitializer
 	public void onInitialize()
 	{
 		DIItems.init();
+		DIBlocks.init();
 	}
 }

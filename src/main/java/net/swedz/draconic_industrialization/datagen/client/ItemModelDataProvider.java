@@ -22,6 +22,11 @@ public final class ItemModelDataProvider extends DIClientAssetDataProvider
 	{
 		for(DIItem item : DIItems.all())
 		{
+			if(item.settings().textureLocation() == null)
+			{
+				continue;
+			}
+			
 			final DIItemSettings settings = item.settings();
 			final String modelPath = "assets/%s/models/item/%s.json".formatted(
 					dataGenerator.getModId(),

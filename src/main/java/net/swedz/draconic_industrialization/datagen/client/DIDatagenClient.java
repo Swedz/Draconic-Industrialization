@@ -6,6 +6,7 @@ public final class DIDatagenClient
 {
 	public static void configure(FabricDataGenerator dataGenerator)
 	{
+		dataGenerator.addProvider(new BlockModelDataProvider(dataGenerator));
 		dataGenerator.addProvider(new ItemModelDataProvider(dataGenerator));
 		dataGenerator.addProvider(new LangDataProvider(dataGenerator));
 		dataGenerator.addProvider(new MaterialPartTextureDataProvider(dataGenerator));

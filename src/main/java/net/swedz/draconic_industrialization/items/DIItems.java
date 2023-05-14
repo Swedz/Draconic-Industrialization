@@ -6,8 +6,10 @@ import aztech.modern_industrialization.materials.part.PartTemplate;
 import aztech.modern_industrialization.materials.set.MaterialSet;
 import com.google.common.collect.Sets;
 import net.minecraft.core.Registry;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Block;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 
 import java.lang.reflect.Field;
@@ -41,39 +43,45 @@ public final class DIItems
 		return Set.copyOf(ITEMS);
 	}
 	
-	private static Item register(Item item, DIItemSettings settings)
+	public static Item register(String id, Item item, DIItemSettings settings)
 	{
+		Registry.register(Registry.ITEM, DraconicIndustrialization.id(id), item);
 		ITEMS.add(new DIItem(item, settings));
 		return item;
 	}
 	
-	private static Item generic(String id, String englishName, Consumer<DIItemSettings> settingsConsumer)
+	public static Item blockItem(String id, String englishName, Block block, Consumer<DIItemSettings> settingsConsumer)
+	{
+		final DIItemSettings settings = new DIItemSettings()
+				.englishName(englishName)
+				.tab(DraconicIndustrialization.CREATIVE_TAB);
+		settingsConsumer.accept(settings);
+		return register(id, new BlockItem(block, settings), settings);
+	}
+	
+	public static Item generic(String id, String englishName, Consumer<DIItemSettings> settingsConsumer)
 	{
 		final DIItemSettings settings = new DIItemSettings()
 				.textureLocation(id)
 				.englishName(englishName)
 				.tab(DraconicIndustrialization.CREATIVE_TAB);
 		settingsConsumer.accept(settings);
-		return register(Registry.register(
-				Registry.ITEM,
-				DraconicIndustrialization.id(id),
-				new Item(settings)
-		), settings);
+		return register(id, new Item(settings), settings);
 	}
 	
-	private static Item generic(String id, String englishName)
+	public static Item generic(String id, String englishName)
 	{
 		return generic(id, englishName, (settings) ->
 		{
 		});
 	}
 	
-	private static DIMaterial material(String id, String englishName, MaterialSet materialSet)
+	public static DIMaterial material(String id, String englishName, MaterialSet materialSet)
 	{
 		return new DIMaterial(id, englishName, materialSet);
 	}
 	
-	private static Item materialPart(DIMaterial material, PartTemplate part)
+	public static Item materialPart(DIMaterial material, PartTemplate part)
 	{
 		final String name = material.id();
 		final String englishName = material.englishName();
