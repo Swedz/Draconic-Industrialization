@@ -6,5 +6,6 @@ public final class DIDatagenServer
 {
 	public static void configure(FabricDataGenerator dataGenerator)
 	{
+		dataGenerator.addProvider(ServerDatagenProvider::new);
 	}
 }

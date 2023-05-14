@@ -13,5 +13,6 @@
   "item.draconic_industrialization.draconium_plate": "Draconium Plate",
   "item.draconic_industrialization.draconium_wire": "Draconium Wire",
   "item.draconic_industrialization.dragon_heart": "Dragon Heart",
-  "item.draconic_industrialization.wyvern_circuit": "Wyvern Circuit"
+  "item.draconic_industrialization.wyvern_circuit": "Wyvern Circuit",
+  "itemGroup.draconic_industrialization.draconic_industrialization": "Draconic Industrialization"
 }

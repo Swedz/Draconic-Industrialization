@@ -11,4 +11,14 @@ public record DIBlock(Block block, Item item, DIBlockProperties properties)
 	{
 		return Registry.BLOCK.getKey(block);
 	}
+	
+	public String modId()
+	{
+		return this.location().getNamespace();
+	}
+	
+	public String id(boolean modid)
+	{
+		return modid ? this.location().toString() : this.location().getPath();
+	}
 }

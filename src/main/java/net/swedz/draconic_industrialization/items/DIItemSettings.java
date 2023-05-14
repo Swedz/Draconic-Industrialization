@@ -2,7 +2,6 @@ package net.swedz.draconic_industrialization.items;
 
 import aztech.modern_industrialization.materials.part.PartKeyProvider;
 import aztech.modern_industrialization.materials.set.MaterialSet;
-import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.item.v1.CustomDamageHandler;
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -10,15 +9,16 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.swedz.draconic_industrialization.DraconicIndustrialization;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
 
 public final class DIItemSettings extends FabricItemSettings
 {
 	private String englishName;
 	
-	private String textureLocation;
-	
 	private MaterialPart materialPart;
+	
+	private DatagenFunctionContainer<DIItem> datagenFunctions = new DatagenFunctionContainer();
 	
 	public String englishName()
 	{
@@ -28,17 +28,6 @@ public final class DIItemSettings extends FabricItemSettings
 	public DIItemSettings englishName(String englishName)
 	{
 		this.englishName = englishName;
-		return this;
-	}
-	
-	public String textureLocation()
-	{
-		return textureLocation;
-	}
-	
-	public DIItemSettings textureLocation(String path)
-	{
-		this.textureLocation = path;
 		return this;
 	}
 	
@@ -58,26 +47,26 @@ public final class DIItemSettings extends FabricItemSettings
 		return this;
 	}
 	
-	public JsonObject toModelJson()
+	public DatagenFunctionContainer<DIItem> datagenFunctions()
 	{
-		JsonObject json = new JsonObject();
-		
-		json.addProperty("parent", "item/generated");
-		
-		JsonObject textures = new JsonObject();
-		textures.addProperty("layer0", "%s:item/%s".formatted(
-				DraconicIndustrialization.ID,
-				textureLocation
-		));
-		json.add("textures", textures);
-		
-		return json;
+		return datagenFunctions;
+	}
+	
+	public DIItemSettings datagenFunction(DatagenFunction<DIItem> function)
+	{
+		datagenFunctions.add(function);
+		return this;
 	}
 	
 	public record MaterialPart(String name, PartKeyProvider partKey, MaterialSet materialSet)
 	{
+		public String partId()
+		{
+			return partKey.key().key;
+		}
 	}
 	
+	//region Inherited methods
 	@Override
 	public DIItemSettings equipmentSlot(EquipmentSlotProvider equipmentSlotProvider)
 	{
@@ -189,4 +178,5 @@ public final class DIItemSettings extends FabricItemSettings
 		super.fireResistant();
 		return this;
 	}
+	//endregion
 }

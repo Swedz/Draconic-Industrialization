@@ -1,20 +1,28 @@
 package net.swedz.draconic_industrialization.blocks;
 
-import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.mixin.object.builder.AbstractBlockAccessor;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.swedz.draconic_industrialization.DraconicIndustrialization;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
+
+import java.util.function.ToIntFunction;
 
 public final class DIBlockProperties extends FabricBlockSettings
 {
 	private String englishName;
 	
-	private String textureLocation;
+	private DatagenFunctionContainer<DIBlock> datagenFunctions = new DatagenFunctionContainer();
 	
+	//region Initialization methods
 	private DIBlockProperties(Material material, MaterialColor color)
 	{
 		super(material, color);
@@ -49,6 +57,7 @@ public final class DIBlockProperties extends FabricBlockSettings
 	{
 		return new DIBlockProperties(properties);
 	}
+	//endregion
 	
 	public String englishName()
 	{
@@ -61,30 +70,248 @@ public final class DIBlockProperties extends FabricBlockSettings
 		return this;
 	}
 	
-	public String textureLocation()
+	public DatagenFunctionContainer<DIBlock> datagenFunctions()
 	{
-		return textureLocation;
+		return datagenFunctions;
 	}
 	
-	public DIBlockProperties textureLocation(String path)
+	public DIBlockProperties datagenFunction(DatagenFunction<DIBlock> function)
 	{
-		this.textureLocation = path;
+		datagenFunctions.add(function);
 		return this;
 	}
 	
-	public JsonObject toModelJson()
+	//region Inherited methods
+	@Override
+	public DIBlockProperties noCollision()
 	{
-		JsonObject json = new JsonObject();
-		
-		json.addProperty("parent", "block/cube_all");
-		
-		JsonObject textures = new JsonObject();
-		textures.addProperty("all", "%s:block/%s".formatted(
-				DraconicIndustrialization.ID,
-				textureLocation
-		));
-		json.add("textures", textures);
-		
-		return json;
+		super.noCollision();
+		return this;
 	}
+	
+	@Override
+	public DIBlockProperties nonOpaque()
+	{
+		super.nonOpaque();
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties slipperiness(float value)
+	{
+		super.slipperiness(value);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties velocityMultiplier(float velocityMultiplier)
+	{
+		super.velocityMultiplier(velocityMultiplier);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties jumpVelocityMultiplier(float jumpVelocityMultiplier)
+	{
+		super.jumpVelocityMultiplier(jumpVelocityMultiplier);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties sounds(SoundType group)
+	{
+		super.sounds(group);
+		return this;
+	}
+	
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	@Override
+	public DIBlockProperties lightLevel(ToIntFunction<BlockState> levelFunction)
+	{
+		super.lightLevel(levelFunction);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties luminance(ToIntFunction<BlockState> luminanceFunction)
+	{
+		super.luminance(luminanceFunction);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties strength(float hardness, float resistance)
+	{
+		super.strength(hardness, resistance);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties breakInstantly()
+	{
+		super.breakInstantly();
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties strength(float strength)
+	{
+		super.strength(strength);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties ticksRandomly()
+	{
+		super.ticksRandomly();
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties dynamicBounds()
+	{
+		super.dynamicBounds();
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties dropsLike(Block block)
+	{
+		super.dropsLike(block);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties air()
+	{
+		super.air();
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties allowsSpawning(BlockBehaviour.StateArgumentPredicate<EntityType<?>> predicate)
+	{
+		super.allowsSpawning(predicate);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties solidBlock(BlockBehaviour.StatePredicate predicate)
+	{
+		super.solidBlock(predicate);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties suffocates(BlockBehaviour.StatePredicate predicate)
+	{
+		super.suffocates(predicate);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties blockVision(BlockBehaviour.StatePredicate predicate)
+	{
+		super.blockVision(predicate);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties postProcess(BlockBehaviour.StatePredicate predicate)
+	{
+		super.postProcess(predicate);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties emissiveLighting(BlockBehaviour.StatePredicate predicate)
+	{
+		super.emissiveLighting(predicate);
+		return this;
+	}
+	
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	@Override
+	public DIBlockProperties lightLevel(int lightLevel)
+	{
+		super.lightLevel(lightLevel);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties luminance(int luminance)
+	{
+		super.luminance(luminance);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties hardness(float hardness)
+	{
+		super.hardness(hardness);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties resistance(float resistance)
+	{
+		super.resistance(resistance);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties drops(ResourceLocation dropTableId)
+	{
+		super.drops(dropTableId);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties requiresTool()
+	{
+		super.requiresTool();
+		return this;
+	}
+	
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	@Override
+	public DIBlockProperties materialColor(MaterialColor color)
+	{
+		super.materialColor(color);
+		return this;
+	}
+	
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	@Override
+	public DIBlockProperties materialColor(DyeColor color)
+	{
+		super.materialColor(color);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties mapColor(MaterialColor color)
+	{
+		super.mapColor(color);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties mapColor(DyeColor color)
+	{
+		super.mapColor(color);
+		return this;
+	}
+	
+	@Override
+	public DIBlockProperties collidable(boolean collidable)
+	{
+		super.collidable(collidable);
+		return this;
+	}
+	//endregion
 }

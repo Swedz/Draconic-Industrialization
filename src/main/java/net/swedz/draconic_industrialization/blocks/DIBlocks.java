@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.items.DIItems;
 
 import java.util.Set;
@@ -31,7 +32,7 @@ public final class DIBlocks
 	
 	public static Block generic(String id, String englishName, DIBlockProperties properties, boolean createItem)
 	{
-		properties.textureLocation(id);
+		properties.datagenFunction(DatagenFunctions.Client.Block.BASIC_MODEL);
 		Block block = Registry.register(
 				Registry.BLOCK,
 				DraconicIndustrialization.id(id),

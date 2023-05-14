@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "draconic_industrialization:item/materials/draconium/curved_plate"
+    "layer0": "draconic_industrialization:item/draconium_curved_plate"
   }
 }

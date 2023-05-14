@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -54,7 +55,8 @@ public final class DIItems
 	{
 		final DIItemSettings settings = new DIItemSettings()
 				.englishName(englishName)
-				.tab(DraconicIndustrialization.CREATIVE_TAB);
+				.tab(DraconicIndustrialization.CREATIVE_TAB)
+				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL);
 		settingsConsumer.accept(settings);
 		return register(id, new BlockItem(block, settings), settings);
 	}
@@ -62,9 +64,9 @@ public final class DIItems
 	public static Item generic(String id, String englishName, Consumer<DIItemSettings> settingsConsumer)
 	{
 		final DIItemSettings settings = new DIItemSettings()
-				.textureLocation(id)
 				.englishName(englishName)
-				.tab(DraconicIndustrialization.CREATIVE_TAB);
+				.tab(DraconicIndustrialization.CREATIVE_TAB)
+				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL);
 		settingsConsumer.accept(settings);
 		return register(id, new Item(settings), settings);
 	}
@@ -98,8 +100,10 @@ public final class DIItems
 		}
 		final String partId = part.key().key;
 		return generic("%s_%s".formatted(name, partId), fullEnglishName, (s) -> s
-				.textureLocation("materials/%s/%s".formatted(name, partId))
-				.materialPart(name, part, material.materialSet()));
+				.materialPart(name, part, material.materialSet())
+				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL)
+				.datagenFunction(DatagenFunctions.Client.Item.MATERIAL_PART_TEXTURE)
+				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_TAG));
 	}
 	
 	public static void init()
