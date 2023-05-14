@@ -4,8 +4,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.items.DIItems;
@@ -16,8 +14,8 @@ public final class DIBlocks
 {
 	private static final Set<DIBlock> BLOCKS = Sets.newHashSet();
 	
-	public static final Block DRACONIUM_BLOCK = generic("draconium_block", "Draconium Block", DIBlockProperties.of(Material.METAL, MaterialColor.COLOR_PURPLE), true);
-	public static final Block AWAKENED_DRACONIUM_BLOCK = generic("awakened_draconium_block", "Awakened Draconium Block", DIBlockProperties.of(Material.METAL, MaterialColor.COLOR_ORANGE), true);
+	public static final Block DRACONIUM_BLOCK          = generic("draconium_block", "Draconium Block", DIBlockProperties.draconium().alwaysDropsSelf(), true);
+	public static final Block AWAKENED_DRACONIUM_BLOCK = generic("awakened_draconium_block", "Awakened Draconium Block", DIBlockProperties.awakenedDraconium().alwaysDropsSelf(), true);
 	
 	public static Set<DIBlock> all()
 	{
@@ -41,7 +39,9 @@ public final class DIBlocks
 		Item blockItem = null;
 		if(createItem)
 		{
-			DIItems.blockItem(id, englishName, block, (s) -> {});
+			blockItem = DIItems.blockItem(id, englishName, block, (s) ->
+			{
+			});
 		}
 		return register(block, blockItem, properties);
 	}

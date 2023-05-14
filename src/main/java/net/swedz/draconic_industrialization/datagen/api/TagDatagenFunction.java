@@ -29,7 +29,11 @@ public abstract class TagDatagenFunction<T, R> implements DatagenFunction<T>
 	
 	protected TagsProvider.TagAppender tag(TagKey<R> tag)
 	{
-		TagBuilder tagBuilder = this.builders.computeIfAbsent(tag.location(), (resourceLocation) -> TagBuilder.create());
+		TagBuilder tagBuilder = builders.computeIfAbsent(tag.location(), (resourceLocation) ->
+		{
+			DraconicIndustrialization.LOGGER.info("Creating new tag builder for tag {}", tag.location());
+			return TagBuilder.create();
+		});
 		return new TagsProvider.TagAppender(tagBuilder, this.registry());
 	}
 	
@@ -39,13 +43,13 @@ public abstract class TagDatagenFunction<T, R> implements DatagenFunction<T>
 	}
 	
 	@Override
-	public void init(DatagenProvider provider, CachedOutput output)
+	public void globalInit(DatagenProvider provider, CachedOutput output)
 	{
 		builders.clear();
 	}
 	
 	@Override
-	public void after(DatagenProvider provider, CachedOutput output) throws IOException
+	public void globalAfter(DatagenProvider provider, CachedOutput output) throws IOException
 	{
 		for(Map.Entry<ResourceLocation, TagBuilder> entry : builders.entrySet())
 		{

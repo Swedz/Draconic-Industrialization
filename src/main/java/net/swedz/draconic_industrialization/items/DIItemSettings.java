@@ -47,6 +47,14 @@ public final class DIItemSettings extends FabricItemSettings
 		return this;
 	}
 	
+	public record MaterialPart(String name, PartKeyProvider partKey, MaterialSet materialSet)
+	{
+		public String partId()
+		{
+			return partKey.key().key;
+		}
+	}
+	
 	public DatagenFunctionContainer<DIItem> datagenFunctions()
 	{
 		return datagenFunctions;
@@ -56,14 +64,6 @@ public final class DIItemSettings extends FabricItemSettings
 	{
 		datagenFunctions.add(function);
 		return this;
-	}
-	
-	public record MaterialPart(String name, PartKeyProvider partKey, MaterialSet materialSet)
-	{
-		public String partId()
-		{
-			return partKey.key().key;
-		}
 	}
 	
 	//region Inherited methods

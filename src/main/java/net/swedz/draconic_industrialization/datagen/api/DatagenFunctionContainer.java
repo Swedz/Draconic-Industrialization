@@ -11,9 +11,10 @@ public final class DatagenFunctionContainer<T>
 {
 	private final Set<DatagenFunction<T>> functions = Sets.newHashSet();
 	
-	public void add(DatagenFunction<T> function)
+	public DatagenFunctionContainer<T> add(DatagenFunction<T> function)
 	{
 		functions.add(function);
+		return this;
 	}
 	
 	public void executeAll(DatagenFunctionCategory category, DatagenProvider provider, CachedOutput output, ResourceProvider resourceProvider, T entry) throws IOException

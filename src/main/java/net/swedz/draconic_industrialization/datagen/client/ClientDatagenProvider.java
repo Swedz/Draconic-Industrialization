@@ -21,6 +21,7 @@ import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.blocks.DIBlock;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionCategory;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.datagen.api.DatagenProvider;
 import net.swedz.draconic_industrialization.items.DIItem;
 import net.swedz.draconic_industrialization.items.DIItems;
@@ -46,6 +47,7 @@ public final class ClientDatagenProvider extends DatagenProvider
 			final JsonObject langJson = new JsonObject();
 			
 			DraconicIndustrialization.LOGGER.info("Start of ITEM");
+			DatagenFunctions.Client.Item.INSTANCE.globalInit(this, output);
 			for(DIItem item : DIItems.all())
 			{
 				DraconicIndustrialization.LOGGER.info("Running functions for item {}", item.id(true));
@@ -54,6 +56,7 @@ public final class ClientDatagenProvider extends DatagenProvider
 				DraconicIndustrialization.LOGGER.info("Added item {} to language file", item.id(true));
 				langJson.addProperty(item.item().getDescriptionId(), item.settings().englishName());
 			}
+			DatagenFunctions.Client.Item.INSTANCE.globalAfter(this, output);
 			DraconicIndustrialization.LOGGER.info("End of ITEM");
 			
 			DraconicIndustrialization.LOGGER.info("Writing LANG");
@@ -64,11 +67,13 @@ public final class ClientDatagenProvider extends DatagenProvider
 			DraconicIndustrialization.LOGGER.info("Completed writing LANG");
 			
 			DraconicIndustrialization.LOGGER.info("Start of BLOCK");
+			DatagenFunctions.Client.Block.INSTANCE.globalInit(this, output);
 			for(DIBlock block : DIBlocks.all())
 			{
 				DraconicIndustrialization.LOGGER.info("Running functions for block {}", block.id(true));
 				block.properties().datagenFunctions().executeAll(DatagenFunctionCategory.BLOCK_CLIENT, this, output, resourceProvider, block);
 			}
+			DatagenFunctions.Client.Block.INSTANCE.globalAfter(this, output);
 			DraconicIndustrialization.LOGGER.info("End of BLOCK");
 		}
 	}

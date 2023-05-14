@@ -9,9 +9,14 @@ public final class DIDatagenClient
 		dataGenerator.addProvider(ClientDatagenProvider::new);
 	}
 	
+	public static String lootTablePath(String modId, String type, String id)
+	{
+		return "data/%s/loot_tables/%ss/%s.json".formatted(modId, type, id);
+	}
+	
 	public static String tagPath(String modId, String type, String id)
 	{
-		return "data/%s/tags/%s/%s.json".formatted(modId, type, id);
+		return "data/%s/tags/%ss/%s.json".formatted(modId, type, id);
 	}
 	
 	public static String modelPath(String modId, String type, String id)

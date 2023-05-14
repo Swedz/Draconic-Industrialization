@@ -1,8 +1,13 @@
 package net.swedz.draconic_industrialization.blocks;
 
+import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.mixin.object.builder.AbstractBlockAccessor;
+import net.minecraft.core.Registry;
+import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
@@ -11,16 +16,48 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 
+import java.util.Set;
+import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
 public final class DIBlockProperties extends FabricBlockSettings
 {
+	public static DIBlockProperties draconium()
+	{
+		return DIBlockProperties
+				.of(Material.METAL, MaterialColor.COLOR_PURPLE)
+				.sounds(SoundType.METAL)
+				.hardness(5f).resistance(6f)
+				.requiresTool()
+				.needsPickaxe()
+				.needsDiamond();
+	}
+	
+	public static DIBlockProperties awakenedDraconium()
+	{
+		return DIBlockProperties
+				.of(Material.METAL, MaterialColor.COLOR_ORANGE)
+				.sounds(SoundType.METAL)
+				.hardness(50f).resistance(1200f)
+				.requiresTool()
+				.needsPickaxe()
+				.needsDiamond();
+	}
+	
 	private String englishName;
 	
-	private DatagenFunctionContainer<DIBlock> datagenFunctions = new DatagenFunctionContainer();
+	private DatagenFunctionContainer<DIBlock> datagenFunctions = new DatagenFunctionContainer()
+			.add(DatagenFunctions.Server.Block.LOOT_TABLE)
+			.add(DatagenFunctions.Server.Block.VARIABLE_TAG);
+	
+	private Set<TagKey<Block>> tags = Sets.newHashSet();
+	
+	private Function<DIBlock, LootTable> lootTableFunction;
 	
 	//region Initialization methods
 	private DIBlockProperties(Material material, MaterialColor color)
@@ -79,6 +116,73 @@ public final class DIBlockProperties extends FabricBlockSettings
 	{
 		datagenFunctions.add(function);
 		return this;
+	}
+	
+	public Set<TagKey<Block>> tags()
+	{
+		return Set.copyOf(tags);
+	}
+	
+	public DIBlockProperties tag(TagKey<Block> tag)
+	{
+		tags.add(tag);
+		return this;
+	}
+	
+	public DIBlockProperties tag(String tag)
+	{
+		return this.tag(TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(tag)));
+	}
+	
+	public DIBlockProperties needsPickaxe()
+	{
+		return this.tag(BlockTags.MINEABLE_WITH_PICKAXE);
+	}
+	
+	public DIBlockProperties needsAxe()
+	{
+		return this.tag(BlockTags.MINEABLE_WITH_AXE);
+	}
+	
+	public DIBlockProperties needsShovel()
+	{
+		return this.tag(BlockTags.MINEABLE_WITH_SHOVEL);
+	}
+	
+	public DIBlockProperties needsHoe()
+	{
+		return this.tag(BlockTags.MINEABLE_WITH_HOE);
+	}
+	
+	public DIBlockProperties needsStone()
+	{
+		return this.tag(BlockTags.NEEDS_STONE_TOOL);
+	}
+	
+	public DIBlockProperties needsIron()
+	{
+		return this.tag(BlockTags.NEEDS_IRON_TOOL);
+	}
+	
+	public DIBlockProperties needsDiamond()
+	{
+		return this.tag(BlockTags.NEEDS_DIAMOND_TOOL);
+	}
+	
+	public LootTable lootTable(DIBlock block)
+	{
+		return lootTableFunction != null ? lootTableFunction.apply(block) : null;
+	}
+	
+	public DIBlockProperties lootTable(Function<DIBlock, LootTable> function)
+	{
+		this.lootTableFunction = function;
+		return this;
+	}
+	
+	public DIBlockProperties alwaysDropsSelf()
+	{
+		return this.lootTable((b) -> BlockLoot.createSingleItemTable(b.item()).build());
 	}
 	
 	//region Inherited methods

@@ -12,13 +12,21 @@ public interface DatagenFunction<T>
 	
 	DatagenFunctionCategory category();
 	
+	default void globalInit(DatagenProvider provider, CachedOutput output)
+	{
+	}
+	
 	default void init(DatagenProvider provider, CachedOutput output)
 	{
 	}
 	
 	void run(DatagenProvider provider, CachedOutput output, T object) throws IOException;
 	
-	default void after(DatagenProvider provider, CachedOutput output) throws IOException
+	default void globalAfter(DatagenProvider provider, CachedOutput output) throws IOException
+	{
+	}
+	
+	default void after(DatagenProvider provider, CachedOutput output)
 	{
 	}
 }
