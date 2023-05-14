@@ -1,7 +1,6 @@
 package net.swedz.draconic_industrialization.datagen.client;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.minecraft.core.Registry;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.swedz.draconic_industrialization.items.DIItem;
@@ -26,7 +25,7 @@ public final class ItemModelDataProvider extends DIClientAssetDataProvider
 			final DIItemSettings settings = item.settings();
 			final String modelPath = "assets/%s/models/item/%s.json".formatted(
 					dataGenerator.getModId(),
-					Registry.ITEM.getKey(item.item()).getPath()
+					item.location().getPath()
 			);
 			if(!Files.exists(nonGeneratedPath.resolve(modelPath)))
 			{

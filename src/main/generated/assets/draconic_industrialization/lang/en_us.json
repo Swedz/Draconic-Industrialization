@@ -1,6 +1,15 @@
 {
   "item.draconic_industrialization.awakened_draconic_circuit": "Awakened Draconic Circuit",
+  "item.draconic_industrialization.awakened_draconium_curved_plate": "Awakened Draconium Curved Plate",
+  "item.draconic_industrialization.awakened_draconium_ingot": "Awakened Draconium Ingot",
+  "item.draconic_industrialization.awakened_draconium_plate": "Awakened Draconium Plate",
+  "item.draconic_industrialization.awakened_draconium_wire": "Awakened Draconium Wire",
   "item.draconic_industrialization.chaotic_circuit": "Chaotic Circuit",
   "item.draconic_industrialization.draconic_circuit": "Draconic Circuit",
+  "item.draconic_industrialization.draconium_curved_plate": "Draconium Curved Plate",
+  "item.draconic_industrialization.draconium_ingot": "Draconium Ingot",
+  "item.draconic_industrialization.draconium_plate": "Draconium Plate",
+  "item.draconic_industrialization.draconium_wire": "Draconium Wire",
+  "item.draconic_industrialization.dragon_heart": "Dragon Heart",
   "item.draconic_industrialization.wyvern_circuit": "Wyvern Circuit"
 }

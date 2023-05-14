@@ -52,7 +52,9 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "com.ptsmods:devlogin:${project.devlogin_version}"
+	modImplementation("com.ptsmods:devlogin:${project.devlogin_version}") {
+		exclude group: "net.fabricmc.fabric-api"
+	}
 
 	modImplementation("maven.modrinth:modern-industrialization:${project.modern_industrialization_version}") {
 		exclude group: "net.fabricmc.fabric-api"
@@ -138,6 +140,7 @@ loom {
 			programArgs("--mimicPlayer", "Swedz")
 		}
 	}
+	accessWidenerPath = file("src/main/resources/draconic_industrialization.accessWidener")
 }
 
 sourceSets {

@@ -8,5 +8,6 @@ public final class DIDatagenClient
 	{
 		dataGenerator.addProvider(new ItemModelDataProvider(dataGenerator));
 		dataGenerator.addProvider(new LangDataProvider(dataGenerator));
+		dataGenerator.addProvider(new MaterialPartTextureDataProvider(dataGenerator));
 	}
 }
