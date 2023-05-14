@@ -9,10 +9,13 @@ import net.swedz.draconic_industrialization.datagen.server.functions.block.Block
 import net.swedz.draconic_industrialization.datagen.server.functions.block.BlockTagDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialRecipeDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialTagDatagenFunction;
+import org.apache.commons.compress.utils.Lists;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 public final class DatagenFunctions
@@ -79,14 +82,16 @@ public final class DatagenFunctions
 			return (T) this;
 		}
 		
-		public Set<DatagenFunction> all()
+		public List<DatagenFunction> allOrdered()
 		{
-			return Set.copyOf(functions);
+			List<DatagenFunction> orderedFunctions = Lists.newArrayList(functions.iterator());
+			orderedFunctions.sort(Comparator.comparingInt(DatagenFunction::priority));
+			return orderedFunctions;
 		}
 		
 		public void globalInit(DatagenProvider provider, CachedOutput output)
 		{
-			for(DatagenFunction function : this.all())
+			for(DatagenFunction function : this.allOrdered())
 			{
 				function.globalInit(provider, output);
 			}
@@ -94,7 +99,7 @@ public final class DatagenFunctions
 		
 		public void globalAfter(DatagenProvider provider, CachedOutput output) throws IOException
 		{
-			for(DatagenFunction function : this.all())
+			for(DatagenFunction function : this.allOrdered())
 			{
 				function.globalAfter(provider, output);
 			}

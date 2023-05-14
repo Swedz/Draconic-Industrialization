@@ -3,11 +3,12 @@ package net.swedz.draconic_industrialization.items;
 import aztech.modern_industrialization.materials.part.PartEnglishNameFormatter;
 import aztech.modern_industrialization.materials.part.PartKeyProvider;
 import aztech.modern_industrialization.materials.part.PartTemplate;
+import aztech.modern_industrialization.materials.property.MaterialHardness;
 import aztech.modern_industrialization.materials.set.MaterialSet;
 
 import java.lang.reflect.Field;
 
-public record DIMaterial(String id, String englishName, MaterialSet materialSet)
+public record DIMaterial(String id, String englishName, MaterialSet materialSet, MaterialHardness hardness)
 {
 	public String fullId(PartKeyProvider part)
 	{
@@ -31,5 +32,10 @@ public record DIMaterial(String id, String englishName, MaterialSet materialSet)
 	public String fullEnglishNameAsBlock()
 	{
 		return "Block of %s".formatted(englishName);
+	}
+	
+	public int recipeDuration()
+	{
+		return (int) (hardness.timeFactor * 200);
 	}
 }

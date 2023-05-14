@@ -44,14 +44,19 @@ public final class DIItemSettings extends FabricItemSettings
 		return materialPart;
 	}
 	
-	public DIItemSettings materialPart(String name, PartTemplate part, MaterialSet materialSet, RecipeGenerator... recipeActions)
+	public DIItemSettings materialPart(DIMaterial material, PartTemplate part, RecipeGenerator... recipeActions)
 	{
-		this.materialPart = new MaterialPart(name, part, materialSet, recipeActions);
+		this.materialPart = new MaterialPart(material, part, recipeActions);
 		return this;
 	}
 	
-	public record MaterialPart(String name, PartTemplate part, MaterialSet materialSet, RecipeGenerator... recipeActions)
+	public record MaterialPart(DIMaterial material, PartTemplate part, RecipeGenerator... recipeActions)
 	{
+		public String name()
+		{
+			return material.id();
+		}
+		
 		public String partId()
 		{
 			return part.key().key;
@@ -59,12 +64,17 @@ public final class DIItemSettings extends FabricItemSettings
 		
 		public String tag()
 		{
-			return DIDatagenClient.tagMaterialTarget(name, this.partId());
+			return DIDatagenClient.tagMaterialTarget(this.name(), this.partId());
 		}
 		
 		public boolean isPart(PartKeyProvider other)
 		{
 			return this.partId().equals(other.key().key);
+		}
+		
+		public MaterialSet materialSet()
+		{
+			return material.materialSet();
 		}
 	}
 	

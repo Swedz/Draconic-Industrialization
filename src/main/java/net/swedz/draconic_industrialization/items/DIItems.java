@@ -2,6 +2,7 @@ package net.swedz.draconic_industrialization.items;
 
 import aztech.modern_industrialization.materials.part.MIParts;
 import aztech.modern_industrialization.materials.part.PartTemplate;
+import aztech.modern_industrialization.materials.property.MaterialHardness;
 import aztech.modern_industrialization.materials.set.MaterialSet;
 import com.google.common.collect.Sets;
 import net.minecraft.core.Registry;
@@ -21,19 +22,23 @@ public final class DIItems
 {
 	private static final Set<DIItem> ITEMS = Sets.newHashSet();
 	
-	public static final Item WYVERN_CIRCUIT            = generic("wyvern_circuit", "Wyvern Circuit");
-	public static final Item DRACONIC_CIRCUIT          = generic("draconic_circuit", "Draconic Circuit");
-	public static final Item AWAKENED_DRACONIC_CIRCUIT = generic("awakened_draconic_circuit", "Awakened Draconic Circuit");
-	public static final Item CHAOTIC_CIRCUIT           = generic("chaotic_circuit", "Chaotic Circuit");
-	public static final Item DRAGON_HEART              = generic("dragon_heart", "Dragon Heart", (s) -> s.rarity(Rarity.RARE));
+	public static final Item DRACONIC_CIRCUIT           = generic("draconic_circuit", "Draconic Circuit");
+	public static final Item WYVERN_CIRCUIT             = generic("wyvern_circuit", "Wyvern Circuit");
+	public static final Item AWAKENED_DRACONIUM_CIRCUIT = generic("awakened_draconium_circuit", "Awakened Draconium Circuit");
+	public static final Item CHAOTIC_CIRCUIT            = generic("chaotic_circuit", "Chaotic Circuit");
+	public static final Item DRAGON_HEART               = generic("dragon_heart", "Dragon Heart", (s) -> s.rarity(Rarity.RARE));
 	
-	public static final DIMaterial DRACONIUM              = material("draconium", "Draconium", MaterialSet.METALLIC);
+	public static final DIMaterial DRACONIUM              = material("draconium", "Draconium", MaterialSet.METALLIC, MaterialHardness.AVERAGE);
+	public static final Item       DRACONIUM_TINY_DUST    = materialPart(DRACONIUM, MIParts.TINY_DUST, StandardRecipes::apply);
+	public static final Item       DRACONIUM_DUST         = materialPart(DRACONIUM, MIParts.DUST, StandardRecipes::apply);
 	public static final Item       DRACONIUM_INGOT        = materialPart(DRACONIUM, MIParts.INGOT, StandardRecipes::apply);
 	public static final Item       DRACONIUM_PLATE        = materialPart(DRACONIUM, MIParts.PLATE, StandardRecipes::apply);
 	public static final Item       DRACONIUM_CURVED_PLATE = materialPart(DRACONIUM, MIParts.CURVED_PLATE, StandardRecipes::apply);
 	public static final Item       DRACONIUM_WIRE         = materialPart(DRACONIUM, MIParts.WIRE, StandardRecipes::apply);
 	
-	public static final DIMaterial AWAKENED_DRACONIUM              = material("awakened_draconium", "Awakened Draconium", MaterialSet.METALLIC);
+	public static final DIMaterial AWAKENED_DRACONIUM              = material("awakened_draconium", "Awakened Draconium", MaterialSet.METALLIC, MaterialHardness.HARD);
+	public static final Item       AWAKENED_DRACONIUM_TINY_DUST    = materialPart(AWAKENED_DRACONIUM, MIParts.TINY_DUST, StandardRecipes::apply);
+	public static final Item       AWAKENED_DRACONIUM_DUST         = materialPart(AWAKENED_DRACONIUM, MIParts.DUST, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_INGOT        = materialPart(AWAKENED_DRACONIUM, MIParts.INGOT, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_PLATE        = materialPart(AWAKENED_DRACONIUM, MIParts.PLATE, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_CURVED_PLATE = materialPart(AWAKENED_DRACONIUM, MIParts.CURVED_PLATE, StandardRecipes::apply);
@@ -78,18 +83,17 @@ public final class DIItems
 		});
 	}
 	
-	public static DIMaterial material(String id, String englishName, MaterialSet materialSet)
+	public static DIMaterial material(String id, String englishName, MaterialSet materialSet, MaterialHardness hardness)
 	{
-		return new DIMaterial(id, englishName, materialSet);
+		return new DIMaterial(id, englishName, materialSet, hardness);
 	}
 	
 	public static Item materialPart(DIMaterial material, PartTemplate part, RecipeGenerator... recipeActions)
 	{
 		final String id = material.fullId(part);
-		final String name = material.id();
 		final String fullEnglishName = material.fullEnglishName(part);
 		return generic(id, fullEnglishName, (s) -> s
-				.materialPart(name, part, material.materialSet(), recipeActions)
+				.materialPart(material, part, recipeActions)
 				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL)
 				.datagenFunction(DatagenFunctions.Client.Item.MATERIAL_PART_TEXTURE)
 				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_RECIPE)

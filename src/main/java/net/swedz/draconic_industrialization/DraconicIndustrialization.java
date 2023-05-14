@@ -2,8 +2,10 @@ package net.swedz.draconic_industrialization;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.items.DIItems;
 import org.slf4j.Logger;
@@ -22,13 +24,18 @@ public final class DraconicIndustrialization implements ModInitializer
 	
 	public static final CreativeModeTab CREATIVE_TAB = FabricItemGroupBuilder.build(
 			DraconicIndustrialization.id("draconic_industrialization"),
-			DIItems.AWAKENED_DRACONIC_CIRCUIT::getDefaultInstance
+			() -> new ItemStack(Registry.ITEM.get(id("awakened_draconium_circuit")))
 	);
+	
+	public static void loadClasses()
+	{
+		DIItems.init();
+		DIBlocks.init();
+	}
 	
 	@Override
 	public void onInitialize()
 	{
-		DIItems.init();
-		DIBlocks.init();
+		loadClasses();
 	}
 }

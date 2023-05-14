@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    },
+    {
+      "tag": "c:draconium_tiny_dusts"
+    }
+  ],
+  "result": {
+    "item": "draconic_industrialization:draconium_dust"
+  }
+}

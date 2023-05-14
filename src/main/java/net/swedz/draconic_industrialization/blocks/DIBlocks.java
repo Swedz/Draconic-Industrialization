@@ -62,7 +62,7 @@ public final class DIBlocks
 				new Block(properties)
 		);
 		Item blockItem = DIItems.blockItem(id, material.fullEnglishName(partTemplate), block, (s) -> s
-				.materialPart(material.id(), partTemplate, material.materialSet(), recipeActions)
+				.materialPart(material, partTemplate, recipeActions)
 				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL)
 				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_RECIPE)
 				.datagenFunction(DatagenFunctions.Server.Item.MATERIAL_TAG));

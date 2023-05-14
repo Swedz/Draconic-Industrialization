@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:draconium_blocks"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "draconic_industrialization:draconium_ingot"
+  }
+}

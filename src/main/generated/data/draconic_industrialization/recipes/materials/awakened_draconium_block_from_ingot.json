@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    },
+    {
+      "tag": "c:awakened_draconium_ingots"
+    }
+  ],
+  "result": {
+    "item": "draconic_industrialization:awakened_draconium_block"
+  }
+}

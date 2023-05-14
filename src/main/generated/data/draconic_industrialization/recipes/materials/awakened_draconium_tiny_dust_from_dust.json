@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:awakened_draconium_dusts"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "draconic_industrialization:awakened_draconium_tiny_dust"
+  }
+}
