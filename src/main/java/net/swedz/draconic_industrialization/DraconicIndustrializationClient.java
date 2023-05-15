@@ -20,7 +20,9 @@ public final class DraconicIndustrializationClient implements ClientModInitializ
 		DIEntities.initializeClient();
 		DIParticles.initializeClient();
 		
+		GeoItemRenderer.registerItemRenderer(DIItems.WYVERN_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
 		GeoItemRenderer.registerItemRenderer(DIItems.DRACONIC_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
+		GeoItemRenderer.registerItemRenderer(DIItems.CHAOTIC_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
 		GeoArmorRenderer.registerArmorRenderer(new DraconicArmorRenderer(), DIItems.WYVERN_ARMOR, DIItems.DRACONIC_ARMOR, DIItems.CHAOTIC_ARMOR);
 	}
 }
