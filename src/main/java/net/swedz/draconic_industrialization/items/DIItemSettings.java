@@ -3,17 +3,24 @@ package net.swedz.draconic_industrialization.items;
 import aztech.modern_industrialization.materials.part.PartKeyProvider;
 import aztech.modern_industrialization.materials.part.PartTemplate;
 import aztech.modern_industrialization.materials.set.MaterialSet;
+import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.item.v1.CustomDamageHandler;
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.datagen.client.DIDatagenClient;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
+
+import java.util.Set;
 
 public final class DIItemSettings extends FabricItemSettings
 {
@@ -21,7 +28,10 @@ public final class DIItemSettings extends FabricItemSettings
 	
 	private MaterialPart materialPart;
 	
-	private DatagenFunctionContainer<DIItem> datagenFunctions = new DatagenFunctionContainer();
+	private DatagenFunctionContainer<DIItem> datagenFunctions = new DatagenFunctionContainer()
+			.add(DatagenFunctions.Server.Item.TAG);
+	
+	private Set<TagKey<Item>> tags = Sets.newHashSet();
 	
 	public String englishName()
 	{
@@ -87,6 +97,22 @@ public final class DIItemSettings extends FabricItemSettings
 	{
 		datagenFunctions.add(function);
 		return this;
+	}
+	
+	public Set<TagKey<Item>> tags()
+	{
+		return Set.copyOf(tags);
+	}
+	
+	public DIItemSettings tag(TagKey<Item> tag)
+	{
+		tags.add(tag);
+		return this;
+	}
+	
+	public DIItemSettings tag(String tag)
+	{
+		return this.tag(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(tag)));
 	}
 	
 	//region Inherited methods
