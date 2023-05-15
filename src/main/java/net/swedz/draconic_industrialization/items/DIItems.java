@@ -16,7 +16,6 @@ import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArm
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorTier;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 import net.swedz.draconic_industrialization.recipes.StandardRecipes;
-import net.swedz.draconic_industrialization.tags.DITags;
 
 import java.util.Set;
 import java.util.function.Consumer;
@@ -55,9 +54,9 @@ public final class DIItems
 	public static final Item       AWAKENED_DRACONIUM_CURVED_PLATE = materialPart(AWAKENED_DRACONIUM, MIParts.CURVED_PLATE, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_WIRE         = materialPart(AWAKENED_DRACONIUM, MIParts.WIRE, StandardRecipes::apply);
 	
-	public static final Item WYVERN_ARMOR   = item("wyvern_armor", "Wyvern Armor", (s) -> new DraconicArmorItem(DraconicArmorTier.WYVERN, s), (s) -> s.tag(DITags.Items.DRACONIC_ARMOR));
-	public static final Item DRACONIC_ARMOR = item("draconic_armor", "Draconic Armor", (s) -> new DraconicArmorItem(DraconicArmorTier.DRACONIC, s), (s) -> s.tag(DITags.Items.DRACONIC_ARMOR));
-	public static final Item CHAOTIC_ARMOR  = item("chaotic_armor", "Chaotic Armor", (s) -> new DraconicArmorItem(DraconicArmorTier.CHAOTIC, s), (s) -> s.tag(DITags.Items.DRACONIC_ARMOR));
+	public static final Item WYVERN_ARMOR   = item("wyvern_armor", "Wyvern Armor", (s) -> new DraconicArmorItem(DraconicArmorTier.WYVERN, s), DIItemSettings::draconicArmor);
+	public static final Item DRACONIC_ARMOR = item("draconic_armor", "Draconic Armor", (s) -> new DraconicArmorItem(DraconicArmorTier.DRACONIC, s), DIItemSettings::draconicArmor);
+	public static final Item CHAOTIC_ARMOR  = item("chaotic_armor", "Chaotic Armor", (s) -> new DraconicArmorItem(DraconicArmorTier.CHAOTIC, s), DIItemSettings::draconicArmor);
 	
 	public static Set<DIItem> all()
 	{

@@ -19,11 +19,23 @@ import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.datagen.client.DIDatagenClient;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
+import net.swedz.draconic_industrialization.tags.DITags;
 
 import java.util.Set;
 
 public final class DIItemSettings extends FabricItemSettings
 {
+	public static void draconiumOre(DIItemSettings settings)
+	{
+		settings.tag("c:ores")
+				.tag("c:draconium_ores");
+	}
+	
+	public static void draconicArmor(DIItemSettings settings)
+	{
+		settings.tag(DITags.Items.DRACONIC_ARMOR);
+	}
+	
 	private String englishName;
 	
 	private MaterialPart materialPart;

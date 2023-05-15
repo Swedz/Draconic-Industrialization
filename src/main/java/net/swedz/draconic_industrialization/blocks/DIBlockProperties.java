@@ -10,6 +10,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -17,9 +18,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
+import net.swedz.draconic_industrialization.items.DIItems;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -57,7 +63,18 @@ public final class DIBlockProperties extends FabricBlockSettings
 				.hardness(6f).resistance(16f)
 				.requiresTool()
 				.needsPickaxe()
-				.needsDiamond();
+				.needsDiamond()
+				.tag("c:ores").tag("c:draconium_ores")
+				.lootTable((b) -> BlockLoot.createSilkTouchDispatchTable(
+								b.block(),
+								BlockLoot.applyExplosionDecay(
+										b.block(),
+										LootItem.lootTableItem(DIItems.DRACONIUM_DUST)
+												.apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5)))
+												.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
+								)
+						)
+						.build());
 	}
 	
 	private String englishName;
