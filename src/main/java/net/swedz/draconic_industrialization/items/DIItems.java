@@ -35,6 +35,7 @@ public final class DIItems
 	public static final Item       DRACONIUM_TINY_DUST    = materialPart(DRACONIUM, MIParts.TINY_DUST, StandardRecipes::apply);
 	public static final Item       DRACONIUM_DUST         = materialPart(DRACONIUM, MIParts.DUST, StandardRecipes::apply);
 	public static final Item       DRACONIUM_CRUSHED_DUST = materialPart(DRACONIUM, MIParts.CRUSHED_DUST, StandardRecipes::apply);
+	public static final Item       DRACONIUM_HOT_INGOT    = materialPart(DRACONIUM, MIParts.HOT_INGOT, StandardRecipes::apply);
 	public static final Item       DRACONIUM_INGOT        = materialPart(DRACONIUM, MIParts.INGOT, StandardRecipes::apply);
 	public static final Item       DRACONIUM_PLATE        = materialPart(DRACONIUM, MIParts.PLATE, StandardRecipes::apply);
 	public static final Item       DRACONIUM_CURVED_PLATE = materialPart(DRACONIUM, MIParts.CURVED_PLATE, StandardRecipes::apply);
@@ -43,12 +44,14 @@ public final class DIItems
 	public static final DIMaterial ADAMANTINE           = material("adamantine", "Adamantine", MaterialSet.METALLIC, MaterialHardness.VERY_HARD);
 	public static final Item       ADAMANTINE_TINY_DUST = materialPart(ADAMANTINE, MIParts.TINY_DUST, StandardRecipes::apply);
 	public static final Item       ADAMANTINE_DUST      = materialPart(ADAMANTINE, MIParts.DUST, StandardRecipes::apply);
+	public static final Item       ADAMANTINE_HOT_INGOT = materialPart(ADAMANTINE, MIParts.HOT_INGOT, StandardRecipes::apply);
 	public static final Item       ADAMANTINE_INGOT     = materialPart(ADAMANTINE, MIParts.INGOT, StandardRecipes::apply);
 	public static final Item       ADAMANTINE_PLATE     = materialPart(ADAMANTINE, MIParts.PLATE, StandardRecipes::apply);
 	
 	public static final DIMaterial AWAKENED_DRACONIUM              = material("awakened_draconium", "Awakened Draconium", MaterialSet.METALLIC, MaterialHardness.HARD);
 	public static final Item       AWAKENED_DRACONIUM_TINY_DUST    = materialPart(AWAKENED_DRACONIUM, MIParts.TINY_DUST, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_DUST         = materialPart(AWAKENED_DRACONIUM, MIParts.DUST, StandardRecipes::apply);
+	public static final Item       AWAKENED_DRACONIUM_HOT_INGOT    = materialPart(AWAKENED_DRACONIUM, MIParts.HOT_INGOT, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_INGOT        = materialPart(AWAKENED_DRACONIUM, MIParts.INGOT, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_PLATE        = materialPart(AWAKENED_DRACONIUM, MIParts.PLATE, StandardRecipes::apply);
 	public static final Item       AWAKENED_DRACONIUM_CURVED_PLATE = materialPart(AWAKENED_DRACONIUM, MIParts.CURVED_PLATE, StandardRecipes::apply);

@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.recipes;
 
+import aztech.modern_industrialization.MIFluids;
 import aztech.modern_industrialization.MIItem;
 import aztech.modern_industrialization.machines.init.MIMachineRecipeTypes;
 import aztech.modern_industrialization.materials.part.MIParts;
@@ -70,6 +71,22 @@ public final class StandardRecipes
 		maceratorRecycling(context, "plate", 9);
 		maceratorRecycling(context, "curved_plate", 9);
 		maceratorRecycling(context, "wire", 4);
+		
+		// Ingot from hot ingot
+		context.ifExists(MIParts.INGOT, DIDatagenClient.tagMaterialTarget(material, "hot_ingot"), (tag) ->
+		{
+			context.addMI("draconic_industrialization:materials/heat_exchanger/%s_from_%s".formatted(item.id(false), "hot_ingot"), () ->
+					MIRecipeJson.create(MIMachineRecipeTypes.HEAT_EXCHANGER, 8, 10)
+							.addItemOutput(item.item(), 1)
+							.addFluidOutput(MIFluids.ARGON, 65)
+							.addFluidOutput(MIFluids.HELIUM, 25)
+							.addItemInput(tag, 1)
+							.addFluidInput(MIFluids.CRYOFLUID, 100));
+			context.addMI("draconic_industrialization:materials/vacuum_freezer/%s_from_%s".formatted(item.id(false), "hot_ingot"), () ->
+					MIRecipeJson.create(MIMachineRecipeTypes.VACUUM_FREEZER, 32, 250)
+							.addItemOutput(item.item(), 1)
+							.addItemInput(tag, 1));
+		});
 	}
 	
 	private static void unpacking(RecipeContext context, PartKeyProvider smallType, String bigType)

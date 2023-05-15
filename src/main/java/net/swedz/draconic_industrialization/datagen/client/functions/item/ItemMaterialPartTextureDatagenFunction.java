@@ -1,7 +1,10 @@
 package net.swedz.draconic_industrialization.datagen.client.functions.item;
 
+import aztech.modern_industrialization.materials.part.MIParts;
+import aztech.modern_industrialization.materials.part.PartTemplate;
 import aztech.modern_industrialization.textures.MITextures;
 import aztech.modern_industrialization.textures.TextureManager;
+import aztech.modern_industrialization.textures.coloramp.HotIngotColoramp;
 import aztech.modern_industrialization.textures.coloramp.IColoramp;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.data.CachedOutput;
@@ -49,7 +52,7 @@ public final class ItemMaterialPartTextureDatagenFunction extends ClientDatagenF
 		NativeImage texture = generateTexture(
 				resourceProvider,
 				materialSetName,
-				materialPartKey,
+				materialPart.part(),
 				new Coloramp(resourceProvider, 0, materialName)
 		);
 		provider.writeImageIfNotExist(output, texturePath, texture);
@@ -65,11 +68,16 @@ public final class ItemMaterialPartTextureDatagenFunction extends ClientDatagenF
 		}
 	}
 	
-	private static NativeImage generateTexture(ResourceProvider resources, String materialSet, String partTemplate, IColoramp coloramp) throws IOException
+	private static NativeImage generateTexture(ResourceProvider resources, String materialSet, PartTemplate partTemplate, IColoramp coloramp) throws IOException
 	{
+		if(partTemplate.equals(MIParts.HOT_INGOT))
+		{
+			partTemplate = MIParts.INGOT;
+			coloramp = new HotIngotColoramp(coloramp, 0.1, 0.5);
+		}
 		return MITextures.generateTexture(
 				new TextureManager(resources, (a, b) -> {}, (a, b) -> {}),
-				partTemplate, materialSet, coloramp
+				partTemplate.key().key, materialSet, coloramp
 		);
 	}
 	
