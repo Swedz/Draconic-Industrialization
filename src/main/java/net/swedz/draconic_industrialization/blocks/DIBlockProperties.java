@@ -49,6 +49,17 @@ public final class DIBlockProperties extends FabricBlockSettings
 				.needsDiamond();
 	}
 	
+	public static DIBlockProperties draconiumOre()
+	{
+		return DIBlockProperties
+				.of(Material.STONE, MaterialColor.COLOR_GRAY)
+				.sounds(SoundType.STONE)
+				.hardness(6f).resistance(16f)
+				.requiresTool()
+				.needsPickaxe()
+				.needsDiamond();
+	}
+	
 	private String englishName;
 	
 	private DatagenFunctionContainer<DIBlock> datagenFunctions = new DatagenFunctionContainer()

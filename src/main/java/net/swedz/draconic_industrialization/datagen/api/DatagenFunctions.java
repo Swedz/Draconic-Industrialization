@@ -5,10 +5,12 @@ import net.minecraft.data.CachedOutput;
 import net.swedz.draconic_industrialization.datagen.client.functions.block.BasicBlockModelDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.client.functions.item.BasicItemModelDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.client.functions.item.ItemMaterialPartTextureDatagenFunction;
+import net.swedz.draconic_industrialization.datagen.client.functions.particle.ParticleTextureDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.block.BlockLootTableDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.block.BlockTagDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialRecipeDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialTagDatagenFunction;
+import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemTagDatagenFunction;
 import org.apache.commons.compress.utils.Lists;
 
 import java.io.IOException;
@@ -36,6 +38,13 @@ public final class DatagenFunctions
 			
 			public static final Item INSTANCE = new Item().collect();
 		}
+		
+		public static final class Particle extends FunctionStorage<Particle>
+		{
+			public static final ParticleTextureDatagenFunction TEXTURE = new ParticleTextureDatagenFunction();
+			
+			public static final Particle INSTANCE = new Particle().collect();
+		}
 	}
 	
 	public static final class Server
@@ -52,6 +61,7 @@ public final class DatagenFunctions
 		{
 			public static final ItemMaterialRecipeDatagenFunction MATERIAL_RECIPE = new ItemMaterialRecipeDatagenFunction();
 			public static final ItemMaterialTagDatagenFunction    MATERIAL_TAG    = new ItemMaterialTagDatagenFunction();
+			public static final ItemTagDatagenFunction            TAG             = new ItemTagDatagenFunction();
 			
 			public static final Item INSTANCE = new Item().collect();
 		}

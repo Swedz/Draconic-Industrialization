@@ -19,11 +19,10 @@ import net.swedz.draconic_industrialization.recipes.RecipeContext;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 
 import java.util.Set;
-import java.util.function.Consumer;
 
 public final class ItemMaterialRecipeDatagenFunction implements DatagenFunction<DIItem>
 {
-	private final Set<Consumer<RecipeContext.RecipeMap>> recipeActions = Sets.newHashSet();
+	private final Set<DIItem> collectedItems = Sets.newHashSet();
 	
 	@Override
 	public DatagenFunctionCategory category()
@@ -40,22 +39,14 @@ public final class ItemMaterialRecipeDatagenFunction implements DatagenFunction<
 	@Override
 	public void globalInit(DatagenProvider provider, CachedOutput output)
 	{
-		recipeActions.clear();
+		collectedItems.clear();
 	}
 	
 	@Override
 	public void run(DatagenProvider provider, CachedOutput output, DIItem item)
 	{
-		final DIItemSettings settings = item.settings();
-		if(!settings.isMaterial())
-		{
-			throw new IllegalArgumentException("Provided non-material item to ItemMaterialRecipeDatagenFunction '%s'".formatted(item.id(true)));
-		}
-		
-		for(RecipeGenerator generator : settings.materialPart().recipeActions())
-		{
-			recipeActions.add((recipeMap) -> generator.accept(new RecipeContext(item, recipeMap)));
-		}
+		// We do things in the globalAfter() instead because then it'll be guaranteed each item has its tags registered by then
+		collectedItems.add(item);
 	}
 	
 	@Override
@@ -63,7 +54,19 @@ public final class ItemMaterialRecipeDatagenFunction implements DatagenFunction<
 	{
 		final RecipeContext.RecipeMap recipeMap = new RecipeContext.RecipeMap();
 		
-		recipeActions.forEach((action) -> action.accept(recipeMap));
+		for(DIItem item : collectedItems)
+		{
+			final DIItemSettings settings = item.settings();
+			if(!settings.isMaterial())
+			{
+				throw new IllegalArgumentException("Provided non-material item to ItemMaterialRecipeDatagenFunction '%s'".formatted(item.id(true)));
+			}
+			
+			for(RecipeGenerator generator : settings.materialPart().recipeActions())
+			{
+				generator.accept(new RecipeContext(item, recipeMap));
+			}
+		}
 		
 		Set<ResourceLocation> generatedRecipes = Sets.newHashSet();
 		recipeMap.forEach((recipeId, recipeSupplier) -> recipeSupplier.get().save(

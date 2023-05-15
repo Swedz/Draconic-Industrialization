@@ -75,5 +75,6 @@ public abstract class TagDatagenFunction<T, R> implements DatagenFunction<T>
 				provider.writeJsonForce(output, tagPath, jsonElement);
 			}
 		}
+		DraconicIndustrialization.LOGGER.info("Completed all tags");
 	}
 }

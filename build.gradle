@@ -81,6 +81,10 @@ dependencies {
 	modImplementation("dev.emi:emi:${project.emi_version}+${project.minecraft_version}") {
 		exclude group: "net.fabricmc.fabric-api"
 	}
+
+	modImplementation("maven.modrinth:geckolib:${project.geckolib_version}") {
+		exclude group: "net.fabricmc.fabric-api"
+	}
 }
 
 base {

@@ -8,12 +8,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
+import net.swedz.draconic_industrialization.items.DIItemSettings;
 import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.items.DIMaterial;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 import net.swedz.draconic_industrialization.recipes.StandardRecipes;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
 public final class DIBlocks
 {
@@ -21,6 +23,8 @@ public final class DIBlocks
 	
 	public static final Block DRACONIUM_BLOCK          = materialPart(DIItems.DRACONIUM, DIBlockProperties.draconium().alwaysDropsSelf(), StandardRecipes::apply);
 	public static final Block AWAKENED_DRACONIUM_BLOCK = materialPart(DIItems.AWAKENED_DRACONIUM, DIBlockProperties.awakenedDraconium().alwaysDropsSelf(), StandardRecipes::apply);
+	
+	public static final Block DRACONIUM_ORE = generic("draconium_ore", "Draconium Ore", DIBlockProperties.draconiumOre().tag("c:ores").tag("c:draconium_ores"), (s) -> s.tag("c:ores").tag("c:draconium_ores"), true);
 	
 	public static Set<DIBlock> all()
 	{
@@ -33,7 +37,7 @@ public final class DIBlocks
 		return block;
 	}
 	
-	public static Block generic(String id, String englishName, DIBlockProperties properties, boolean createItem)
+	public static Block generic(String id, String englishName, DIBlockProperties properties, Consumer<DIItemSettings> itemSettings, boolean createItem)
 	{
 		properties.datagenFunction(DatagenFunctions.Client.Block.BASIC_MODEL);
 		Block block = Registry.register(
@@ -44,9 +48,7 @@ public final class DIBlocks
 		Item blockItem = null;
 		if(createItem)
 		{
-			blockItem = DIItems.blockItem(id, englishName, block, (s) ->
-			{
-			});
+			blockItem = DIItems.blockItem(id, englishName, block, itemSettings);
 		}
 		return register(block, blockItem, properties);
 	}

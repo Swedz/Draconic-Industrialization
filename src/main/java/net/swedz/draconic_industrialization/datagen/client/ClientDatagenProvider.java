@@ -25,6 +25,8 @@ import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.datagen.api.DatagenProvider;
 import net.swedz.draconic_industrialization.items.DIItem;
 import net.swedz.draconic_industrialization.items.DIItems;
+import net.swedz.draconic_industrialization.particles.DIParticles;
+import net.swedz.draconic_industrialization.particles.ParticleWrapper;
 import org.apache.commons.compress.utils.Lists;
 
 import java.io.File;
@@ -44,6 +46,27 @@ public final class ClientDatagenProvider extends DatagenProvider
 	{
 		try(final MultiPackResourceManager resourceProvider = new MultiPackResourceManager(PackType.CLIENT_RESOURCES, this.getPacks()))
 		{
+			DraconicIndustrialization.LOGGER.info("Start of PARTICLE");
+			DatagenFunctions.Client.Particle.INSTANCE.globalInit(this, output);
+			for(ParticleWrapper particle : DIParticles.all())
+			{
+				DraconicIndustrialization.LOGGER.info("Running functions for particle {}", particle.id());
+				
+				particle.datagenFunctions().executeAll(DatagenFunctionCategory.PARTICLE_CLIENT, this, output, resourceProvider, particle);
+			}
+			DatagenFunctions.Client.Particle.INSTANCE.globalAfter(this, output);
+			DraconicIndustrialization.LOGGER.info("End of BLOCK");
+			
+			DraconicIndustrialization.LOGGER.info("Start of BLOCK");
+			DatagenFunctions.Client.Block.INSTANCE.globalInit(this, output);
+			for(DIBlock block : DIBlocks.all())
+			{
+				DraconicIndustrialization.LOGGER.info("Running functions for block {}", block.id(true));
+				block.properties().datagenFunctions().executeAll(DatagenFunctionCategory.BLOCK_CLIENT, this, output, resourceProvider, block);
+			}
+			DatagenFunctions.Client.Block.INSTANCE.globalAfter(this, output);
+			DraconicIndustrialization.LOGGER.info("End of BLOCK");
+			
 			final JsonObject langJson = new JsonObject();
 			
 			DraconicIndustrialization.LOGGER.info("Start of ITEM");
@@ -65,16 +88,6 @@ public final class ClientDatagenProvider extends DatagenProvider
 			langEntries.forEach(langJson::addProperty);
 			this.writeJsonIfNotExist(output, "assets/%s/lang/en_us.json".formatted(dataGenerator.getModId()), langJson);
 			DraconicIndustrialization.LOGGER.info("Completed writing LANG");
-			
-			DraconicIndustrialization.LOGGER.info("Start of BLOCK");
-			DatagenFunctions.Client.Block.INSTANCE.globalInit(this, output);
-			for(DIBlock block : DIBlocks.all())
-			{
-				DraconicIndustrialization.LOGGER.info("Running functions for block {}", block.id(true));
-				block.properties().datagenFunctions().executeAll(DatagenFunctionCategory.BLOCK_CLIENT, this, output, resourceProvider, block);
-			}
-			DatagenFunctions.Client.Block.INSTANCE.globalAfter(this, output);
-			DraconicIndustrialization.LOGGER.info("End of BLOCK");
 		}
 	}
 	

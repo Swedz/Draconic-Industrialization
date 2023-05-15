@@ -29,6 +29,21 @@ public final class StandardRecipes
 		unpacking(context, MIParts.TINY_DUST, "dust");
 		packing(context, MIParts.DUST, "tiny_dust");
 		
+		// Crushed dust from ore
+		context.ifExists(MIParts.CRUSHED_DUST, DIDatagenClient.tagMaterialTarget(material, "ore"), (tag) ->
+				context.addMI("draconic_industrialization:materials/macerator/%s_from_%s".formatted(item.id(false), "ore"), () ->
+						MIRecipeJson.create(MIMachineRecipeTypes.MACERATOR, 2, machineRecipeDuration)
+								.addItemOutput(item.item(), 3)
+								.addItemInput(tag, 1)));
+		
+		// Dust from crushed dust
+		context.ifExists(MIParts.DUST, DIDatagenClient.tagMaterialTarget(material, "crushed_dust"), (tag) ->
+				context.addMI("draconic_industrialization:materials/macerator/%s_from_%s".formatted(item.id(false), "crushed_dust"), () ->
+						MIRecipeJson.create(MIMachineRecipeTypes.MACERATOR, 2, (int) (100 * materialPart.material().hardness().timeFactor))
+								.addItemOutput(item.item(), 1)
+								.addItemOutput(item.item(), 1, 0.5)
+								.addItemInput(tag, 1)));
+		
 		// Plate from ingot
 		context.ifExists(MIParts.PLATE, DIDatagenClient.tagMaterialTarget(material, "ingot"), (tag) ->
 				context.addMI("draconic_industrialization:materials/compressor/%s_from_%s".formatted(item.id(false), "ingot"), () ->

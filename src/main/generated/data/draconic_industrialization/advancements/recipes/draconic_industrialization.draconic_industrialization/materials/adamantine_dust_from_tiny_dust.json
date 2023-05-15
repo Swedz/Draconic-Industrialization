@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_adamantine_tiny_dusts_tag": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "c:adamantine_tiny_dusts"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "draconic_industrialization:materials/adamantine_dust_from_tiny_dust"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_adamantine_tiny_dusts_tag",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "draconic_industrialization:materials/adamantine_dust_from_tiny_dust"
+    ]
+  }
+}

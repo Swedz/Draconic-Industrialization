@@ -23,16 +23,6 @@ public final class ServerDatagenProvider extends DatagenProvider
 	@Override
 	public void run(CachedOutput output) throws IOException
 	{
-		DraconicIndustrialization.LOGGER.info("Start of ITEM");
-		DatagenFunctions.Server.Item.INSTANCE.globalInit(this, output);
-		for(DIItem item : DIItems.all())
-		{
-			DraconicIndustrialization.LOGGER.info("Running functions for item {}", item.id(true));
-			item.settings().datagenFunctions().executeAll(DatagenFunctionCategory.ITEM_SERVER, this, output, item);
-		}
-		DatagenFunctions.Server.Item.INSTANCE.globalAfter(this, output);
-		DraconicIndustrialization.LOGGER.info("End of ITEM");
-		
 		DraconicIndustrialization.LOGGER.info("Start of BLOCK");
 		DatagenFunctions.Server.Block.INSTANCE.globalInit(this, output);
 		for(DIBlock block : DIBlocks.all())
@@ -42,5 +32,15 @@ public final class ServerDatagenProvider extends DatagenProvider
 		}
 		DatagenFunctions.Server.Block.INSTANCE.globalAfter(this, output);
 		DraconicIndustrialization.LOGGER.info("End of BLOCK");
+		
+		DraconicIndustrialization.LOGGER.info("Start of ITEM");
+		DatagenFunctions.Server.Item.INSTANCE.globalInit(this, output);
+		for(DIItem item : DIItems.all())
+		{
+			DraconicIndustrialization.LOGGER.info("Running functions for item {}", item.id(true));
+			item.settings().datagenFunctions().executeAll(DatagenFunctionCategory.ITEM_SERVER, this, output, item);
+		}
+		DatagenFunctions.Server.Item.INSTANCE.globalAfter(this, output);
+		DraconicIndustrialization.LOGGER.info("End of ITEM");
 	}
 }

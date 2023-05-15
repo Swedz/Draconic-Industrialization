@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "draconic_industrialization:block/draconium_ore"
+  }
+}
