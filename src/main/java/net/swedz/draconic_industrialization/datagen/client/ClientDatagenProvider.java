@@ -1,18 +1,13 @@
 package net.swedz.draconic_industrialization.datagen.client;
 
-import aztech.modern_industrialization.ModernIndustrialization;
+import aztech.modern_industrialization.machines.blockentities.multiblocks.ElectricBlastFurnaceBlockEntity.Tier;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.resources.AssetIndex;
 import net.minecraft.client.resources.ClientPackSource;
 import net.minecraft.client.resources.DefaultClientPackResources;
 import net.minecraft.data.CachedOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.FolderPackResources;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -25,6 +20,7 @@ import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.datagen.api.DatagenProvider;
 import net.swedz.draconic_industrialization.items.DIItem;
 import net.swedz.draconic_industrialization.items.DIItems;
+import net.swedz.draconic_industrialization.mi.DIBlastFurnaceTiers;
 import net.swedz.draconic_industrialization.particles.DIParticles;
 import net.swedz.draconic_industrialization.particles.ParticleWrapper;
 import org.apache.commons.compress.utils.Lists;
@@ -44,8 +40,10 @@ public final class ClientDatagenProvider extends DatagenProvider
 	@Override
 	public void run(CachedOutput output) throws IOException
 	{
-		try(final MultiPackResourceManager resourceProvider = new MultiPackResourceManager(PackType.CLIENT_RESOURCES, this.getPacks()))
+		try (final MultiPackResourceManager resourceProvider = new MultiPackResourceManager(PackType.CLIENT_RESOURCES, this.getPacks()))
 		{
+			final JsonObject langJson = new JsonObject();
+			
 			DraconicIndustrialization.LOGGER.info("Start of PARTICLE");
 			DatagenFunctions.Client.Particle.INSTANCE.globalInit(this, output);
 			for(ParticleWrapper particle : DIParticles.all())
@@ -67,8 +65,6 @@ public final class ClientDatagenProvider extends DatagenProvider
 			DatagenFunctions.Client.Block.INSTANCE.globalAfter(this, output);
 			DraconicIndustrialization.LOGGER.info("End of BLOCK");
 			
-			final JsonObject langJson = new JsonObject();
-			
 			DraconicIndustrialization.LOGGER.info("Start of ITEM");
 			DatagenFunctions.Client.Item.INSTANCE.globalInit(this, output);
 			for(DIItem item : DIItems.all())
@@ -81,6 +77,18 @@ public final class ClientDatagenProvider extends DatagenProvider
 			}
 			DatagenFunctions.Client.Item.INSTANCE.globalAfter(this, output);
 			DraconicIndustrialization.LOGGER.info("End of ITEM");
+			
+			DraconicIndustrialization.LOGGER.info("Start of EBFTIER");
+			for(Tier tier : DIBlastFurnaceTiers.all())
+			{
+				DraconicIndustrialization.LOGGER.info("Added EBF tier {} to language file", tier.englishName());
+				langJson.addProperty(tier.getTranslationKey(), tier.englishName());
+				langJson.addProperty(
+						"rei_categories.modern_industrialization.electric_blast_furnace_%s".formatted(tier.coilBlockId().getPath()),
+						"EBF (%s Tier)".formatted(tier.englishName())
+				);
+			}
+			DraconicIndustrialization.LOGGER.info("Start of EBFTIER");
 			
 			DraconicIndustrialization.LOGGER.info("Writing LANG");
 			Map<String, String> langEntries = Maps.newHashMap();
@@ -97,12 +105,6 @@ public final class ClientDatagenProvider extends DatagenProvider
 		
 		// Vanilla Assets
 		packs.add(new DefaultClientPackResources(ClientPackSource.BUILT_IN, new AssetIndex(new File(""), "")));
-		
-		// Modern Industrialization Assets
-		ModContainer container = FabricLoader.getInstance().getModContainer(ModernIndustrialization.MOD_ID).orElseThrow();
-		packs.add(ModNioResourcePack.create(new ResourceLocation("fabric", container.getMetadata().getId()),
-				container.getMetadata().getName(), container, null, PackType.CLIENT_RESOURCES, ResourcePackActivationType.ALWAYS_ENABLED
-		));
 		
 		// Draconic Industrialization Assets
 		packs.add(new FolderPackResources(this.nonGeneratedPath().toFile()));
