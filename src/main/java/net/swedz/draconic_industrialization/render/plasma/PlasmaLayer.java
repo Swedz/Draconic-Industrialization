@@ -8,7 +8,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -61,7 +60,7 @@ public final class PlasmaLayer<T extends LivingEntity, M extends EntityModel<T>>
 				entityModel.renderToBuffer(
 						matrices, vertexConsumer,
 						packedLight, OverlayTexture.NO_OVERLAY,
-						rgb[0], rgb[1], rgb[2], 1
+						rgb[0], rgb[1], rgb[2], 1f
 				);
 			}
 		}
@@ -69,16 +68,17 @@ public final class PlasmaLayer<T extends LivingEntity, M extends EntityModel<T>>
 	
 	public static VertexConsumer plasma(MultiBufferSource buffer, float tick)
 	{
+		float speed = 0.005f;
 		return buffer.getBuffer(plasma(
-				Mth.cos(tick * 0.01F) * 0.5F % 1.0F,
-				tick * 0.01F * 0.75F % 1.0F
+				Mth.cos(tick * speed) * 0.5F % 1.0F,
+				tick * speed * 0.75F % 1.0F
 		));
 	}
 	
 	public static RenderType plasma(float x, float y)
 	{
 		return RenderType.create(
-				"enchant_effect",
+				"plasma_shield",
 				DefaultVertexFormat.NEW_ENTITY,
 				VertexFormat.Mode.QUADS,
 				256,
@@ -86,11 +86,10 @@ public final class PlasmaLayer<T extends LivingEntity, M extends EntityModel<T>>
 				true,
 				RenderType.CompositeState.builder()
 						.setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-						.setTextureState(new RenderStateShard.TextureStateShard(DraconicIndustrialization.id("textures/entity/plasma_glint.png"), false, false))
+						.setTextureState(new TextureStateShard(DraconicIndustrialization.id("textures/entity/plasma_glint.png"), false, false))
 						.setTexturingState(new OffsetTexturingStateShard(x, y))
-						.setTransparencyState(ADDITIVE_TRANSPARENCY)
+						.setTransparencyState(TRANSLUCENT_TRANSPARENCY)
 						.setCullState(NO_CULL)
-						.setDepthTestState(EQUAL_DEPTH_TEST)
 						.setLightmapState(LIGHTMAP)
 						.setOverlayState(OVERLAY)
 						.createCompositeState(false)

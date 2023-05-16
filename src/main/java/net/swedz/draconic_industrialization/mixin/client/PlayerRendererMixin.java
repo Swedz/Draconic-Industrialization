@@ -52,12 +52,12 @@ public class PlayerRendererMixin
 				rendererArm.render(
 						matrices, vertexConsumer,
 						packedLight, OverlayTexture.NO_OVERLAY,
-						rgb[0], rgb[1], rgb[2], 1
+						rgb[0], rgb[1], rgb[2], 1f
 				);
 				rendererArmwear.render(
 						matrices, vertexConsumer,
 						packedLight, OverlayTexture.NO_OVERLAY,
-						rgb[0], rgb[1], rgb[2], 1
+						rgb[0], rgb[1], rgb[2], 1f
 				);
 			}
 		}
