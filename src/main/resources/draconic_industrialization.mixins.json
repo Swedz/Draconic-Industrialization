@@ -4,6 +4,7 @@
     "package": "net.swedz.draconic_industrialization.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
+        "DragonHeartDropMixin",
         "PreventEnchantmentsForDraconicArmor",
         "mi.MIBlastFurnaceTierMixin"
     ],
