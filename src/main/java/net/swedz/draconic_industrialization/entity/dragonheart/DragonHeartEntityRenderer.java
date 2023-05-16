@@ -39,8 +39,11 @@ public final class DragonHeartEntityRenderer extends EntityRenderer<DragonHeartE
 		
 		ItemStack item = new ItemStack(DIItems.DRAGON_HEART);
 		BakedModel model = itemRenderer.getModel(item, entity.level, null, 1);
-		matrices.translate(0, 0.45, 0);
-		matrices.scale(4, 4, 4);
+		matrices.translate(0, 0.375, 0);
+		
+		float scale = 4;
+		matrices.scale(scale, scale, scale);
+		
 		matrices.mulPose(Vector3f.YP.rotation(entity.rotation(partialTick)));
 		itemRenderer.render(item, ItemTransforms.TransformType.GROUND, false, matrices, buffer, packedLight, OverlayTexture.NO_OVERLAY, model);
 		

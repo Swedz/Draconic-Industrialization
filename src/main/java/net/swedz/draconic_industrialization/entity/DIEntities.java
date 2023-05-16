@@ -16,7 +16,7 @@ public final class DIEntities
 			DraconicIndustrialization.id("dragon_heart"),
 			FabricEntityTypeBuilder.create()
 					.entityFactory(DragonHeartEntity::new)
-					.dimensions(EntityDimensions.fixed(1.75f, 1.75f))
+					.dimensions(EntityDimensions.fixed(1.5f, 1.5f))
 					.build()
 	);
 	

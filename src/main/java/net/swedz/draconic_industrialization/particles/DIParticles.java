@@ -4,11 +4,10 @@ import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.minecraft.client.particle.DustParticle;
+import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.core.Registry;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
@@ -19,16 +18,16 @@ import java.util.Map;
 
 public final class DIParticles
 {
-	private static final Map<ParticleType, ParticleWrapper> WRAPPERS = Maps.newHashMap();
+	private static final Map<SimpleParticleType, ParticleWrapper> WRAPPERS = Maps.newHashMap();
 	
-	public static final ParticleType HEART_SPARKLE = create("heart_sparkle", FabricParticleTypes.complex(DustParticleOptions.DESERIALIZER), DustParticle.Provider::new, new ParticleSprite("particle/heart_sparkle", "heart_sparkle"));
+	public static final SimpleParticleType HEART_SPARKLE = create("heart_sparkle", FabricParticleTypes.simple(), FlameParticle.Provider::new, new ParticleSprite("particle/heart_sparkle", "heart_sparkle"));
 	
 	public static Collection<ParticleWrapper> all()
 	{
 		return WRAPPERS.values();
 	}
 	
-	public static <T extends ParticleOptions> ParticleType<T> create(String id, ParticleType<T> particle, ParticleFactoryRegistry.PendingParticleFactory<T> provider, ParticleSprite... sprites)
+	public static <T extends ParticleOptions> SimpleParticleType create(String id, SimpleParticleType particle, ParticleFactoryRegistry.PendingParticleFactory<T> provider, ParticleSprite... sprites)
 	{
 		Registry.register(Registry.PARTICLE_TYPE, DraconicIndustrialization.id(id), particle);
 		WRAPPERS.put(particle, new ParticleWrapper(id, provider, sprites)
