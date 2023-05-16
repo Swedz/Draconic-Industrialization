@@ -7,7 +7,8 @@
         "PreventEnchantmentsForDraconicArmor"
     ],
     "client": [
-        "client.LivingEntityRendererMixin"
+        "client.LivingEntityRendererMixin",
+        "client.PlayerRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -57,22 +56,26 @@ public final class PlasmaLayer<T extends LivingEntity, M extends EntityModel<T>>
 				
 				EntityModel<T> entityModel = this.getParentModel();
 				entityModel.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTick);
-				VertexConsumer vertexConsumer = buffer.getBuffer(plasma(
-						DraconicIndustrialization.id("textures/entity/plasma_glint.png"),
-						Mth.cos(tick * 0.01F) * 0.5F % 1.0F,
-						tick * 0.01F * 0.75F % 1.0F
-				));
+				VertexConsumer vertexConsumer = plasma(buffer, tick);
 				entityModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 				entityModel.renderToBuffer(
 						matrices, vertexConsumer,
 						packedLight, OverlayTexture.NO_OVERLAY,
-						rgb[0], rgb[1], rgb[2], 1F
+						rgb[0], rgb[1], rgb[2], 1
 				);
 			}
 		}
 	}
 	
-	public static RenderType plasma(ResourceLocation asset, float x, float y)
+	public static VertexConsumer plasma(MultiBufferSource buffer, float tick)
+	{
+		return buffer.getBuffer(plasma(
+				Mth.cos(tick * 0.01F) * 0.5F % 1.0F,
+				tick * 0.01F * 0.75F % 1.0F
+		));
+	}
+	
+	public static RenderType plasma(float x, float y)
 	{
 		return RenderType.create(
 				"enchant_effect",
@@ -83,7 +86,7 @@ public final class PlasmaLayer<T extends LivingEntity, M extends EntityModel<T>>
 				true,
 				RenderType.CompositeState.builder()
 						.setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-						.setTextureState(new RenderStateShard.TextureStateShard(asset, false, false))
+						.setTextureState(new RenderStateShard.TextureStateShard(DraconicIndustrialization.id("textures/entity/plasma_glint.png"), false, false))
 						.setTexturingState(new OffsetTexturingStateShard(x, y))
 						.setTransparencyState(ADDITIVE_TRANSPARENCY)
 						.setCullState(NO_CULL)
