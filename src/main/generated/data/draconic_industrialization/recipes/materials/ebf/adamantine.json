@@ -1,0 +1,17 @@
+{
+  "type": "modern_industrialization:blast_furnace",
+  "duration": 400,
+  "eu": 128,
+  "item_inputs": [
+    {
+      "amount": 1,
+      "item": "draconic_industrialization:adamantine_dust"
+    }
+  ],
+  "item_outputs": [
+    {
+      "amount": 1,
+      "item": "draconic_industrialization:adamantine_hot_ingot"
+    }
+  ]
+}

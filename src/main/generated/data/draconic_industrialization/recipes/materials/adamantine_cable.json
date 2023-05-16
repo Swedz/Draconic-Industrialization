@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "modern_industrialization:rubber_sheet"
+    },
+    "W": {
+      "tag": "c:adamantine_wires"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "WWW",
+    "RRR"
+  ],
+  "result": {
+    "count": 3,
+    "item": "draconic_industrialization:adamantine_cable"
+  }
+}

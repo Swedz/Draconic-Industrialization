@@ -1,7 +1,5 @@
 package net.swedz.draconic_industrialization.blocks;
 
-import aztech.modern_industrialization.materials.part.MIParts;
-import aztech.modern_industrialization.materials.part.PartTemplate;
 import com.google.common.collect.Sets;
 import net.minecraft.core.Registry;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -13,6 +11,7 @@ import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.items.DIItemSettings;
 import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.items.DIMaterial;
+import net.swedz.draconic_industrialization.material.DIMaterialPart;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 import net.swedz.draconic_industrialization.recipes.StandardRecipes;
 
@@ -28,6 +27,8 @@ public final class DIBlocks
 	public static final Block AWAKENED_DRACONIUM_BLOCK = materialPart(DIItems.AWAKENED_DRACONIUM, DIBlockProperties.awakenedDraconium().alwaysDropsSelf(), StandardRecipes::apply);
 	
 	public static final Block DRACONIUM_ORE = generic("draconium_ore", "Draconium Ore", (p) -> new DropExperienceBlock(p, UniformInt.of(5, 12)), DIBlockProperties.draconiumOre(), DIItemSettings::draconiumOre, true);
+	
+	public static final Block ADAMANTINE_COIL = materialPart(DIItems.ADAMANTINE, DIMaterialPart.COIL, DIBlockProperties.adamantine().alwaysDropsSelf(), StandardRecipes::apply);
 	
 	public static Set<DIBlock> all()
 	{
@@ -66,18 +67,22 @@ public final class DIBlocks
 		return generic(id, englishName, Block::new, properties, itemSettings, createItem);
 	}
 	
-	public static Block materialPart(DIMaterial material, DIBlockProperties properties, RecipeGenerator... recipeActions)
+	public static Block materialPart(DIMaterial material, DIMaterialPart part, DIBlockProperties properties, RecipeGenerator... recipeActions)
 	{
-		final PartTemplate partTemplate = MIParts.BLOCK.of(null);
-		final String id = material.fullId(partTemplate);
+		final String id = material.fullId(part);
 		properties.datagenFunction(DatagenFunctions.Client.Block.BASIC_MODEL);
 		Block block = Registry.register(
 				Registry.BLOCK,
 				DraconicIndustrialization.id(id),
 				new Block(properties)
 		);
-		Item blockItem = DIItems.blockItemMaterialPart(block, material, recipeActions);
+		Item blockItem = DIItems.blockItemMaterialPart(block, material, part, recipeActions);
 		return register(block, blockItem, properties);
+	}
+	
+	public static Block materialPart(DIMaterial material, DIBlockProperties properties, RecipeGenerator... recipeActions)
+	{
+		return materialPart(material, DIMaterialPart.BLOCK, properties, recipeActions);
 	}
 	
 	public static void init()

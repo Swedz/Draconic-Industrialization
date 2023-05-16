@@ -1,12 +1,16 @@
 {
+  "block.draconic_industrialization.adamantine_coil": "Adamantine Coil",
   "block.draconic_industrialization.awakened_draconium_block": "Block of Awakened Draconium",
   "block.draconic_industrialization.draconium_block": "Block of Draconium",
   "block.draconic_industrialization.draconium_ore": "Draconium Ore",
+  "ebf_tier.modern_industrialization.adamantine_coil": "Adamantine",
+  "item.draconic_industrialization.adamantine_cable": "Adamantine Cable",
   "item.draconic_industrialization.adamantine_dust": "Adamantine Dust",
   "item.draconic_industrialization.adamantine_hot_ingot": "Adamantine Hot Ingot",
   "item.draconic_industrialization.adamantine_ingot": "Adamantine Ingot",
   "item.draconic_industrialization.adamantine_plate": "Adamantine Plate",
   "item.draconic_industrialization.adamantine_tiny_dust": "Adamantine Tiny Dust",
+  "item.draconic_industrialization.adamantine_wire": "Adamantine Wire",
   "item.draconic_industrialization.awakened_draconium_circuit": "Awakened Draconium Circuit",
   "item.draconic_industrialization.awakened_draconium_curved_plate": "Awakened Draconium Curved Plate",
   "item.draconic_industrialization.awakened_draconium_dust": "Awakened Draconium Dust",
@@ -30,5 +34,6 @@
   "item.draconic_industrialization.dragon_heart": "Dragon Heart",
   "item.draconic_industrialization.wyvern_armor": "Wyvern Armor",
   "item.draconic_industrialization.wyvern_circuit": "Wyvern Circuit",
-  "itemGroup.draconic_industrialization.draconic_industrialization": "Draconic Industrialization"
+  "itemGroup.draconic_industrialization.draconic_industrialization": "Draconic Industrialization",
+  "rei_categories.modern_industrialization.electric_blast_furnace_adamantine_coil": "EBF (Adamantine Tier)"
 }

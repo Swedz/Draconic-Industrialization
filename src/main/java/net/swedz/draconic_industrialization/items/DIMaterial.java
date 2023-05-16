@@ -1,41 +1,21 @@
 package net.swedz.draconic_industrialization.items;
 
-import aztech.modern_industrialization.materials.part.PartEnglishNameFormatter;
-import aztech.modern_industrialization.materials.part.PartKeyProvider;
-import aztech.modern_industrialization.materials.part.PartTemplate;
-import aztech.modern_industrialization.materials.property.MaterialHardness;
-import aztech.modern_industrialization.materials.set.MaterialSet;
+import net.swedz.draconic_industrialization.material.DIMaterialPart;
 
-import java.lang.reflect.Field;
-
-public record DIMaterial(String id, String englishName, MaterialSet materialSet, MaterialHardness hardness)
+public record DIMaterial(String id, String englishName, double hardness)
 {
-	public String fullId(PartKeyProvider part)
+	public String fullId(DIMaterialPart part)
 	{
-		return "%s_%s".formatted(id, part.key().key);
+		return "%s_%s".formatted(id, part.id());
 	}
 	
-	public String fullEnglishName(PartTemplate part)
+	public String fullEnglishName(DIMaterialPart part)
 	{
-		try
-		{
-			Field field = PartTemplate.class.getDeclaredField("englishNameFormatter");
-			field.setAccessible(true);
-			return ((PartEnglishNameFormatter) field.get(part)).format(englishName);
-		}
-		catch (IllegalAccessException | NoSuchFieldException ex)
-		{
-			throw new RuntimeException(ex);
-		}
-	}
-	
-	public String fullEnglishNameAsBlock()
-	{
-		return "Block of %s".formatted(englishName);
+		return part.englishName(englishName);
 	}
 	
 	public int recipeDuration()
 	{
-		return (int) (hardness.timeFactor * 200);
+		return (int) (hardness * 200);
 	}
 }

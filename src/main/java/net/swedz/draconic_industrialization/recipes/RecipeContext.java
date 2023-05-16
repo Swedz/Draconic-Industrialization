@@ -1,6 +1,5 @@
 package net.swedz.draconic_industrialization.recipes;
 
-import aztech.modern_industrialization.materials.part.PartKeyProvider;
 import aztech.modern_industrialization.recipe.json.MIRecipeJson;
 import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -9,33 +8,26 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.swedz.draconic_industrialization.datagen.server.DIDatagenServer;
 import net.swedz.draconic_industrialization.items.DIItem;
-import net.swedz.draconic_industrialization.recipes.wrapper.MIJsonRecipeBuilderWrapper;
-import net.swedz.draconic_industrialization.recipes.wrapper.RecipeBuilderWrapper;
-import net.swedz.draconic_industrialization.recipes.wrapper.VanillaRecipeBuilderWrapper;
+import net.swedz.draconic_industrialization.material.DIMaterialPart;
 
-import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public record RecipeContext(DIItem item, RecipeMap recipeMap)
+public record RecipeContext(DIItem item, RecipeMapWrapper recipeMap)
 {
-	public static final class RecipeMap extends HashMap<String, Supplier<RecipeBuilderWrapper>>
-	{
-	}
-	
 	public void addVanilla(String id, Supplier<RecipeBuilder> recipeSupplier)
 	{
-		recipeMap.put(id, () -> new VanillaRecipeBuilderWrapper(recipeSupplier.get()));
+		recipeMap.addVanilla(id, recipeSupplier);
 	}
 	
 	public void addMI(String id, Supplier<MIRecipeJson> recipeSupplier)
 	{
-		recipeMap.put(id, () -> new MIJsonRecipeBuilderWrapper(recipeSupplier.get()));
+		recipeMap.addMI(id, recipeSupplier);
 	}
 	
-	public void ifExists(PartKeyProvider isPart, String hasTag, Consumer<TagKey> action)
+	public void ifExists(DIMaterialPart isPart, String hasTag, Consumer<TagKey> action)
 	{
-		if(item.settings().materialPart().isPart(isPart))
+		if(item.settings().materialPart().part().equals(isPart))
 		{
 			TagKey<Item> tagKey = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(hasTag));
 			if(DIDatagenServer.hasTag(tagKey))
@@ -43,5 +35,20 @@ public record RecipeContext(DIItem item, RecipeMap recipeMap)
 				action.accept(tagKey);
 			}
 		}
+	}
+	
+	public void ifExists(DIMaterialPart isPart, DIMaterialPart hasTag, Consumer<TagKey> action)
+	{
+		this.ifExists(isPart, hasTag.tag(item.settings().materialPart().material().id()), action);
+	}
+	
+	public String recipeId(String format, DIMaterialPart otherPart)
+	{
+		return format.formatted(item.id(false), otherPart.id());
+	}
+	
+	public String recipeId(String format)
+	{
+		return format.formatted(item.id(false));
 	}
 }

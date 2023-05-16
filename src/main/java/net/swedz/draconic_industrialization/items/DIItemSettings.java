@@ -1,8 +1,5 @@
 package net.swedz.draconic_industrialization.items;
 
-import aztech.modern_industrialization.materials.part.PartKeyProvider;
-import aztech.modern_industrialization.materials.part.PartTemplate;
-import aztech.modern_industrialization.materials.set.MaterialSet;
 import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.item.v1.CustomDamageHandler;
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
@@ -18,6 +15,7 @@ import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.datagen.client.DIDatagenClient;
+import net.swedz.draconic_industrialization.material.DIMaterialPart;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 import net.swedz.draconic_industrialization.tags.DITags;
 
@@ -66,13 +64,13 @@ public final class DIItemSettings extends FabricItemSettings
 		return materialPart;
 	}
 	
-	public DIItemSettings materialPart(DIMaterial material, PartTemplate part, RecipeGenerator... recipeActions)
+	public DIItemSettings materialPart(DIMaterial material, DIMaterialPart part, RecipeGenerator... recipeActions)
 	{
 		this.materialPart = new MaterialPart(material, part, recipeActions);
 		return this;
 	}
 	
-	public record MaterialPart(DIMaterial material, PartTemplate part, RecipeGenerator... recipeActions)
+	public record MaterialPart(DIMaterial material, DIMaterialPart part, RecipeGenerator... recipeActions)
 	{
 		public String name()
 		{
@@ -81,22 +79,12 @@ public final class DIItemSettings extends FabricItemSettings
 		
 		public String partId()
 		{
-			return part.key().key;
+			return part.id();
 		}
 		
 		public String tag()
 		{
 			return DIDatagenClient.tagMaterialTarget(this.name(), this.partId());
-		}
-		
-		public boolean isPart(PartKeyProvider other)
-		{
-			return this.partId().equals(other.key().key);
-		}
-		
-		public MaterialSet materialSet()
-		{
-			return material.materialSet();
 		}
 	}
 	

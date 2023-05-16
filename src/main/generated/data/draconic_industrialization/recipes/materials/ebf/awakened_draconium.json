@@ -1,0 +1,17 @@
+{
+  "type": "modern_industrialization:blast_furnace",
+  "duration": 400,
+  "eu": 192,
+  "item_inputs": [
+    {
+      "amount": 1,
+      "item": "draconic_industrialization:awakened_draconium_dust"
+    }
+  ],
+  "item_outputs": [
+    {
+      "amount": 1,
+      "item": "draconic_industrialization:awakened_draconium_hot_ingot"
+    }
+  ]
+}

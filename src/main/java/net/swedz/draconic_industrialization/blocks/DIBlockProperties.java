@@ -55,6 +55,17 @@ public final class DIBlockProperties extends FabricBlockSettings
 				.needsDiamond();
 	}
 	
+	public static DIBlockProperties adamantine()
+	{
+		return DIBlockProperties
+				.of(Material.METAL, MaterialColor.COLOR_LIGHT_GREEN)
+				.sounds(SoundType.METAL)
+				.hardness(50f).resistance(1200f)
+				.requiresTool()
+				.needsPickaxe()
+				.needsDiamond();
+	}
+	
 	public static DIBlockProperties draconiumOre()
 	{
 		return DIBlockProperties

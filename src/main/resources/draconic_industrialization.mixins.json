@@ -4,7 +4,8 @@
     "package": "net.swedz.draconic_industrialization.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
-        "PreventEnchantmentsForDraconicArmor"
+        "PreventEnchantmentsForDraconicArmor",
+        "mi.MIBlastFurnaceTierMixin"
     ],
     "client": [
         "client.LivingEntityRendererMixin",

@@ -1,0 +1,21 @@
+{
+  "type": "modern_industrialization:mixer",
+  "duration": 100,
+  "eu": 2,
+  "item_inputs": [
+    {
+      "amount": 1,
+      "item": "minecraft:netherite_scrap"
+    },
+    {
+      "amount": 3,
+      "item": "draconic_industrialization:draconium_dust"
+    }
+  ],
+  "item_outputs": [
+    {
+      "amount": 1,
+      "item": "draconic_industrialization:adamantine_dust"
+    }
+  ]
+}
