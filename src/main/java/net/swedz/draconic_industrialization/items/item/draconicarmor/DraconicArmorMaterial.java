@@ -41,7 +41,7 @@ public final class DraconicArmorMaterial implements ArmorMaterial
 	@Override
 	public String getName()
 	{
-		return "draconic";
+		return "draconic_industrialization:draconic";
 	}
 	
 	@Override

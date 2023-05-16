@@ -1,6 +1,10 @@
 package net.swedz.draconic_industrialization.items.item.draconicarmor;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import software.bernie.example.item.GeckoArmorItem;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -53,5 +57,11 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 	public boolean isEnchantable(ItemStack stack)
 	{
 		return false;
+	}
+	
+	@Override
+	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot)
+	{
+		return ImmutableMultimap.of();
 	}
 }

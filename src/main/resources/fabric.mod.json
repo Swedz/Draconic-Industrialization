@@ -26,6 +26,9 @@
     ],
     "client": [
       "net.swedz.draconic_industrialization.DraconicIndustrializationClient"
+    ],
+    "preLaunch": [
+      "net.swedz.draconic_industrialization.DraconicIndustrializationPreLaunch"
     ]
   },
   "mixins": [

@@ -24,6 +24,8 @@ repositories {
 			// Magna
 			includeGroup "com.github.Technici4n"
 			includeGroup "com.github.Draylar.omega-config"
+			// MixinExtras
+			includeGroup "com.github.LlamaLad7"
 		}
 	}
 	// Reach entity attributes (required by Magna)
@@ -38,7 +40,6 @@ repositories {
 		url = 'https://ladysnake.jfrog.io/artifactory/mods'
 		content {
 			includeGroup 'io.github.ladysnake'
-			//includeGroupByRegex 'io\\.github\\.onyxstudios.*'
 		}
 	}
 }
@@ -85,6 +86,9 @@ dependencies {
 	modImplementation("maven.modrinth:geckolib:${project.geckolib_version}") {
 		exclude group: "net.fabricmc.fabric-api"
 	}
+
+	include implementation("com.github.LlamaLad7:MixinExtras:${project.mixinextras_version}")
+	annotationProcessor("com.github.LlamaLad7:MixinExtras:${project.mixinextras_version}")
 }
 
 base {
