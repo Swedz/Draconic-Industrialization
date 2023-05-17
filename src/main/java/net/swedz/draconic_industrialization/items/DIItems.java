@@ -5,10 +5,10 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.swedz.draconic_industrialization.api.DracoTier;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
-import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModel;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItemModel;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorRenderer;
-import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorTier;
 import net.swedz.draconic_industrialization.material.DIMaterialHardness;
 import net.swedz.draconic_industrialization.material.DIMaterialPart;
 import net.swedz.draconic_industrialization.recipes.StandardRecipes;
@@ -55,9 +55,9 @@ public final class DIItems
 	public static final Item       AWAKENED_DRACONIUM_CURVED_PLATE = builder().materialBasic(AWAKENED_DRACONIUM, DIMaterialPart.CURVED_PLATE, StandardRecipes::apply).build();
 	public static final Item       AWAKENED_DRACONIUM_WIRE         = builder().materialBasic(AWAKENED_DRACONIUM, DIMaterialPart.WIRE, StandardRecipes::apply).build();
 	
-	public static final Item WYVERN_ARMOR   = builder().identifiable("wyvern_armor", "Wyvern Armor").creator((s) -> new DraconicArmorItem(DraconicArmorTier.WYVERN, s)).withSettings(DIItemSettings::draconicArmor).withItemRenderer(new DraconicArmorModel()).withArmorRenderer(DraconicArmorRenderer.INSTANCE).build();
-	public static final Item DRACONIC_ARMOR = builder().identifiable("draconic_armor", "Draconic Armor").creator((s) -> new DraconicArmorItem(DraconicArmorTier.DRACONIC, s)).withSettings(DIItemSettings::draconicArmor).withItemRenderer(new DraconicArmorModel()).withArmorRenderer(DraconicArmorRenderer.INSTANCE).build();
-	public static final Item CHAOTIC_ARMOR  = builder().identifiable("chaotic_armor", "Chaotic Armor").creator((s) -> new DraconicArmorItem(DraconicArmorTier.CHAOTIC, s)).withSettings(DIItemSettings::draconicArmor).withItemRenderer(new DraconicArmorModel()).withArmorRenderer(DraconicArmorRenderer.INSTANCE).build();
+	public static final Item WYVERN_ARMOR   = builder().identifiable("wyvern_armor", "Wyvern Armor").creator((s) -> new DraconicArmorItem(DracoTier.WYVERN, s)).withSettings(DIItemSettings::draconicArmor).withItemRenderer(new DraconicArmorItemModel()).withArmorRenderer(new DraconicArmorRenderer()).build();
+	public static final Item DRACONIC_ARMOR = builder().identifiable("draconic_armor", "Draconic Armor").creator((s) -> new DraconicArmorItem(DracoTier.DRACONIC, s)).withSettings(DIItemSettings::draconicArmor).withItemRenderer(new DraconicArmorItemModel()).withArmorRenderer(new DraconicArmorRenderer()).build();
+	public static final Item CHAOTIC_ARMOR  = builder().identifiable("chaotic_armor", "Chaotic Armor").creator((s) -> new DraconicArmorItem(DracoTier.CHAOTIC, s)).withSettings(DIItemSettings::draconicArmor).withItemRenderer(new DraconicArmorItemModel()).withArmorRenderer(new DraconicArmorRenderer()).build();
 	
 	public static Set<DIItem> all()
 	{

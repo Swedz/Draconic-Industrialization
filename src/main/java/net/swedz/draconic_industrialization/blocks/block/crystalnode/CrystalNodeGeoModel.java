@@ -15,7 +15,7 @@ public class CrystalNodeGeoModel<T extends CrystalNodeAnimatable> extends Animat
 	@Override
 	public ResourceLocation getTextureResource(T crystalAnimatable)
 	{
-		return DraconicIndustrialization.id("textures/block/crystal_node.png");
+		return DraconicIndustrialization.id("textures/block/crystal_node_chaotic.png");
 	}
 	
 	@Override
