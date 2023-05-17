@@ -7,7 +7,7 @@ import net.swedz.draconic_industrialization.api.NBTSerializer;
 import net.swedz.draconic_industrialization.api.NBTTagWrapper;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 
-public final class DraconicArmor implements NBTSerializer
+public final class DraconicArmor implements NBTSerializer<DraconicArmor>
 {
 	private static final String PARENT_KEY = "DraconicArmorData";
 	
@@ -27,8 +27,7 @@ public final class DraconicArmor implements NBTSerializer
 		DraconicArmor draconicArmor = new DraconicArmor(((DraconicArmorItem) itemStack.getItem()).tier());
 		CompoundTag parentTag = itemStack.getOrCreateTag();
 		CompoundTag tag = parentTag.contains(PARENT_KEY) ? parentTag.getCompound(PARENT_KEY) : new CompoundTag();
-		draconicArmor.deserialize(tag);
-		return draconicArmor;
+		return draconicArmor.deserialize(tag);
 	}
 	
 	@Override
@@ -37,8 +36,7 @@ public final class DraconicArmor implements NBTSerializer
 		modelType = tag.getEnumOrDefault(DraconicArmorModelType.class, "ModelType", DraconicArmorModelType.DEFAULT);
 		shieldType = tag.getEnumOrDefault(DraconicArmorShieldType.class, "ShieldType", DraconicArmorShieldType.DEFAULT);
 		
-		color = new Color();
-		color.deserialize(tag.getOrEmpty("Color"));
+		color = new Color().deserialize(tag.getOrEmpty("Color"));
 	}
 	
 	@Override
@@ -56,7 +54,7 @@ public final class DraconicArmor implements NBTSerializer
 		parentTag.put(PARENT_KEY, tag);
 	}
 	
-	public final class Color implements NBTSerializer
+	public final class Color implements NBTSerializer<Color>
 	{
 		public float red, green, blue;
 		
