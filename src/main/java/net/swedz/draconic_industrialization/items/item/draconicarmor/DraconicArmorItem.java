@@ -44,13 +44,13 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 	@Override
 	public void registerControllers(AnimationData data)
 	{
-		data.addAnimationController(new AnimationController(this, "controller", 20, this::predicate));
+		data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
 	}
 	
 	@Override
 	public AnimationFactory getFactory()
 	{
-		return this.factory;
+		return factory;
 	}
 	
 	@Override
