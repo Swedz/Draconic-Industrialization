@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.particles.DIParticles;
@@ -31,6 +32,12 @@ public final class DragonHeartEntity extends Entity
 	{
 		super(entityType, level);
 		this.hoverStart = (float) (Math.random() * Math.PI * 2);
+	}
+	
+	@Override
+	protected void playStepSound(BlockPos pos, BlockState state)
+	{
+		// No, I don't think I will.
 	}
 	
 	@Override
