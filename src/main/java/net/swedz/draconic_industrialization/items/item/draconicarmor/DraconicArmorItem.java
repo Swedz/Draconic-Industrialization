@@ -7,7 +7,6 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.DracoTier;
-import net.swedz.draconic_industrialization.api.NBTHelper;
 import software.bernie.example.item.GeckoArmorItem;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -21,8 +20,6 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatable
 {
-	private static final String DATA_TAG = "DraconicArmorData";
-	
 	private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 	
 	private final DracoTier tier;
@@ -67,10 +64,5 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot)
 	{
 		return ImmutableMultimap.of();
-	}
-	
-	public DraconicArmorItemData data(ItemStack itemStack)
-	{
-		return new DraconicArmorItemData(NBTHelper.getTagOrEmpty(itemStack.getOrCreateTag(), DATA_TAG));
 	}
 }

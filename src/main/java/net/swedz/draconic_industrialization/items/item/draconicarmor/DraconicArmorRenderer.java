@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmor;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
@@ -27,7 +28,7 @@ public final class DraconicArmorRenderer extends GeoArmorRenderer<DraconicArmorI
 	@Override
 	public void render(PoseStack stack, MultiBufferSource bufferIn, int packedLightIn)
 	{
-		final DraconicArmorItemData data = currentArmorItem.data(itemStack);
+		final DraconicArmor data = DraconicArmor.fromItemStack(itemStack);
 		if(data.modelType.shouldRender())
 		{
 			super.render(stack, bufferIn, this.calculateLight(packedLightIn));
@@ -40,7 +41,7 @@ public final class DraconicArmorRenderer extends GeoArmorRenderer<DraconicArmorI
 		public ResourceLocation getModelResource(DraconicArmorItem draconicArmorItem)
 		{
 			final ItemStack itemStack = DraconicArmorRenderer.this.itemStack;
-			final DraconicArmorItemData data = draconicArmorItem.data(itemStack);
+			final DraconicArmor data = DraconicArmor.fromItemStack(itemStack);
 			return DraconicIndustrialization.id(data.modelType.model());
 		}
 		
@@ -48,7 +49,7 @@ public final class DraconicArmorRenderer extends GeoArmorRenderer<DraconicArmorI
 		public ResourceLocation getTextureResource(DraconicArmorItem draconicArmorItem)
 		{
 			final ItemStack itemStack = DraconicArmorRenderer.this.itemStack;
-			final DraconicArmorItemData data = draconicArmorItem.data(itemStack);
+			final DraconicArmor data = DraconicArmor.fromItemStack(itemStack);
 			return DraconicIndustrialization.id(data.modelType.texture(draconicArmorItem.tier()));
 		}
 		
@@ -56,7 +57,7 @@ public final class DraconicArmorRenderer extends GeoArmorRenderer<DraconicArmorI
 		public ResourceLocation getAnimationResource(DraconicArmorItem draconicArmorItem)
 		{
 			final ItemStack itemStack = DraconicArmorRenderer.this.itemStack;
-			final DraconicArmorItemData data = draconicArmorItem.data(itemStack);
+			final DraconicArmor data = DraconicArmor.fromItemStack(itemStack);
 			return DraconicIndustrialization.id(data.modelType.animation());
 		}
 	}
