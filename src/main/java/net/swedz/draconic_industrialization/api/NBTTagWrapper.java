@@ -19,6 +19,11 @@ public record NBTTagWrapper(CompoundTag tag)
 		tag.put(key, value);
 	}
 	
+	public void set(String key, NBTTagWrapper value)
+	{
+		this.set(key, value.tag);
+	}
+	
 	public <E extends Enum<E>> E getEnumOrDefault(Class<E> enumClass, String key, E defaultValue)
 	{
 		return tag.contains(key) ? Enum.valueOf(enumClass, tag.getString(key)) : defaultValue;
@@ -27,5 +32,15 @@ public record NBTTagWrapper(CompoundTag tag)
 	public <E extends Enum<E>> void setEnum(String key, E value)
 	{
 		tag.putString(key, value.name());
+	}
+	
+	public float getFloatOrDefault(String key, float defaultValue)
+	{
+		return tag.contains(key) ? tag.getFloat(key) : defaultValue;
+	}
+	
+	public void setFloat(String key, float value)
+	{
+		tag.putFloat(key, value);
 	}
 }

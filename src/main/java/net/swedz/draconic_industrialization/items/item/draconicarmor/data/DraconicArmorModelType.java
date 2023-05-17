@@ -1,22 +1,26 @@
-package net.swedz.draconic_industrialization.items.item.draconicarmor;
+package net.swedz.draconic_industrialization.items.item.draconicarmor.data;
 
 import net.swedz.draconic_industrialization.api.DracoTier;
 
 public enum DraconicArmorModelType
 {
-	STRAP,
-	NULL(false);
+	STRAP("Strap"),
+	NULL("Null", false);
 	
+	public static final DraconicArmorModelType DEFAULT = STRAP;
+	
+	private final String  englishName;
 	private final boolean shouldRender;
 	
-	DraconicArmorModelType(boolean shouldRender)
+	DraconicArmorModelType(String englishName, boolean shouldRender)
 	{
+		this.englishName = englishName;
 		this.shouldRender = shouldRender;
 	}
 	
-	DraconicArmorModelType()
+	DraconicArmorModelType(String englishName)
 	{
-		this(true);
+		this(englishName, true);
 	}
 	
 	public String id()
@@ -24,9 +28,19 @@ public enum DraconicArmorModelType
 		return this.name().toLowerCase();
 	}
 	
+	public String englishName()
+	{
+		return englishName;
+	}
+	
 	public boolean shouldRender()
 	{
 		return shouldRender;
+	}
+	
+	public String translationKey()
+	{
+		return "draconic_armor.draconic_industrialization.model_type.%s".formatted(this.id());
 	}
 	
 	public String model()

@@ -1,10 +1,11 @@
-package net.swedz.draconic_industrialization.items.item.draconicarmor;
+package net.swedz.draconic_industrialization.items.item.draconicarmor.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmor;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;

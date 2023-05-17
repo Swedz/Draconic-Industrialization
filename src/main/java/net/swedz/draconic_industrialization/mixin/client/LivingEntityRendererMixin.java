@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.swedz.draconic_industrialization.render.plasma.PlasmaLayer;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.render.DraconicArmorShieldLayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,6 +30,6 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void onInit(EntityRendererProvider.Context context, M entityModel, float f, CallbackInfo ci)
 	{
-		addLayer(new PlasmaLayer<>(this));
+		addLayer(new DraconicArmorShieldLayer<>(this));
 	}
 }

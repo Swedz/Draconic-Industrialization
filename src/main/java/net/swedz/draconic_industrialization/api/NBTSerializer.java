@@ -6,9 +6,14 @@ public interface NBTSerializer
 {
 	void read(NBTTagWrapper tag);
 	
+	default void deserialize(NBTTagWrapper tag)
+	{
+		this.read(tag);
+	}
+	
 	default void deserialize(CompoundTag tag)
 	{
-		this.read(new NBTTagWrapper(tag));
+		this.deserialize(new NBTTagWrapper(tag));
 	}
 	
 	void write(NBTTagWrapper tag);
