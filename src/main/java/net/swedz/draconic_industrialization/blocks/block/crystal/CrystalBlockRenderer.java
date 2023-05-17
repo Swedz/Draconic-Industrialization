@@ -9,7 +9,7 @@ public class CrystalBlockRenderer extends GeoBlockRenderer<CrystalBlockEntity>
 {
 	public CrystalBlockRenderer()
 	{
-		super(new CrystalBlockModel());
+		super(new CrystalGeoModel());
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.blocks.block.crystal.CrystalBlock;
 import net.swedz.draconic_industrialization.blocks.block.crystal.CrystalBlockEntity;
+import net.swedz.draconic_industrialization.blocks.block.crystal.CrystalBlockItem;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.items.DIItemSettings;
 import net.swedz.draconic_industrialization.items.DIItems;
@@ -21,6 +23,7 @@ import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 import net.swedz.draconic_industrialization.recipes.StandardRecipes;
 
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -35,7 +38,7 @@ public final class DIBlocks
 	
 	public static final Block ADAMANTINE_COIL = materialPart(DIItems.ADAMANTINE, DIMaterialPart.COIL, DIBlockProperties.adamantine().alwaysDropsSelf(), StandardRecipes::apply);
 	
-	public static final Block CRYSTAL = block("crystal", "Crystal", CrystalBlock::new, DIBlockProperties.crystal().noCollision(), (s) -> {}, true);
+	public static final Block CRYSTAL = block("crystal", "Crystal", DIBlockProperties.crystal().noCollision(), CrystalBlock::new, (s) -> {}, CrystalBlockItem::new);
 	public static final BlockEntityType<CrystalBlockEntity> CRYSTAL_ENTITY = blockEntity("crystal", CrystalBlockEntity::new, CRYSTAL);
 	
 	public static Set<DIBlock> all()
@@ -47,6 +50,25 @@ public final class DIBlocks
 	{
 		BLOCKS.add(new DIBlock(block, blockItem, properties));
 		return block;
+	}
+	
+	public static Block block(
+			String id, String englishName,
+			DIBlockProperties blockProperties, Function<DIBlockProperties, Block> blockFunction,
+			Consumer<DIItemSettings> itemSettingsConsumer, BiFunction<Block, DIItemSettings, BlockItem> itemFunction)
+	{
+		final Block block = Registry.register(
+				Registry.BLOCK,
+				DraconicIndustrialization.id(id),
+				blockFunction.apply(blockProperties)
+		);
+		final DIItemSettings itemSettings = new DIItemSettings()
+				.englishName(englishName)
+				.tab(DraconicIndustrialization.CREATIVE_TAB)
+				.datagenFunction(DatagenFunctions.Client.Item.BASIC_MODEL);
+		itemSettingsConsumer.accept(itemSettings);
+		Item blockItem = DIItems.register(id, itemFunction.apply(block, itemSettings), itemSettings);
+		return register(block, blockItem, blockProperties);
 	}
 	
 	public static Block block(String id, String englishName, Function<DIBlockProperties, Block> blockFunction, DIBlockProperties properties, Consumer<DIItemSettings> itemSettings, boolean createItem)

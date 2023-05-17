@@ -4,22 +4,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class CrystalBlockModel extends AnimatedGeoModel<CrystalBlockEntity>
+public class CrystalGeoModel<T extends CrystalAnimatable> extends AnimatedGeoModel<T>
 {
 	@Override
-	public ResourceLocation getModelResource(CrystalBlockEntity crystalBlockEntity)
+	public ResourceLocation getModelResource(T crystalAnimatable)
 	{
 		return DraconicIndustrialization.id("geo/crystal.geo.json");
 	}
 	
 	@Override
-	public ResourceLocation getTextureResource(CrystalBlockEntity crystalBlockEntity)
+	public ResourceLocation getTextureResource(T crystalAnimatable)
 	{
 		return DraconicIndustrialization.id("textures/block/crystal.png");
 	}
 	
 	@Override
-	public ResourceLocation getAnimationResource(CrystalBlockEntity crystalBlockEntity)
+	public ResourceLocation getAnimationResource(T crystalAnimatable)
 	{
 		return DraconicIndustrialization.id("animations/crystal.animation.json");
 	}
