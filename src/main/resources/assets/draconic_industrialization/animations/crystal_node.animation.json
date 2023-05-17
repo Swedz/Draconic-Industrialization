@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.crystal.orb_spin": {
+		"animation.crystal_node.orb_spin": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {

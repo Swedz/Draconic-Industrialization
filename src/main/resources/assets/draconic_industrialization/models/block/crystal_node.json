@@ -1,0 +1,6 @@
+{
+    "parent": "block/block",
+    "textures": {
+        "particle": "draconic_industrialization:block/crystal_node_particle"
+    }
+}
