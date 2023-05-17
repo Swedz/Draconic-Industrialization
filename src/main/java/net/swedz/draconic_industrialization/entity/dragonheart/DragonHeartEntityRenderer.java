@@ -28,8 +28,6 @@ public final class DragonHeartEntityRenderer extends EntityRenderer<DragonHeartE
 	{
 		this.renderHeart(entity, entityYaw, partialTick, matrices, buffer, packedLight);
 		
-		this.renderGlimmer(entity, entityYaw, partialTick, matrices, buffer, packedLight);
-		
 		super.render(entity, entityYaw, partialTick, matrices, buffer, packedLight);
 	}
 	
@@ -46,15 +44,6 @@ public final class DragonHeartEntityRenderer extends EntityRenderer<DragonHeartE
 		
 		matrices.mulPose(Vector3f.YP.rotation(entity.rotation(partialTick)));
 		itemRenderer.render(item, ItemTransforms.TransformType.GROUND, false, matrices, buffer, packedLight, OverlayTexture.NO_OVERLAY, model);
-		
-		matrices.popPose();
-	}
-	
-	private void renderGlimmer(DragonHeartEntity entity, float entityYaw, float partialTick, PoseStack matrices, MultiBufferSource buffer, int packedLight)
-	{
-		matrices.pushPose();
-		
-		// TODO
 		
 		matrices.popPose();
 	}
