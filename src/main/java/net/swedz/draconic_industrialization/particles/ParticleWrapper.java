@@ -5,7 +5,10 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunction;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctionContainer;
 
-public record ParticleWrapper<T extends ParticleOptions>(String id, ParticleFactoryRegistry.PendingParticleFactory<T> provider, ParticleSprite[] sprites, DatagenFunctionContainer<ParticleWrapper> datagenFunctions)
+public record ParticleWrapper<T extends ParticleOptions>(
+		String id, ParticleFactoryRegistry.PendingParticleFactory<T> provider, ParticleSprite[] sprites,
+		DatagenFunctionContainer<ParticleWrapper> datagenFunctions
+)
 {
 	public ParticleWrapper(String id, ParticleFactoryRegistry.PendingParticleFactory<T> provider, ParticleSprite[] sprites)
 	{

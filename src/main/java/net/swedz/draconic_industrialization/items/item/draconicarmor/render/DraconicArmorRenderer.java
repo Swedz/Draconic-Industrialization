@@ -12,7 +12,7 @@ import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 
 public final class DraconicArmorRenderer extends GeoArmorRenderer<DraconicArmorItem>
 {
-	private static final int MAX_LIGHT = 15728640;
+	private static final int MAX_LIGHT  = 15728640;
 	private static final int HALF_LIGHT = MAX_LIGHT / 2;
 	
 	public DraconicArmorRenderer()
