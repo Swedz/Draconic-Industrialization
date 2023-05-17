@@ -40,7 +40,7 @@ public final class DIParticles
 		// Load the class
 	}
 	
-	public static void initializeClient()
+	public static void initClient()
 	{
 		ClientSpriteRegistryCallback.event(InventoryMenu.BLOCK_ATLAS).register((texture, registry) ->
 				WRAPPERS.values().forEach((wrapper) ->

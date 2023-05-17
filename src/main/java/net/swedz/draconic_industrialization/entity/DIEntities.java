@@ -25,7 +25,7 @@ public final class DIEntities
 		// Load the class
 	}
 	
-	public static void initializeClient()
+	public static void initClient()
 	{
 		EntityRendererRegistry.register(DRAGON_HEART, DragonHeartEntityRenderer::new);
 	}

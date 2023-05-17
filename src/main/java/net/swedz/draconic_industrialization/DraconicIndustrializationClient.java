@@ -17,15 +17,11 @@ public final class DraconicIndustrializationClient implements ClientModInitializ
 	@Override
 	public void onInitializeClient()
 	{
-		DIEntities.initializeClient();
-		DIParticles.initializeClient();
+		DIEntities.initClient();
+		DIParticles.initClient();
+		DIItems.initClient();
 		
-		GeoItemRenderer.registerItemRenderer(DIItems.WYVERN_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
-		GeoItemRenderer.registerItemRenderer(DIItems.DRACONIC_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
-		GeoItemRenderer.registerItemRenderer(DIItems.CHAOTIC_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
-		GeoArmorRenderer.registerArmorRenderer(new DraconicArmorRenderer(), DIItems.WYVERN_ARMOR, DIItems.DRACONIC_ARMOR, DIItems.CHAOTIC_ARMOR);
-		
-		//GeoItemRenderer.registerItemRenderer(DIBlocks.CRYSTAL.asItem(), new GeoItemRenderer(new CrystalGeoModel()));
-		//BlockEntityRenderers.register(DIBlocks.CRYSTAL_ENTITY, (d) -> new CrystalBlockRenderer());
+		//GeoItemRenderer.registerItemRenderer(DIBlocks.CRYSTAL_NODE.asItem(), new GeoItemRenderer(new CrystalNodeGeoModel()));
+		//BlockEntityRenderers.register(DIBlocks.CRYSTAL_NODE_ENTITY, (d) -> new CrystalNodeBlockRenderer());
 	}
 }
