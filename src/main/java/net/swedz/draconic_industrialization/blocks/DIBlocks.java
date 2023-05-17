@@ -1,12 +1,17 @@
 package net.swedz.draconic_industrialization.blocks;
 
 import com.google.common.collect.Sets;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
+import net.swedz.draconic_industrialization.blocks.block.crystal.CrystalBlock;
+import net.swedz.draconic_industrialization.blocks.block.crystal.CrystalBlockEntity;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.items.DIItemSettings;
 import net.swedz.draconic_industrialization.items.DIItems;
@@ -30,6 +35,9 @@ public final class DIBlocks
 	
 	public static final Block ADAMANTINE_COIL = materialPart(DIItems.ADAMANTINE, DIMaterialPart.COIL, DIBlockProperties.adamantine().alwaysDropsSelf(), StandardRecipes::apply);
 	
+	public static final Block CRYSTAL = block("crystal", "Crystal", CrystalBlock::new, DIBlockProperties.crystal().noCollision(), (s) -> {}, true);
+	public static final BlockEntityType<CrystalBlockEntity> CRYSTAL_ENTITY = blockEntity("crystal", CrystalBlockEntity::new, CRYSTAL);
+	
 	public static Set<DIBlock> all()
 	{
 		return Set.copyOf(BLOCKS);
@@ -48,11 +56,7 @@ public final class DIBlocks
 				DraconicIndustrialization.id(id),
 				blockFunction.apply(properties)
 		);
-		Item blockItem = null;
-		if(createItem)
-		{
-			blockItem = DIItems.blockItem(id, englishName, block, itemSettings);
-		}
+		Item blockItem = createItem ? DIItems.blockItem(id, englishName, block, itemSettings) : null;
 		return register(block, blockItem, properties);
 	}
 	
@@ -83,6 +87,15 @@ public final class DIBlocks
 	public static Block materialPart(DIMaterial material, DIBlockProperties properties, RecipeGenerator... recipeActions)
 	{
 		return materialPart(material, DIMaterialPart.BLOCK, properties, recipeActions);
+	}
+	
+	public static <T extends BlockEntity> BlockEntityType<T> blockEntity(String id, FabricBlockEntityTypeBuilder.Factory blockEntityFactory, Block... blocks)
+	{
+		return Registry.register(
+				Registry.BLOCK_ENTITY_TYPE,
+				DraconicIndustrialization.id(id),
+				FabricBlockEntityTypeBuilder.create(blockEntityFactory, blocks).build()
+		);
 	}
 	
 	public static void init()

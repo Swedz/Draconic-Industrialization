@@ -3,6 +3,9 @@ package net.swedz.draconic_industrialization;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.swedz.draconic_industrialization.blocks.DIBlocks;
+import net.swedz.draconic_industrialization.blocks.block.crystal.CrystalBlockRenderer;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModel;
@@ -24,5 +27,8 @@ public final class DraconicIndustrializationClient implements ClientModInitializ
 		GeoItemRenderer.registerItemRenderer(DIItems.DRACONIC_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
 		GeoItemRenderer.registerItemRenderer(DIItems.CHAOTIC_ARMOR, new GeoItemRenderer(new DraconicArmorModel()));
 		GeoArmorRenderer.registerArmorRenderer(new DraconicArmorRenderer(), DIItems.WYVERN_ARMOR, DIItems.DRACONIC_ARMOR, DIItems.CHAOTIC_ARMOR);
+		
+		//GeoItemRenderer.registerItemRenderer(DIBlocks.CRYSTAL.asItem(), new GeoItemRenderer(new CrystalBlockModel()));
+		BlockEntityRenderers.register(DIBlocks.CRYSTAL_ENTITY, (d) -> new CrystalBlockRenderer());
 	}
 }

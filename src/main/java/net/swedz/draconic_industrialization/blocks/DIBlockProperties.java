@@ -88,6 +88,17 @@ public final class DIBlockProperties extends FabricBlockSettings
 						.build());
 	}
 	
+	public static DIBlockProperties crystal()
+	{
+		return DIBlockProperties
+				.of(Material.GLASS, MaterialColor.COLOR_GRAY)
+				.sounds(SoundType.GLASS)
+				.hardness(1f).resistance(1f)
+				.requiresTool()
+				.needsPickaxe()
+				.needsDiamond();
+	}
+	
 	private String englishName;
 	
 	private DatagenFunctionContainer<DIBlock> datagenFunctions = new DatagenFunctionContainer()
