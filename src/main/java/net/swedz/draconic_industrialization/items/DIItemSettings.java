@@ -23,10 +23,9 @@ import java.util.Set;
 
 public final class DIItemSettings extends FabricItemSettings
 {
-	public static void draconiumOre(DIItemSettings settings)
+	public static void ore(DIItemSettings settings)
 	{
-		settings.tag("c:ores")
-				.tag("c:draconium_ores");
+		settings.tag("c:ores");
 	}
 	
 	public static void draconicArmor(DIItemSettings settings)
@@ -64,9 +63,9 @@ public final class DIItemSettings extends FabricItemSettings
 		return materialPart;
 	}
 	
-	public DIItemSettings materialPart(DIMaterial material, DIMaterialPart part, RecipeGenerator... recipeActions)
+	public DIItemSettings materialPart(DIMaterial material, DIMaterialPart part, RecipeGenerator... recipeGenerators)
 	{
-		this.materialPart = new MaterialPart(material, part, recipeActions);
+		this.materialPart = new MaterialPart(material, part, recipeGenerators);
 		return this;
 	}
 	

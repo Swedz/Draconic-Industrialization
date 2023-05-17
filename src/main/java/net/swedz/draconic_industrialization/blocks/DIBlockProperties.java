@@ -81,7 +81,7 @@ public final class DIBlockProperties extends FabricBlockSettings
 								BlockLoot.applyExplosionDecay(
 										b.block(),
 										LootItem.lootTableItem(DIItems.DRACONIUM_DUST)
-												.apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5)))
+												.apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4)))
 												.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
 								)
 						)
@@ -94,6 +94,7 @@ public final class DIBlockProperties extends FabricBlockSettings
 				.of(Material.GLASS, MaterialColor.COLOR_GRAY)
 				.sounds(SoundType.GLASS)
 				.hardness(1f).resistance(1f)
+				.noCollision()
 				.requiresTool()
 				.needsPickaxe()
 				.needsDiamond();
