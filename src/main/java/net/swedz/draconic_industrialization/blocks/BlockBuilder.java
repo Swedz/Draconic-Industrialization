@@ -1,8 +1,11 @@
 package net.swedz.draconic_industrialization.blocks;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.swedz.draconic_industrialization.api.MCThingBuilder;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.items.DIItemSettings;
@@ -13,6 +16,7 @@ import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 public final class BlockBuilder extends MCThingBuilder<Block, DIBlockProperties, BlockBuilder>
@@ -42,6 +46,8 @@ public final class BlockBuilder extends MCThingBuilder<Block, DIBlockProperties,
 	private boolean shouldGenerateBasicModel;
 	
 	private BlockItemCreator blockItemCreator;
+	
+	private FabricBlockEntityTypeBuilder.Factory blockEntityFactory;
 	
 	private BlockBuilder scheduleBlockSettings(Consumer<DIBlockProperties> consumer)
 	{
@@ -78,7 +84,8 @@ public final class BlockBuilder extends MCThingBuilder<Block, DIBlockProperties,
 	{
 		this.blockItemCreator = (block) ->
 		{
-			ItemBuilder builder = blockItemCreator.create(block);
+			ItemBuilder builder = blockItemCreator.create(block)
+					.identifiable(id, englishName);
 			scheduledItemSettingsConsumers.forEach(builder::withSettings);
 			return builder;
 		};
@@ -88,8 +95,13 @@ public final class BlockBuilder extends MCThingBuilder<Block, DIBlockProperties,
 	public BlockBuilder withItem()
 	{
 		return this.withItem((block) -> ItemBuilder.create()
-				.identifiable(id, englishName)
 				.creatorBlock(block));
+	}
+	
+	public BlockBuilder withItemCreator(BiFunction<Block, DIItemSettings, Item> creator)
+	{
+		return this.withItem((block) -> ItemBuilder.create()
+				.creator((settings) -> creator.apply(block, settings)));
 	}
 	
 	public BlockBuilder material(DIMaterial material, DIMaterialPart part, RecipeGenerator... recipeGenerators)
@@ -97,7 +109,6 @@ public final class BlockBuilder extends MCThingBuilder<Block, DIBlockProperties,
 		this.identifiable(material.fullId(part), material.fullEnglishName(part));
 		this.generateBasicModel();
 		this.withItem((block) -> ItemBuilder.create()
-				.identifiable(id, englishName)
 				.materialBasic(material, part, recipeGenerators)
 				.creatorBlock(block));
 		return this;
@@ -108,11 +119,26 @@ public final class BlockBuilder extends MCThingBuilder<Block, DIBlockProperties,
 		return this.material(material, DIMaterialPart.BLOCK, recipeGenerators);
 	}
 	
+	public BlockBuilder withBlockEntityFactory(FabricBlockEntityTypeBuilder.Factory blockEntityFactory)
+	{
+		this.blockEntityFactory = blockEntityFactory;
+		return this;
+	}
+	
 	@Override
 	public Block build()
 	{
 		scheduledBlockSettingsConsumers.forEach((consumer) -> consumer.accept(settings));
 		return super.build();
+	}
+	
+	public <T extends BlockEntity> BlockEntityType<T> buildEntity(Class<T> clazz, Block block)
+	{
+		return Registry.register(
+				Registry.BLOCK_ENTITY_TYPE,
+				this.encloseId(),
+				FabricBlockEntityTypeBuilder.create(blockEntityFactory, block).build()
+		);
 	}
 	
 	public interface BlockItemCreator
