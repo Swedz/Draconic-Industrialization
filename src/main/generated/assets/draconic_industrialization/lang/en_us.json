@@ -4,6 +4,11 @@
   "block.draconic_industrialization.crystal_node": "Crystal Node",
   "block.draconic_industrialization.draconium_block": "Block of Draconium",
   "block.draconic_industrialization.draconium_ore": "Draconium Ore",
+  "category.draconic_industrialization.draconic_industrialization": "Draconic Industrialization",
+  "draconic_armor.draconic_industrialization.model_type.null": "Null",
+  "draconic_armor.draconic_industrialization.model_type.strap": "Strap",
+  "draconic_armor.draconic_industrialization.shield_type.barrier": "Barrier",
+  "draconic_armor.draconic_industrialization.shield_type.blobby": "Blobby",
   "ebf_tier.modern_industrialization.adamantine_coil": "Adamantine",
   "item.draconic_industrialization.adamantine_cable": "Adamantine Cable",
   "item.draconic_industrialization.adamantine_dust": "Adamantine Dust",
@@ -36,5 +41,6 @@
   "item.draconic_industrialization.wyvern_armor": "Wyvern Armor",
   "item.draconic_industrialization.wyvern_circuit": "Wyvern Circuit",
   "itemGroup.draconic_industrialization.draconic_industrialization": "Draconic Industrialization",
+  "key.draconic_industrialization.open_draco_menu": "Open Draco Menu",
   "rei_categories.modern_industrialization.electric_blast_furnace_adamantine_coil": "EBF (Adamantine Tier)"
 }

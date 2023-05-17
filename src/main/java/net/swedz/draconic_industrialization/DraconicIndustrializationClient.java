@@ -9,6 +9,7 @@ import net.swedz.draconic_industrialization.blocks.block.crystalnode.CrystalNode
 import net.swedz.draconic_industrialization.blocks.block.crystalnode.CrystalNodeGeoModel;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
+import net.swedz.draconic_industrialization.keybinds.DIKeybinds;
 import net.swedz.draconic_industrialization.particles.DIParticles;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
@@ -18,6 +19,7 @@ public final class DraconicIndustrializationClient implements ClientModInitializ
 	@Override
 	public void onInitializeClient()
 	{
+		DIKeybinds.initClient();
 		DIEntities.initClient();
 		DIParticles.initClient();
 		DIItems.initClient();
