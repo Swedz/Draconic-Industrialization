@@ -9,6 +9,7 @@
         "mi.MIBlastFurnaceTierMixin"
     ],
     "client": [
+        "client.DragonFliesThroughMainMenuMixin",
         "client.LivingEntityRendererMixin",
         "client.PlayerRendererMixin"
     ],
