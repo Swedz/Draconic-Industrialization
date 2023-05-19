@@ -1,7 +1,6 @@
 package net.swedz.draconic_industrialization.module;
 
 import net.minecraft.world.item.ItemStack;
-import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.NBTSerializer;
 import net.swedz.draconic_industrialization.api.NBTTagWrapper;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
@@ -54,20 +53,15 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 	
 	public <M extends DracoModule> M getModuleOrCreate(Class<M> moduleClass)
 	{
-		return this.getModule(moduleClass).orElseGet(() ->
-		{
-			DraconicIndustrialization.LOGGER.info("Creating default module instance for item ({})", moduleClass.getName());
-			M module = DracoModules.create(moduleClass, item);
-			module.deserialize(new NBTTagWrapper());
-			return module;
-		});
+		return this.getModule(moduleClass)
+				.orElseGet(() -> DracoModules.create(moduleClass, item, new NBTTagWrapper()));
 	}
 	
 	@Override
 	public void read(NBTTagWrapper tag)
 	{
 		modules = tag.getList("Modules").stream()
-				.map((nbt) -> DracoModules.create(nbt.getString("Key"), item))
+				.map((nbt) -> DracoModules.create(nbt.getString("Key"), item, nbt))
 				.toList();
 	}
 	

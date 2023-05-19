@@ -1,6 +1,7 @@
 package net.swedz.draconic_industrialization.module.module;
 
 import com.google.common.collect.Maps;
+import net.swedz.draconic_industrialization.api.NBTTagWrapper;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.module.ColorizerDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.ArmorAppearanceDracoModule;
@@ -24,13 +25,17 @@ public final class DracoModules
 		return moduleClass;
 	}
 	
-	public static DracoModule create(String key, DracoItem parentItem)
+	public static DracoModule create(String key, DracoItem parentItem, NBTTagWrapper tag)
 	{
-		return CREATORS_BY_KEY.get(key).create(key, parentItem);
+		return CREATORS_BY_KEY.get(key)
+				.create(key, parentItem)
+				.deserialize(tag);
 	}
 	
-	public static <M extends DracoModule> M create(Class<M> moduleClass, DracoItem parentItem)
+	public static <M extends DracoModule> M create(Class<M> moduleClass, DracoItem parentItem, NBTTagWrapper tag)
 	{
-		return (M) CREATORS_BY_CLASS.get(moduleClass).create(CREATORS_TO_KEY.get(moduleClass), parentItem);
+		return (M) CREATORS_BY_CLASS.get(moduleClass)
+				.create(CREATORS_TO_KEY.get(moduleClass), parentItem)
+				.deserialize(tag);
 	}
 }
