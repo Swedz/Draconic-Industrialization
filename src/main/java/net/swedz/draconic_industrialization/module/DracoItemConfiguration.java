@@ -43,18 +43,17 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 		return tier;
 	}
 	
-	public <M extends DracoModule> Optional<M> getModule(Class<M> moduleClass)
+	public <M extends DracoModule> Optional<M> getModule(DracoModules.ClassReference<M> module)
 	{
 		return modules.stream()
-				.filter((m) -> moduleClass.isAssignableFrom(m.getClass()))
+				.filter((m) -> module.reference().isAssignableFrom(m.getClass()))
 				.map((m) -> (M) m)
 				.findAny();
 	}
 	
-	public <M extends DracoModule> M getModuleOrCreate(Class<M> moduleClass)
+	public <M extends DracoModule> M getModuleOrCreate(DracoModules.ClassReference<M> module)
 	{
-		return this.getModule(moduleClass)
-				.orElseGet(() -> DracoModules.create(moduleClass, item, new NBTTagWrapper()));
+		return this.getModule(module).orElseGet(() -> DracoModules.create(module, item, new NBTTagWrapper()));
 	}
 	
 	@Override
