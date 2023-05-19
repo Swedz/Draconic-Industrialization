@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.dracomenu;
 
+import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -22,9 +23,16 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
 
+import java.util.Map;
+import java.util.function.BiConsumer;
+
 public class DracoMenu extends AbstractContainerMenu
 {
 	public static final MenuType<DracoMenu> TYPE = Registry.register(Registry.MENU, DraconicIndustrialization.id("draco_menu"), new MenuType<>(DracoMenu::new));
+	
+	static BiConsumer<DracoItemStack, DracoItemStack> SELECTED_ITEM_CHANGED_SCREEN_CALLBACK = (ignored1, ignored2) -> {};
+	
+	private final Map<EquipmentSlot, Slot> slotsByEquipment;
 	
 	private DracoItemStack selectedItem = DracoItemStack.EMPTY;
 	
@@ -38,23 +46,29 @@ public class DracoMenu extends AbstractContainerMenu
 		super(TYPE, syncId);
 		
 		//region Create player inventory slots
+		final Map<EquipmentSlot, Slot> equipmentSlots = Maps.newHashMap();
+		
 		{
 			final int startingX = 8;
 			final int startingY = 124;
 			for(int index = 0; index < 4; index++)
 			{
-				final EquipmentSlot slot = InventoryMenu.SLOT_IDS[index];
-				this.addSlot(new DracoPlayerInventoryArmorSlot(player, inventory, 39 - index, startingX, startingY + index * 18, slot));
+				final EquipmentSlot equipmentSlot = InventoryMenu.SLOT_IDS[index];
+				final Slot slot = this.addSlot(new DracoPlayerInventoryArmorSlot(player, inventory, 39 - index, startingX, startingY + index * 18, equipmentSlot));
+				equipmentSlots.put(equipmentSlot, slot);
 			}
 		}
 		
-		this.addSlot(new DracoPlayerInventorySlot(player, inventory, 40, 8, 211)
 		{
-			public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
+			final Slot slot = this.addSlot(new DracoPlayerInventorySlot(player, inventory, 40, 8, 211)
 			{
-				return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
-			}
-		});
+				public Pair<ResourceLocation, ResourceLocation> getNoItemIcon()
+				{
+					return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+				}
+			});
+			equipmentSlots.put(EquipmentSlot.OFFHAND, slot);
+		}
 		
 		{
 			final int startingX = 41;
@@ -73,10 +87,33 @@ public class DracoMenu extends AbstractContainerMenu
 			final int startingY = 182;
 			for(int column = 0; column < 9; column++)
 			{
-				this.addSlot(new DracoPlayerInventorySlot(player, inventory, column, startingX + column * 18, startingY));
+				final Slot slot = this.addSlot(new DracoPlayerInventorySlot(player, inventory, column, startingX + column * 18, startingY));
+				if(inventory.selected == column)
+				{
+					equipmentSlots.put(EquipmentSlot.MAINHAND, slot);
+				}
 			}
 		}
+		
+		slotsByEquipment = Map.copyOf(equipmentSlots);
 		//endregion
+	}
+	
+	public Slot getSlotByEquipmentSlot(EquipmentSlot equipmentSlot)
+	{
+		return slotsByEquipment.get(equipmentSlot);
+	}
+	
+	void setSelectedItem(DracoItemStack itemStack)
+	{
+		final DracoItemStack previous = selectedItem;
+		selectedItem = itemStack;
+		SELECTED_ITEM_CHANGED_SCREEN_CALLBACK.accept(previous, itemStack);
+	}
+	
+	void setSelectedItem(DracoItem item, ItemStack stack, Slot slot)
+	{
+		this.setSelectedItem(new DracoItemStack(item, stack, slot));
 	}
 	
 	public boolean hasSelectedItem()
@@ -106,9 +143,9 @@ public class DracoMenu extends AbstractContainerMenu
 		final Item item = itemStack.getItem();
 		if(slot instanceof DracoPlayerInventorySlot && item instanceof DracoItem dracoItem)
 		{
-			selectedItem = selectedItem.matches(slot) ?
+			this.setSelectedItem(selectedItem.matches(slot) ?
 					DracoItemStack.EMPTY :
-					new DracoItemStack(dracoItem, itemStack, slot);
+					new DracoItemStack(dracoItem, itemStack, slot));
 		}
 	}
 	
