@@ -26,7 +26,7 @@ public class DracoMenu extends AbstractContainerMenu
 {
 	public static final MenuType<DracoMenu> TYPE = Registry.register(Registry.MENU, DraconicIndustrialization.id("draco_menu"), new MenuType<>(DracoMenu::new));
 	
-	DracoPlayerInventorySlot selectedSlot;
+	private DracoItemStack selectedItem = DracoItemStack.EMPTY;
 	
 	public DracoMenu(int syncId, Inventory inventory)
 	{
@@ -79,26 +79,37 @@ public class DracoMenu extends AbstractContainerMenu
 		//endregion
 	}
 	
+	public boolean hasSelectedItem()
+	{
+		return !selectedItem.isEmpty();
+	}
+	
+	public DracoItemStack getSelectedItem()
+	{
+		return selectedItem;
+	}
+	
 	public DracoColor getDisplayColor()
 	{
-		if(selectedSlot != null && selectedSlot.getItem().getItem() instanceof DracoItem dracoItem)
+		if(this.hasSelectedItem())
 		{
-			final DracoItemConfiguration itemConfiguration = dracoItem.dracoConfiguration(selectedSlot.getItem());
+			final DracoItemConfiguration itemConfiguration = selectedItem.item().dracoConfiguration(selectedItem.stack());
 			return itemConfiguration.getModuleOrCreate(DracoModules.COLORIZER).color;
 		}
-		DraconicIndustrialization.LOGGER.warn("Could not get display color for the draco menu... This shouldn't have been called at this time");
+		DraconicIndustrialization.LOGGER.warn("Failed to get display color for the draco menu");
 		return DracoColor.from(DracoTier.DRACONIC);
 	}
 	
 	private void slotClicked(Slot slot)
 	{
-		ItemStack itemStack = slot.getItem();
-		Item item = itemStack.getItem();
-		if(slot instanceof DracoPlayerInventorySlot dracoSlot && item instanceof DracoItem)
+		final ItemStack itemStack = slot.getItem();
+		final Item item = itemStack.getItem();
+		if(slot instanceof DracoPlayerInventorySlot && item instanceof DracoItem dracoItem)
 		{
-			selectedSlot = slot.equals(selectedSlot) ? null : dracoSlot;
+			selectedItem = selectedItem.matches(slot) ?
+					DracoItemStack.EMPTY :
+					new DracoItemStack(dracoItem, itemStack, slot);
 		}
-		DraconicIndustrialization.LOGGER.info("MENU clicked slot {} with item {}", slot.index, Registry.ITEM.getKey(item));
 	}
 	
 	@Override

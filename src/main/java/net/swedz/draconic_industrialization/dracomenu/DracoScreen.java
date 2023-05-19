@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
-import net.swedz.draconic_industrialization.api.tier.DracoTier;
+import net.swedz.draconic_industrialization.api.tier.DracoColor;
 
 public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 {
@@ -39,6 +39,9 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	{
 		super.render(matrices, mouseX, mouseY, partialTick);
 		
+		// TODO
+		//  make entity render as if its wearing/holding the selected item or default to the actually worn/hold item
+		//  make this fade in when draco item is selected
 		int posX = leftPos - 25;
 		int posY = topPos + 75;
 		InventoryScreen.renderEntityInInventory(posX, posY, 30, (float) posX - mouseX, (float) posY - 50 - mouseY, minecraft.player);
@@ -52,11 +55,14 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		
-		RenderSystem.setShaderTexture(0, BACKGROUND_TOP_BACKGROUND);
-		this.blit(matrices, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-		
-		RenderSystem.setShaderTexture(0, BACKGROUND_TOP_BORDER);
-		this.blit(matrices, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		if(menu.hasSelectedItem())
+		{
+			RenderSystem.setShaderTexture(0, BACKGROUND_TOP_BACKGROUND);
+			this.blit(matrices, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+			
+			RenderSystem.setShaderTexture(0, BACKGROUND_TOP_BORDER);
+			this.blit(matrices, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		}
 		
 		RenderSystem.setShaderTexture(0, BACKGROUND_BOTTOM);
 		this.blit(matrices, leftPos, topPos, 0, 0, imageWidth, imageHeight);
@@ -67,10 +73,10 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	{
 		super.renderSlot(matrices, slot);
 		
-		if(slot.equals(menu.selectedSlot))
+		if(menu.getSelectedItem().matches(slot))
 		{
-			float[] rgb = DracoTier.DRACONIC.defaultRGB();
-			RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], 1);
+			final DracoColor color = menu.getDisplayColor();
+			RenderSystem.setShaderColor(color.red, color.green, color.blue, 1);
 			RenderSystem.setShaderTexture(0, SELECTED_SLOT_OVERLAY);
 			blit(matrices, slot.x, slot.y, this.getBlitOffset(), 0, 0, 16, 16, 16, 16);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
