@@ -12,8 +12,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmor;
-import net.swedz.draconic_industrialization.tags.DITags;
+import net.swedz.draconic_industrialization.api.tier.DracoColor;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorShieldType;
+import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
+import net.swedz.draconic_industrialization.module.module.DracoModules;
 
 @Environment(EnvType.CLIENT)
 public final class DraconicArmorShieldLayer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M>
@@ -32,16 +35,17 @@ public final class DraconicArmorShieldLayer<T extends LivingEntity, M extends En
 	)
 	{
 		final ItemStack chestplateItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-		if(!livingEntity.isInvisible() && chestplateItem.is(DITags.Items.DRACONIC_ARMOR))
+		if(!livingEntity.isInvisible() && chestplateItem.getItem() instanceof DraconicArmorItem armorItem)
 		{
-			final DraconicArmor draconicArmor = DraconicArmor.fromItemStack(chestplateItem);
-			final DraconicArmor.Color color = draconicArmor.color;
+			final DracoItemConfiguration configuration = armorItem.dracoConfiguration(chestplateItem);
+			final DracoColor color = configuration.getModuleOrCreate(DracoModules.COLORIZER).color;
+			final DraconicArmorShieldType shieldType = configuration.getModuleOrCreate(DracoModules.ARMOR_APPERANCE).shield;
 			
 			float tick = (float) livingEntity.tickCount + partialTick;
 			
 			EntityModel<T> entityModel = this.getParentModel();
 			entityModel.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTick);
-			VertexConsumer vertexConsumer = ShieldRenderTypes.getVertexConsumer(draconicArmor.shieldType, buffer, tick);
+			VertexConsumer vertexConsumer = ShieldRenderTypes.getVertexConsumer(shieldType, buffer, tick);
 			entityModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 			entityModel.renderToBuffer(
 					matrices, vertexConsumer,

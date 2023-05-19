@@ -1,7 +1,7 @@
 package net.swedz.draconic_industrialization.datagen.client;
 
-import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmorModelType;
-import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmorShieldType;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModelType;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorShieldType;
 import net.swedz.draconic_industrialization.keybinds.DIKeybinds;
 
 import java.util.Map;
@@ -16,6 +16,9 @@ final class LangDatagen
 		// Keybinds
 		map.put("category.draconic_industrialization.draconic_industrialization", "Draconic Industrialization");
 		DIKeybinds.all().forEach((bind) -> map.put(bind.keyMapping().getName(), bind.englishName()));
+		
+		// Draco screen
+		map.put("screen.draconic_industrialization.draco", "Draco Configurator");
 		
 		// Armor model types
 		for(DraconicArmorModelType value : DraconicArmorModelType.values())

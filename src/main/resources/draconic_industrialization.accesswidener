@@ -15,3 +15,9 @@ accessible field net/minecraft/client/renderer/RenderStateShard LIGHTMAP Lnet/mi
 accessible field net/minecraft/client/renderer/RenderStateShard OVERLAY Lnet/minecraft/client/renderer/RenderStateShard$OverlayStateShard;
 accessible field net/minecraft/client/renderer/RenderStateShard ADDITIVE_TRANSPARENCY Lnet/minecraft/client/renderer/RenderStateShard$TransparencyStateShard;
 accessible field net/minecraft/client/renderer/RenderStateShard EQUAL_DEPTH_TEST Lnet/minecraft/client/renderer/RenderStateShard$DepthTestStateShard;
+
+accessible field net/minecraft/world/inventory/InventoryMenu SLOT_IDS [Lnet/minecraft/world/entity/EquipmentSlot;
+accessible field net/minecraft/world/inventory/InventoryMenu TEXTURE_EMPTY_SLOTS [Lnet/minecraft/resources/ResourceLocation;
+accessible field net/minecraft/world/inventory/Slot slot I
+
+extendable method net/minecraft/client/gui/screens/inventory/AbstractContainerScreen renderSlot (Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/inventory/Slot;)V

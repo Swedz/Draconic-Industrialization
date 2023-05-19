@@ -1,6 +1,6 @@
-package net.swedz.draconic_industrialization.items.item.draconicarmor.data;
+package net.swedz.draconic_industrialization.items.item.draconicarmor;
 
-import net.swedz.draconic_industrialization.api.DracoTier;
+import net.swedz.draconic_industrialization.api.tier.DracoTier;
 
 public enum DraconicArmorModelType
 {

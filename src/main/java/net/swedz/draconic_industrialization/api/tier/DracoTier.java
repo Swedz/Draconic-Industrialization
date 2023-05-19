@@ -1,4 +1,4 @@
-package net.swedz.draconic_industrialization.api;
+package net.swedz.draconic_industrialization.api.tier;
 
 public enum DracoTier
 {

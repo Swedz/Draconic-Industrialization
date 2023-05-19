@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
-import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmorShieldType;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorShieldType;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package net.swedz.draconic_industrialization.items.item.draconicarmor.data;
+package net.swedz.draconic_industrialization.items.item.draconicarmor;
 
 public enum DraconicArmorShieldType
 {

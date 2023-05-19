@@ -3,7 +3,7 @@ package net.swedz.draconic_industrialization.items.item.draconicarmor.render;
 import net.minecraft.resources.ResourceLocation;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
-import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmorModelType;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModelType;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public final class DraconicArmorItemModel extends AnimatedGeoModel<DraconicArmorItem>

@@ -10,9 +10,12 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.swedz.draconic_industrialization.items.item.draconicarmor.data.DraconicArmor;
+import net.swedz.draconic_industrialization.api.tier.DracoColor;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
+import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorShieldType;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.render.shield.ShieldRenderTypes;
-import net.swedz.draconic_industrialization.tags.DITags;
+import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
+import net.swedz.draconic_industrialization.module.module.DracoModules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -33,15 +36,16 @@ public class PlayerRendererMixin
 	)
 	{
 		final ItemStack chestplateItem = player.getItemBySlot(EquipmentSlot.CHEST);
-		if(!player.isInvisible() && chestplateItem.is(DITags.Items.DRACONIC_ARMOR))
+		if(!player.isInvisible() && chestplateItem.getItem() instanceof DraconicArmorItem armorItem)
 		{
-			final DraconicArmor draconicArmor = DraconicArmor.fromItemStack(chestplateItem);
-			final DraconicArmor.Color color = draconicArmor.color;
+			final DracoItemConfiguration configuration = armorItem.dracoConfiguration(chestplateItem);
+			final DracoColor color = configuration.getModuleOrCreate(DracoModules.COLORIZER).color;
+			final DraconicArmorShieldType shieldType = configuration.getModuleOrCreate(DracoModules.ARMOR_APPERANCE).shield;
 			
 			float partialTick = Minecraft.getInstance().getFrameTime();
 			float tick = (float) player.tickCount + partialTick;
 			
-			final VertexConsumer vertexConsumer = ShieldRenderTypes.getVertexConsumer(draconicArmor.shieldType, buffer, player.tickCount + partialTick);
+			final VertexConsumer vertexConsumer = ShieldRenderTypes.getVertexConsumer(shieldType, buffer, player.tickCount + partialTick);
 			rendererArm.render(
 					matrices, vertexConsumer,
 					packedLight, OverlayTexture.NO_OVERLAY,

@@ -6,7 +6,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
-import net.swedz.draconic_industrialization.api.DracoTier;
+import net.swedz.draconic_industrialization.api.tier.DracoTier;
+import net.swedz.draconic_industrialization.module.DracoItem;
 import software.bernie.example.item.GeckoArmorItem;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -18,7 +19,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatable
+public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatable, DracoItem
 {
 	private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 	
@@ -30,6 +31,7 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 		this.tier = tier;
 	}
 	
+	@Override
 	public DracoTier tier()
 	{
 		return tier;

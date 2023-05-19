@@ -42,5 +42,6 @@
   "item.draconic_industrialization.wyvern_circuit": "Wyvern Circuit",
   "itemGroup.draconic_industrialization.draconic_industrialization": "Draconic Industrialization",
   "key.draconic_industrialization.open_draco_menu": "Open Draco Menu",
-  "rei_categories.modern_industrialization.electric_blast_furnace_adamantine_coil": "EBF (Adamantine Tier)"
+  "rei_categories.modern_industrialization.electric_blast_furnace_adamantine_coil": "EBF (Adamantine Tier)",
+  "screen.draconic_industrialization.draco": "Draco Configurator"
 }

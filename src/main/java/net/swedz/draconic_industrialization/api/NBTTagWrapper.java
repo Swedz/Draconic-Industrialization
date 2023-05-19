@@ -1,6 +1,11 @@
 package net.swedz.draconic_industrialization.api;
 
+import com.google.common.collect.Lists;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+
+import java.util.List;
 
 public record NBTTagWrapper(CompoundTag tag)
 {
@@ -42,5 +47,41 @@ public record NBTTagWrapper(CompoundTag tag)
 	public void setFloat(String key, float value)
 	{
 		tag.putFloat(key, value);
+	}
+	
+	public String getString(String key)
+	{
+		return tag.getString(key);
+	}
+	
+	public String getStringOrDefault(String key, String defaultValue)
+	{
+		return tag.contains(key) ? tag.getString(key) : defaultValue;
+	}
+	
+	public void setString(String key, String value)
+	{
+		tag.putString(key, value);
+	}
+	
+	public List<NBTTagWrapper> getList(String key)
+	{
+		final List<NBTTagWrapper> tags = Lists.newArrayList();
+		if(tag.contains(key))
+		{
+			ListTag list = tag.getList(key, Tag.TAG_COMPOUND);
+			for(int i = 0; i < list.size(); i++)
+			{
+				tags.add(new NBTTagWrapper(list.getCompound(i)));
+			}
+		}
+		return tags;
+	}
+	
+	public void setList(String key, List<NBTTagWrapper> value)
+	{
+		ListTag list = new ListTag();
+		value.forEach((nbt) -> list.add(nbt.tag()));
+		tag.put(key, list);
 	}
 }
