@@ -12,6 +12,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
+import org.apache.commons.compress.utils.Lists;
+
+import java.util.List;
+import java.util.Random;
 
 public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 {
@@ -25,6 +29,8 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	private static final ResourceLocation SELECTED_SLOT_OVERLAY = DraconicIndustrialization.id("textures/gui/draco_menu/selected_slot.png");
 	
 	private long tick;
+	
+	private final List<DracoScreenParticle> particles = Lists.newArrayList();
 	
 	private DracoDummyPlayer playerRender;
 	
@@ -46,6 +52,23 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	{
 		tick++;
 		playerRender.tickCount++;
+		
+		if(menu.hasSelectedItem())
+		{
+			if(tick % 10 == 0)
+			{
+				float x = 36 + (new Random().nextFloat(42));
+				particles.add(new DracoScreenParticle(menu, x, -7));
+			}
+			
+			particles.forEach(DracoScreenParticle::tick);
+			
+			particles.removeIf((p) -> p.yoff >= 117);
+		}
+		else if(!particles.isEmpty())
+		{
+			particles.clear();
+		}
 	}
 	
 	@Override
@@ -62,6 +85,8 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		
 		if(menu.hasSelectedItem())
 		{
+			particles.forEach((p) -> p.render(this, matrices, partialTick, leftPos, topPos));
+			
 			int posX = leftPos + 60;
 			int posY = topPos + 88;
 			InventoryScreen.renderEntityInInventory(posX, posY, 30, (float) posX - mouseX, (float) posY - 50 - mouseY, playerRender);
