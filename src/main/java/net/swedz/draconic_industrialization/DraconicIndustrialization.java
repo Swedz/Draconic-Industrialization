@@ -42,13 +42,10 @@ public final class DraconicIndustrialization implements ModInitializer
 		DIParticles.init();
 		
 		ServerPlayNetworking.registerGlobalReceiver(DIPacketChannels.ClientToServer.REQUEST_DRACO_MENU, (server, player, handler, buf, responseSender) ->
-		{
-			DraconicIndustrialization.LOGGER.info("opening menu called");
-			player.openMenu(new SimpleMenuProvider(
-					DracoMenu::new,
-					Component.translatable("screen.draconic_industrialization.draco")
-			));
-		});
+				player.openMenu(new SimpleMenuProvider(
+						DracoMenu::new,
+						Component.translatable("screen.draconic_industrialization.draco")
+				)));
 	}
 	
 	@Override

@@ -107,29 +107,6 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		{
 			final DracoColor color = menu.getDisplayColor();
 			
-			/*{
-				float minX = leftPos + 35;
-				float minY = topPos + 2;
-				float maxX = minX + 172;
-				float maxY = minY + 115;
-				
-				RenderSystem.enableBlend();
-				RenderSystem.disableTexture();
-				RenderSystem.defaultBlendFunc();
-				RenderSystem.setShader(GameRenderer::getRendertypeEndPortalShader);
-				RenderSystem.setShaderTexture(0, TheEndPortalRenderer.END_PORTAL_LOCATION);
-				Matrix4f matrix = matrices.last().pose();
-				MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-				BufferBuilder buffer = (BufferBuilder) bufferSource.getBuffer(RenderType.endPortal());
-				buffer.vertex(matrix, minX, maxY, 0f).endVertex();
-				buffer.vertex(matrix, maxX, maxY, 0f).endVertex();
-				buffer.vertex(matrix, maxX, minY, 0f).endVertex();
-				buffer.vertex(matrix, minX, minY, 0f).endVertex();
-				BufferUploader.drawWithShader(buffer.end());
-				RenderSystem.enableTexture();
-				RenderSystem.disableBlend();
-			}*/
-			
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			RenderSystem.setShaderTexture(0, BACKGROUND_TOP_BACKGROUND);
