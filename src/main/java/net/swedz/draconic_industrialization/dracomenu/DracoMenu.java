@@ -30,6 +30,11 @@ public final class DracoMenu extends AbstractContainerMenu
 {
 	public static final MenuType<DracoMenu> TYPE = Registry.register(Registry.MENU, DraconicIndustrialization.id("draco_menu"), new MenuType<>(DracoMenu::new));
 	
+	public static void init()
+	{
+		// Load the class
+	}
+	
 	static BiConsumer<DracoItemStack, DracoItemStack> SELECTED_ITEM_CHANGED_SCREEN_CALLBACK = (ignored1, ignored2) ->
 	{
 	};

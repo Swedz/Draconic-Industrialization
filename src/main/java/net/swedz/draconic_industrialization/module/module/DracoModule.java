@@ -1,11 +1,11 @@
 package net.swedz.draconic_industrialization.module.module;
 
+import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 

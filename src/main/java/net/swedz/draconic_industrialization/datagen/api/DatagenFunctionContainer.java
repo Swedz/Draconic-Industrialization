@@ -1,9 +1,9 @@
 package net.swedz.draconic_industrialization.datagen.api;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.server.packs.resources.ResourceProvider;
-import org.apache.commons.compress.utils.Lists;
 
 import java.io.IOException;
 import java.util.Comparator;

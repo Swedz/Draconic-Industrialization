@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.datagen.api;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.data.CachedOutput;
 import net.swedz.draconic_industrialization.datagen.client.functions.block.BasicBlockModelDatagenFunction;
@@ -10,7 +11,6 @@ import net.swedz.draconic_industrialization.datagen.server.functions.block.Block
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialRecipeDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemMaterialTagDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.item.ItemTagDatagenFunction;
-import org.apache.commons.compress.utils.Lists;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

@@ -1,6 +1,6 @@
 package net.swedz.draconic_industrialization.module.module.grid;
 
-import org.apache.commons.compress.utils.Lists;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 

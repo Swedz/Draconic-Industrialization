@@ -3,9 +3,11 @@ package net.swedz.draconic_industrialization.dracomenu;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
@@ -19,6 +21,8 @@ public final class DracoMenuPackets
 {
 	public static void initServer()
 	{
+		ServerPlayNetworking.registerGlobalReceiver(DIPacketChannels.ClientToServer.DRACO_MENU_REQUEST_OPEN, DracoMenuPackets::handleClientRequestOpen);
+		
 		ServerPlayNetworking.registerGlobalReceiver(DIPacketChannels.ClientToServer.DRACO_MENU_INSERT_ITEM, (server, player, handler, packet, responseSender) ->
 		{
 			if(validateClientInsertItem(server, player, handler, packet, responseSender))
@@ -34,6 +38,14 @@ public final class DracoMenuPackets
 				handleClientTakeItem(server, player, handler, packet, responseSender);
 			}
 		});
+	}
+	
+	private static void handleClientRequestOpen(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf packet, PacketSender responseSender)
+	{
+		player.openMenu(new SimpleMenuProvider(
+				DracoMenu::new,
+				Component.translatable("screen.draconic_industrialization.draco")
+		));
 	}
 	
 	private static boolean validateClientInsertItem(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf packet, PacketSender responseSender)

@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.blocks;
 
+import com.google.common.collect.Lists;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
@@ -13,7 +14,6 @@ import net.swedz.draconic_industrialization.items.DIMaterial;
 import net.swedz.draconic_industrialization.items.ItemBuilder;
 import net.swedz.draconic_industrialization.material.DIMaterialPart;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 import java.util.function.BiFunction;

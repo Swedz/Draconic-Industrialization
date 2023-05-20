@@ -16,9 +16,6 @@ import net.swedz.draconic_industrialization.api.MCThingBuilder;
 import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.material.DIMaterialPart;
 import net.swedz.draconic_industrialization.recipes.RecipeGenerator;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
-import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
 public final class ItemBuilder extends MCThingBuilder<Item, DIItemSettings, ItemBuilder>
 {
@@ -52,26 +49,6 @@ public final class ItemBuilder extends MCThingBuilder<Item, DIItemSettings, Item
 	{
 		Registry.register(Registry.ITEM, this.encloseId(), item);
 		DIItems.include(this, new DIItem(item, settings));
-	}
-	
-	private GeoItemRenderer itemRenderer;
-	private GeoArmorRenderer armorRenderer;
-	
-	public ItemBuilder withItemRenderer(GeoItemRenderer itemRenderer)
-	{
-		this.itemRenderer = itemRenderer;
-		return this;
-	}
-	
-	public ItemBuilder withItemRenderer(AnimatedGeoModel itemModel)
-	{
-		return this.withItemRenderer(new GeoItemRenderer(itemModel));
-	}
-	
-	public ItemBuilder withArmorRenderer(GeoArmorRenderer armorRenderer)
-	{
-		this.armorRenderer = armorRenderer;
-		return this;
 	}
 	
 	public ItemBuilder excludeFromCreativeTab()
@@ -123,17 +100,5 @@ public final class ItemBuilder extends MCThingBuilder<Item, DIItemSettings, Item
 	public ItemBuilder creatorBlock(Block block)
 	{
 		return this.creator((s) -> new BlockItem(block, s));
-	}
-	
-	public void registerRenderers(Item item)
-	{
-		if(itemRenderer != null)
-		{
-			GeoItemRenderer.registerItemRenderer(item, itemRenderer);
-		}
-		if(armorRenderer != null)
-		{
-			GeoArmorRenderer.registerArmorRenderer(armorRenderer, item);
-		}
 	}
 }

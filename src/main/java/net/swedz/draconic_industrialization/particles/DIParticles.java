@@ -1,10 +1,8 @@
 package net.swedz.draconic_industrialization.particles;
 
 import com.google.common.collect.Maps;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -20,17 +18,17 @@ public final class DIParticles
 {
 	private static final Map<SimpleParticleType, ParticleWrapper> WRAPPERS = Maps.newHashMap();
 	
-	public static final SimpleParticleType HEART_SPARKLE = create("heart_sparkle", FabricParticleTypes.simple(), FlameParticle.Provider::new, new ParticleSprite("particle/heart_sparkle", "heart_sparkle"));
+	public static final SimpleParticleType HEART_SPARKLE = create("heart_sparkle", FabricParticleTypes.simple(), new ParticleSprite("particle/heart_sparkle", "heart_sparkle"));
 	
 	public static Collection<ParticleWrapper> all()
 	{
 		return WRAPPERS.values();
 	}
 	
-	public static <T extends ParticleOptions> SimpleParticleType create(String id, SimpleParticleType particle, ParticleFactoryRegistry.PendingParticleFactory<T> provider, ParticleSprite... sprites)
+	public static <T extends ParticleOptions> SimpleParticleType create(String id, SimpleParticleType particle, ParticleSprite... sprites)
 	{
 		Registry.register(Registry.PARTICLE_TYPE, DraconicIndustrialization.id(id), particle);
-		WRAPPERS.put(particle, new ParticleWrapper(id, provider, sprites)
+		WRAPPERS.put(particle, new ParticleWrapper(id, sprites)
 				.datagenFunction(DatagenFunctions.Client.Particle.TEXTURE));
 		return particle;
 	}
@@ -46,7 +44,5 @@ public final class DIParticles
 				WRAPPERS.values().forEach((wrapper) ->
 						List.of(wrapper.sprites()).forEach((sprite) ->
 								registry.register(sprite.asset()))));
-		
-		WRAPPERS.forEach((type, wrapper) -> ParticleFactoryRegistry.getInstance().register(type, wrapper.provider()));
 	}
 }

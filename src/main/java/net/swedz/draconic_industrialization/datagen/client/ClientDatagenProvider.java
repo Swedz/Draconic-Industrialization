@@ -1,6 +1,7 @@
 package net.swedz.draconic_industrialization.datagen.client;
 
 import aztech.modern_industrialization.machines.blockentities.multiblocks.ElectricBlastFurnaceBlockEntity.Tier;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -23,7 +24,6 @@ import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.mi.DIBlastFurnaceTiers;
 import net.swedz.draconic_industrialization.particles.DIParticles;
 import net.swedz.draconic_industrialization.particles.ParticleWrapper;
-import org.apache.commons.compress.utils.Lists;
 
 import java.io.File;
 import java.io.IOException;

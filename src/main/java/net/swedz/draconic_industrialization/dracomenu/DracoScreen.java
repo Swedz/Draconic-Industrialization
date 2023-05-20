@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.dracomenu;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -24,7 +25,6 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
-import org.apache.commons.compress.utils.Lists;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.Color;
