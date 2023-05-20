@@ -19,7 +19,7 @@ public final class DIKeybinds
 	private static final Set<DIKeybind> KEYBINDS = Sets.newHashSet();
 	
 	public static final KeyMapping OPEN_DRACO_MENU = keyboard("open_draco_menu", "Open Draco Menu", GLFW.GLFW_KEY_G, true, (client) ->
-			ClientPlayNetworking.send(DIPacketChannels.ClientToServer.REQUEST_DRACO_MENU, PacketByteBufs.empty()));
+			ClientPlayNetworking.send(DIPacketChannels.ClientToServer.DRACO_MENU_REQUEST_OPEN, PacketByteBufs.empty()));
 	
 	public static Set<DIKeybind> all()
 	{

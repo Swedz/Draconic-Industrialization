@@ -2,22 +2,34 @@ package net.swedz.draconic_industrialization.dracomenu;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
-import net.swedz.draconic_industrialization.module.module.grid.DracoGridSize;
+import net.swedz.draconic_industrialization.dracomenu.grid.DracoMenuGridHelper;
+import net.swedz.draconic_industrialization.dracomenu.render.DracoDummyPlayer;
+import net.swedz.draconic_industrialization.dracomenu.render.DracoScreenParticle;
+import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
+import net.swedz.draconic_industrialization.module.DracoItem;
+import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
+import net.swedz.draconic_industrialization.packet.DIPacketChannels;
 import org.apache.commons.compress.utils.Lists;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
@@ -28,6 +40,7 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	
 	private static final Color TILE_COLOR_0 = new Color(63, 63, 63, 255);
 	private static final Color TILE_COLOR_1 = new Color(40, 40, 40, 255);
+	private static final Color TILE_HOVER_COLOR = new Color(255, 255, 255, 128);
 	
 	private static final ResourceLocation SELECTED_SLOT_OVERLAY = DraconicIndustrialization.id("textures/gui/draco_menu/selected_slot.png");
 	
@@ -47,7 +60,55 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		imageHeight = 235;
 		
 		playerRender = new DracoDummyPlayer(Minecraft.getInstance().player);
-		playerRender.pickDefaultSelectedItem(menu).ifPresent(menu::setSelectedItem);
+		playerRender.updateDueToSelectedItemChange(menu.getSelectedItem()); // we have to call this because SELECTED_ITEM_CHANGED_SCREEN_CALLBACK only just now got initialized and this is initialized AFTER the menu is initialized
+	}
+	
+	private DracoMenuGridHelper gridHelper()
+	{
+		return new DracoMenuGridHelper(menu.getSelectedItem().item().gridSize(), leftPos, topPos, 16);
+	}
+	
+	private boolean clickedDracoGridSlot(DracoMenuGridHelper gridHelper, int slotX, int slotY, Optional<DracoGridEntry> optionalEntry)
+	{
+		boolean hasCarried = !menu.getCarried().isEmpty();
+		if(hasCarried && menu.getCarried().getItem() instanceof DracoModuleItem moduleItem && optionalEntry.isEmpty())
+		{
+			FriendlyByteBuf packet = PacketByteBufs.create();
+			packet.writeInt(slotX);
+			packet.writeInt(slotY);
+			//packet.writeItem(menu.getCarried()); // this is likely unnecessary, since the server knows what your carried item is
+			ClientPlayNetworking.send(DIPacketChannels.ClientToServer.DRACO_MENU_INSERT_ITEM, packet);
+			return true;
+		}
+		else if(!hasCarried && optionalEntry.isPresent())
+		{
+			FriendlyByteBuf packet = PacketByteBufs.create();
+			packet.writeInt(slotX);
+			packet.writeInt(slotY);
+			ClientPlayNetworking.send(DIPacketChannels.ClientToServer.DRACO_MENU_TAKE_ITEM, packet);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean mouseClicked(double mx, double my, int button)
+	{
+		if(button == GLFW.GLFW_MOUSE_BUTTON_LEFT && menu.hasSelectedItem())
+		{
+			int mouseX = (int) mx;
+			int mouseY = (int) my;
+			
+			final DracoMenuGridHelper gridHelper = this.gridHelper();
+			if(gridHelper.contains(mouseX, mouseY))
+			{
+				DracoItemConfiguration configuration = menu.getSelectedItemConfiguration();
+				int slotX = gridHelper.slotXAt(mouseX);
+				int slotY = gridHelper.slotYAt(mouseY);
+				return this.clickedDracoGridSlot(gridHelper, slotX, slotY, configuration.grid().get(slotX, slotY));
+			}
+		}
+		return super.mouseClicked(mx, my, button);
 	}
 	
 	@Override
@@ -58,6 +119,13 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		
 		if(menu.hasSelectedItem())
 		{
+			if(menu.getSelectedItem().stack().isEmpty() || !(menu.getSelectedItem().stack().getItem() instanceof DracoItem))
+			{
+				menu.setSelectedItem(DracoItemStack.EMPTY);
+				DraconicIndustrialization.LOGGER.error("Somehow someone changed our selected item... that wasn't very kind of you!");
+				return;
+			}
+			
 			if(tick % 10 == 0)
 			{
 				float x = 36 + (new Random().nextFloat(42));
@@ -81,6 +149,28 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		//font.draw(matrices, playerInventoryTitle, (float) inventoryLabelX, (float) inventoryLabelY, 4210752);
 	}
 	
+	private void renderPlayerPreview(int mouseX, int mouseY)
+	{
+		int previewPosX = leftPos + 60;
+		int previewPosY = topPos + 88;
+		InventoryScreen.renderEntityInInventory(previewPosX, previewPosY, 30, (float) previewPosX - mouseX, (float) previewPosY - 50 - mouseY, playerRender);
+	}
+	
+	@Override
+	protected void renderTooltip(PoseStack matrices, int mouseX, int mouseY)
+	{
+		super.renderTooltip(matrices, mouseX, mouseY);
+		
+		if(menu.hasSelectedItem() && menu.getCarried().isEmpty())
+		{
+			final DracoMenuGridHelper gridHelper = this.gridHelper();
+			final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
+			
+			itemConfiguration.grid().get(gridHelper.slotXAt(mouseX), gridHelper.slotYAt(mouseY)).ifPresent((entry) ->
+					this.renderComponentTooltip(matrices, entry.module().tooltip(), mouseX, mouseY));
+		}
+	}
+	
 	@Override
 	public void render(PoseStack matrices, int mouseX, int mouseY, float partialTick)
 	{
@@ -90,12 +180,40 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		{
 			particles.forEach((p) -> p.render(this, matrices, partialTick, leftPos, topPos));
 			
-			int posX = leftPos + 60;
-			int posY = topPos + 88;
-			InventoryScreen.renderEntityInInventory(posX, posY, 30, (float) posX - mouseX, (float) posY - 50 - mouseY, playerRender);
+			this.renderPlayerPreview(mouseX, mouseY);
 		}
 		
 		this.renderTooltip(matrices, mouseX, mouseY);
+	}
+	
+	private void renderGrid(PoseStack matrices, int mouseX, int mouseY, DracoColor color, DracoItemConfiguration itemConfiguration)
+	{
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+		
+		final DracoMenuGridHelper gridHelper = this.gridHelper();
+		
+		fill(matrices, gridHelper.renderStartX() - 1, gridHelper.renderStartY() - 1, gridHelper.renderEndX() + 1, gridHelper.renderEndY() + 1, color.toRGB());
+		
+		for(int coordX = 0; coordX < gridHelper.size().width(); coordX++)
+		{
+			for(int coordY = 0; coordY < gridHelper.size().height(); coordY++)
+			{
+				int x = gridHelper.slotStartX(coordX, coordY);
+				int mx = gridHelper.slotEndX(coordX, coordY);
+				int y = gridHelper.slotStartY(coordX, coordY);
+				int my = gridHelper.slotEndY(coordX, coordY);
+				
+				fill(matrices, x, y, mx, my, (gridHelper.shouldUseAltTile(coordX, coordY) ? TILE_COLOR_0 : TILE_COLOR_1).getRGB());
+				
+				itemConfiguration.grid().getExactly(coordX, coordY).ifPresent((entry) ->
+						itemRenderer.renderGuiItem(new ItemStack(entry.module().reference().item()), x, y));
+				
+				if(gridHelper.isHovering(coordX, coordY, mouseX, mouseY))
+				{
+					renderSlotHighlight(matrices, x, y, this.getBlitOffset());
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -117,34 +235,7 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 			RenderSystem.setShaderTexture(0, BACKGROUND_TOP_BORDER);
 			this.blit(matrices, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 			
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				
-				final DracoGridSize gridSize = menu.getSelectedItem().item().gridSize();
-				
-				final int gridMinXPos = leftPos + 87;
-				final int gridMinYPos = topPos + 4;
-				final int gridMaxWidth = 118;
-				final int gridMaxHeight = 110;
-				final int gridWidth = gridSize.width() * 16;
-				final int gridHeight = gridSize.height() * 16;
-				
-				final int gridStartX = gridMinXPos + gridMaxWidth / 2 - gridWidth / 2;
-				final int gridStartY = gridMinYPos + gridMaxHeight / 2 - gridHeight / 2;
-				
-				GuiComponent.fill(matrices, gridStartX - 1, gridStartY - 1, gridStartX + gridWidth + 1, gridStartY + gridHeight + 1, color.toRGB());
-				
-				for(int coordX = 0; coordX < gridSize.width(); coordX++)
-				{
-					for(int coordY = 0; coordY < gridSize.height(); coordY++)
-					{
-						int x = gridStartX + coordX * 16;
-						int y = gridStartY + coordY * 16;
-						boolean useAltTile = (coordX + (coordY % 2 == 0 ? 0 : 1)) % 2 == 0;
-						GuiComponent.fill(matrices, x, y, x + 16, y + 16, (useAltTile ? TILE_COLOR_0 : TILE_COLOR_1).getRGB());
-					}
-				}
-			}
+			this.renderGrid(matrices, mouseX, mouseY, color, menu.getSelectedItemConfiguration());
 		}
 		
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);

@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.module;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
@@ -10,11 +11,14 @@ import net.swedz.draconic_industrialization.module.module.DracoModules;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
 import net.swedz.draconic_industrialization.module.module.grid.DracoModuleGrid;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DracoItemConfiguration implements NBTSerializer<DracoItemConfiguration>
 {
-	static final String PARENT_KEY = "DracoItemConfiguration";
+	public static final String PARENT_KEY = "DracoItemConfiguration";
 	
 	private final DracoItem item;
 	private final ItemStack itemStack;
@@ -45,13 +49,32 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 		return tier;
 	}
 	
-	public <M extends DracoModule> Optional<M> getModule(DracoModuleReference<M> module)
+	public DracoModuleGrid grid()
+	{
+		return grid;
+	}
+	
+	private <M extends DracoModule> Stream<M> moduleStream(DracoModuleReference<M> module)
 	{
 		return grid.entries().stream()
 				.map(DracoGridEntry::module)
 				.filter((m) -> module.reference().isAssignableFrom(m.getClass()))
-				.map((m) -> (M) m)
-				.findAny();
+				.map((m) -> (M) m);
+	}
+	
+	public <M extends DracoModule> List<M> getModules(DracoModuleReference<M> module)
+	{
+		return this.moduleStream(module).collect(Collectors.toList());
+	}
+	
+	public <M extends DracoModule> long countModules(DracoModuleReference<M> module)
+	{
+		return this.moduleStream(module).count();
+	}
+	
+	public <M extends DracoModule> Optional<M> getModule(DracoModuleReference<M> module)
+	{
+		return this.moduleStream(module).findAny();
 	}
 	
 	public <M extends DracoModule> M getModuleOrCreate(DracoModuleReference<M> module)
@@ -69,5 +92,13 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 	public void write(NBTTagWrapper tag)
 	{
 		tag.set("Grid", grid.serialize());
+	}
+	
+	public void save()
+	{
+		CompoundTag tag = new CompoundTag();
+		tag.put(DracoItemConfiguration.PARENT_KEY, this.serialize());
+		itemStack.getOrCreateTag().merge(tag);
+		itemStack.save(new CompoundTag());
 	}
 }

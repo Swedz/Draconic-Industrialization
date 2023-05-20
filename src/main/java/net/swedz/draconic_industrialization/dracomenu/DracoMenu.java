@@ -34,6 +34,10 @@ public final class DracoMenu extends AbstractContainerMenu
 	{
 	};
 	
+	public static final EquipmentSlot[] DEFAULT_SLOT_PRIORITY_ORDER = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
+	
+	private final Player player;
+	
 	private final Map<EquipmentSlot, Slot> slotsByEquipment;
 	
 	private DracoItemStack selectedItem = DracoItemStack.EMPTY;
@@ -46,6 +50,8 @@ public final class DracoMenu extends AbstractContainerMenu
 	public DracoMenu(int syncId, Inventory inventory, Player player)
 	{
 		super(TYPE, syncId);
+		
+		this.player = player;
 		
 		//region Create player inventory slots
 		final Map<EquipmentSlot, Slot> equipmentSlots = Maps.newHashMap();
@@ -99,6 +105,21 @@ public final class DracoMenu extends AbstractContainerMenu
 		
 		slotsByEquipment = Map.copyOf(equipmentSlots);
 		//endregion
+		
+		this.pickDefaultSelectedItem();
+	}
+	
+	private void pickDefaultSelectedItem()
+	{
+		for(EquipmentSlot slot : DEFAULT_SLOT_PRIORITY_ORDER)
+		{
+			final ItemStack itemStack = player.getItemBySlot(slot);
+			if(itemStack.getItem() instanceof DracoItem item)
+			{
+				this.setSelectedItem(new DracoItemStack(item, this.getSlotByEquipmentSlot(slot)));
+				break;
+			}
+		}
 	}
 	
 	public Slot getSlotByEquipmentSlot(EquipmentSlot equipmentSlot)
@@ -111,11 +132,6 @@ public final class DracoMenu extends AbstractContainerMenu
 		final DracoItemStack previous = selectedItem;
 		selectedItem = itemStack;
 		SELECTED_ITEM_CHANGED_SCREEN_CALLBACK.accept(previous, itemStack);
-	}
-	
-	void setSelectedItem(DracoItem item, ItemStack stack, Slot slot)
-	{
-		this.setSelectedItem(new DracoItemStack(item, stack, slot));
 	}
 	
 	public boolean hasSelectedItem()
@@ -151,7 +167,7 @@ public final class DracoMenu extends AbstractContainerMenu
 		{
 			this.setSelectedItem(selectedItem.matches(slot) ?
 					DracoItemStack.EMPTY :
-					new DracoItemStack(dracoItem, itemStack, slot));
+					new DracoItemStack(dracoItem, slot));
 		}
 	}
 	

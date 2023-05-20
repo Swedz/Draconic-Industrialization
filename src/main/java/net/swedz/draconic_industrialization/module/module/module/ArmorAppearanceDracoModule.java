@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.module.module.module;
 
+import net.minecraft.network.chat.Component;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModelType;
@@ -7,6 +8,8 @@ import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArm
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
 import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
+
+import java.util.List;
 
 public final class ArmorAppearanceDracoModule extends DracoModule
 {
@@ -22,6 +25,18 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 	public boolean applies()
 	{
 		return parentItem instanceof DraconicArmorItem;
+	}
+	
+	@Override
+	public int max()
+	{
+		return 1;
+	}
+	
+	@Override
+	public void appendTooltip(List<Component> lines)
+	{
+		// TODO
 	}
 	
 	@Override

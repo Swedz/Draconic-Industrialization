@@ -119,6 +119,11 @@ public final class DracoModuleGrid implements NBTSerializer<DracoModuleGrid>
 		entries.remove(entry);
 	}
 	
+	public Optional<DracoGridEntry> getExactly(int x, int y)
+	{
+		return entries.stream().filter((e) -> e.x() == x && e.y() == y).findFirst();
+	}
+	
 	public Optional<DracoGridEntry> get(int x, int y)
 	{
 		return entries.stream().filter((e) -> e.contains(x, y)).findFirst();

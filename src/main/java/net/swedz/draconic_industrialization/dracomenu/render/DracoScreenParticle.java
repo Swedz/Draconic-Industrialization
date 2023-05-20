@@ -1,4 +1,4 @@
-package net.swedz.draconic_industrialization.dracomenu;
+package net.swedz.draconic_industrialization.dracomenu.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
+import net.swedz.draconic_industrialization.dracomenu.DracoMenu;
 
 import java.util.Random;
 

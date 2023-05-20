@@ -11,6 +11,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.dracomenu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.DracoMenuPackets;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
@@ -41,11 +42,13 @@ public final class DraconicIndustrialization implements ModInitializer
 		DIEntities.init();
 		DIParticles.init();
 		
-		ServerPlayNetworking.registerGlobalReceiver(DIPacketChannels.ClientToServer.REQUEST_DRACO_MENU, (server, player, handler, buf, responseSender) ->
+		ServerPlayNetworking.registerGlobalReceiver(DIPacketChannels.ClientToServer.DRACO_MENU_REQUEST_OPEN, (server, player, handler, buf, responseSender) ->
 				player.openMenu(new SimpleMenuProvider(
 						DracoMenu::new,
 						Component.translatable("screen.draconic_industrialization.draco")
 				)));
+		
+		DracoMenuPackets.initServer();
 	}
 	
 	@Override

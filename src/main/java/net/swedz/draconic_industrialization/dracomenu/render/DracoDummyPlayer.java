@@ -1,13 +1,12 @@
-package net.swedz.draconic_industrialization.dracomenu;
+package net.swedz.draconic_industrialization.dracomenu.render;
 
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.dummy.level.DummyClientPlayerEntity;
+import net.swedz.draconic_industrialization.dracomenu.DracoItemStack;
 import net.swedz.draconic_industrialization.module.DracoItem;
-
-import java.util.Optional;
 
 public final class DracoDummyPlayer extends DummyClientPlayerEntity
 {
@@ -42,18 +41,5 @@ public final class DracoDummyPlayer extends DummyClientPlayerEntity
 				this.setEquipment(Mob.getEquipmentSlotForItem(stack), stack);
 			}
 		}
-	}
-	
-	public Optional<DracoItemStack> pickDefaultSelectedItem(DracoMenu menu)
-	{
-		for(EquipmentSlot slot : DEFAULT_SLOT_PRIORITY_ORDER)
-		{
-			final ItemStack itemStack = parent.getItemBySlot(slot);
-			if(itemStack.getItem() instanceof DracoItem item)
-			{
-				return Optional.of(new DracoItemStack(item, itemStack, menu.getSlotByEquipmentSlot(slot)));
-			}
-		}
-		return Optional.empty();
 	}
 }
