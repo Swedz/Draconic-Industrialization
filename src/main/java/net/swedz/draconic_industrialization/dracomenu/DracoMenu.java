@@ -126,12 +126,16 @@ public final class DracoMenu extends AbstractContainerMenu
 		return selectedItem;
 	}
 	
+	public DracoItemConfiguration getSelectedItemConfiguration()
+	{
+		return selectedItem.item().dracoConfiguration(selectedItem.stack());
+	}
+	
 	public DracoColor getDisplayColor()
 	{
 		if(this.hasSelectedItem())
 		{
-			final DracoItemConfiguration itemConfiguration = selectedItem.item().dracoConfiguration(selectedItem.stack());
-			return itemConfiguration.getModuleOrCreate(DracoModules.COLORIZER).color;
+			return this.getSelectedItemConfiguration().getModuleOrCreate(DracoModules.COLORIZER).color;
 		}
 		DraconicIndustrialization.LOGGER.warn("Failed to get display color for the draco menu");
 		return DracoColor.from(DracoTier.DRACONIC);

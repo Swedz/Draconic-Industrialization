@@ -40,6 +40,14 @@ public final class DracoColor implements NBTSerializer<DracoColor>
 		return interpolated;
 	}
 	
+	public int toRGB()
+	{
+		return ((0xFF) << 24) |
+				(((int) (red * 255) & 0xFF) << 16) |
+				(((int) (green * 255) & 0xFF) << 8)  |
+				(((int) (blue * 255) & 0xFF));
+	}
+	
 	@Override
 	public void read(NBTTagWrapper tag)
 	{

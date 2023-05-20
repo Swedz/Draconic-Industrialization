@@ -43,9 +43,9 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 	{
 		return switch (tier)
 				{
-					case WYVERN -> DracoGridSize.of(3, 3);
-					case DRACONIC -> DracoGridSize.of(5, 5);
-					case CHAOTIC -> DracoGridSize.of(7, 7);
+					case WYVERN -> DracoGridSize.of(4, 3); // 12
+					case DRACONIC -> DracoGridSize.of(5, 5); // 25 (+13)
+					case CHAOTIC -> DracoGridSize.of(7, 6); // 42 (+17)
 				};
 	}
 	
