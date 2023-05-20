@@ -2,10 +2,10 @@ package net.swedz.draconic_industrialization.module.module;
 
 import com.google.common.collect.Maps;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
-import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 import net.swedz.draconic_industrialization.module.DracoItem;
-import net.swedz.draconic_industrialization.module.module.module.ColorizerDracoModule;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 import net.swedz.draconic_industrialization.module.module.module.ArmorAppearanceDracoModule;
+import net.swedz.draconic_industrialization.module.module.module.ColorizerDracoModule;
 
 import java.util.Map;
 

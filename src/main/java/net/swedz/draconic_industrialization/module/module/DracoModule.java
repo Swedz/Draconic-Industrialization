@@ -2,12 +2,12 @@ package net.swedz.draconic_industrialization.module.module;
 
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
-import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 import net.swedz.draconic_industrialization.module.DracoItem;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 
 public abstract class DracoModule implements NBTSerializer<DracoModule>
 {
-	protected final String key;
+	protected final String             key;
 	protected final DracoGridSlotShape gridShape;
 	
 	protected final DracoItem parentItem;

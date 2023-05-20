@@ -49,7 +49,8 @@ public abstract class DragonFliesThroughMainMenuMixin extends Screen
 	@Shadow
 	private String splash;
 	
-	@Shadow public abstract boolean shouldCloseOnEsc();
+	@Shadow
+	public abstract boolean shouldCloseOnEsc();
 	
 	@Unique
 	private DummyClientLevel dummyLevel;

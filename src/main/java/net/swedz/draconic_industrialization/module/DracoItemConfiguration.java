@@ -4,11 +4,11 @@ import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
-import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
-import net.swedz.draconic_industrialization.module.module.grid.DracoModuleGrid;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
 import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
+import net.swedz.draconic_industrialization.module.module.grid.DracoModuleGrid;
 
 import java.util.Optional;
 
