@@ -42,4 +42,12 @@ public final class DracoDummyPlayer extends DummyClientPlayerEntity
 			}
 		}
 	}
+	
+	@Override
+	public boolean isVehicle()
+	{
+		// Lol yeah... I know, this is weird
+		// This is the only way that doesn't involve a mixin that I find to get dummy players to not render their tag when you're on a server
+		return true;
+	}
 }
