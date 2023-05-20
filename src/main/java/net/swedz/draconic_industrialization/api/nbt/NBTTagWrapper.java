@@ -1,4 +1,4 @@
-package net.swedz.draconic_industrialization.api;
+package net.swedz.draconic_industrialization.api.nbt;
 
 import com.google.common.collect.Lists;
 import net.minecraft.nbt.CompoundTag;
@@ -83,5 +83,15 @@ public record NBTTagWrapper(CompoundTag tag)
 		ListTag list = new ListTag();
 		value.forEach((nbt) -> list.add(nbt.tag()));
 		tag.put(key, list);
+	}
+	
+	public int getInt(String key)
+	{
+		return tag.getInt(key);
+	}
+	
+	public void setInt(String key, int value)
+	{
+		tag.putInt(key, value);
 	}
 }

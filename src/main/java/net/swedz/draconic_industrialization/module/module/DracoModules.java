@@ -1,7 +1,8 @@
 package net.swedz.draconic_industrialization.module.module;
 
 import com.google.common.collect.Maps;
-import net.swedz.draconic_industrialization.api.NBTTagWrapper;
+import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.module.ColorizerDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.ArmorAppearanceDracoModule;
@@ -10,36 +11,35 @@ import java.util.Map;
 
 public final class DracoModules
 {
-	private static final Map<String, DracoModuleCreator>   CREATORS_BY_KEY   = Maps.newHashMap();
-	private static final Map<Class<?>, String>             CREATORS_TO_KEY   = Maps.newHashMap();
-	private static final Map<Class<?>, DracoModuleCreator> CREATORS_BY_CLASS = Maps.newHashMap();
+	private static final Map<String, DracoModuleReference> REFERENCES = Maps.newHashMap();
 	
-	public static final ClassReference<ColorizerDracoModule>       COLORIZER       = register(ColorizerDracoModule.class, "Colorizer", ColorizerDracoModule::new);
-	public static final ClassReference<ArmorAppearanceDracoModule> ARMOR_APPERANCE = register(ArmorAppearanceDracoModule.class, "ArmorAppearance", ArmorAppearanceDracoModule::new);
+	public static final DracoModuleReference<ColorizerDracoModule>       COLORIZER       = register(
+			"Colorizer", DracoGridSlotShape.of(1, 1),
+			ColorizerDracoModule.class, ColorizerDracoModule::new
+	);
+	public static final DracoModuleReference<ArmorAppearanceDracoModule> ARMOR_APPERANCE = register(
+			"ArmorAppearance", DracoGridSlotShape.of(1, 1),
+			ArmorAppearanceDracoModule.class, ArmorAppearanceDracoModule::new
+	);
 	
-	private static <M extends DracoModule> ClassReference<M> register(Class<M> moduleClass, String key, DracoModuleCreator<M> creator)
+	private static <M extends DracoModule> DracoModuleReference<M> register(String key, DracoGridSlotShape gridShape, Class<M> moduleClass, DracoModuleCreator<M> creator)
 	{
-		CREATORS_BY_KEY.put(key, creator);
-		CREATORS_TO_KEY.put(moduleClass, key);
-		CREATORS_BY_CLASS.put(moduleClass, creator);
-		return new ClassReference<>(moduleClass);
+		DracoModuleReference reference = new DracoModuleReference<>(key, gridShape, moduleClass, creator);
+		REFERENCES.put(key, reference);
+		return reference;
 	}
 	
 	public static DracoModule create(String key, DracoItem parentItem, NBTTagWrapper tag)
 	{
-		return CREATORS_BY_KEY.get(key)
-				.create(key, parentItem)
+		return REFERENCES.get(key).creator()
+				.create(REFERENCES.get(key), parentItem)
 				.deserialize(tag);
 	}
 	
-	public static <M extends DracoModule> M create(ClassReference<M> module, DracoItem parentItem, NBTTagWrapper tag)
+	public static <M extends DracoModule> M create(DracoModuleReference<M> module, DracoItem parentItem, NBTTagWrapper tag)
 	{
-		return (M) CREATORS_BY_CLASS.get(module.reference)
-				.create(CREATORS_TO_KEY.get(module.reference), parentItem)
+		return (M) module.creator()
+				.create(module, parentItem)
 				.deserialize(tag);
-	}
-	
-	public record ClassReference<M extends DracoModule>(Class<M> reference)
-	{
 	}
 }

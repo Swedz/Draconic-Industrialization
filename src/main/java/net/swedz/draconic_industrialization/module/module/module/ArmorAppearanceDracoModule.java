@@ -1,20 +1,21 @@
 package net.swedz.draconic_industrialization.module.module.module;
 
-import net.swedz.draconic_industrialization.api.NBTTagWrapper;
+import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModelType;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorShieldType;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
+import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 
 public final class ArmorAppearanceDracoModule extends DracoModule
 {
 	public DraconicArmorModelType  model;
 	public DraconicArmorShieldType shield;
 	
-	public ArmorAppearanceDracoModule(String key, DracoItem parentItem)
+	public ArmorAppearanceDracoModule(DracoModuleReference reference, DracoItem parentItem)
 	{
-		super(key, parentItem);
+		super(reference, parentItem);
 	}
 	
 	@Override

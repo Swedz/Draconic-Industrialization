@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
 import net.swedz.draconic_industrialization.module.DracoItem;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridSize;
 import software.bernie.example.item.GeckoArmorItem;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -35,6 +36,17 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 	public DracoTier tier()
 	{
 		return tier;
+	}
+	
+	@Override
+	public DracoGridSize gridSize()
+	{
+		return switch (tier)
+				{
+					case WYVERN -> DracoGridSize.of(3, 3);
+					case DRACONIC -> DracoGridSize.of(5, 5);
+					case CHAOTIC -> DracoGridSize.of(7, 7);
+				};
 	}
 	
 	private <P extends IAnimatable> PlayState predicate(AnimationEvent<P> event)

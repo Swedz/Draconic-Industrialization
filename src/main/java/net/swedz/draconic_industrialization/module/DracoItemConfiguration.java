@@ -1,13 +1,15 @@
 package net.swedz.draconic_industrialization.module;
 
 import net.minecraft.world.item.ItemStack;
-import net.swedz.draconic_industrialization.api.NBTSerializer;
-import net.swedz.draconic_industrialization.api.NBTTagWrapper;
+import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
+import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
+import net.swedz.draconic_industrialization.module.module.grid.DracoModuleGrid;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
+import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
 
-import java.util.List;
 import java.util.Optional;
 
 public class DracoItemConfiguration implements NBTSerializer<DracoItemConfiguration>
@@ -19,7 +21,7 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 	
 	private final DracoTier tier;
 	
-	private List<DracoModule> modules;
+	private DracoModuleGrid grid;
 	
 	DracoItemConfiguration(DracoItem item, ItemStack itemStack)
 	{
@@ -43,15 +45,16 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 		return tier;
 	}
 	
-	public <M extends DracoModule> Optional<M> getModule(DracoModules.ClassReference<M> module)
+	public <M extends DracoModule> Optional<M> getModule(DracoModuleReference<M> module)
 	{
-		return modules.stream()
+		return grid.entries().stream()
+				.map(DracoGridEntry::module)
 				.filter((m) -> module.reference().isAssignableFrom(m.getClass()))
 				.map((m) -> (M) m)
 				.findAny();
 	}
 	
-	public <M extends DracoModule> M getModuleOrCreate(DracoModules.ClassReference<M> module)
+	public <M extends DracoModule> M getModuleOrCreate(DracoModuleReference<M> module)
 	{
 		return this.getModule(module).orElseGet(() -> DracoModules.create(module, item, new NBTTagWrapper()));
 	}
@@ -59,17 +62,12 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 	@Override
 	public void read(NBTTagWrapper tag)
 	{
-		modules = tag.getList("Modules").stream()
-				.map((nbt) -> DracoModules.create(nbt.getString("Key"), item, nbt))
-				.toList();
+		grid = new DracoModuleGrid(item).deserialize(tag.getOrEmpty("Grid"));
 	}
 	
 	@Override
 	public void write(NBTTagWrapper tag)
 	{
-		tag.setList("Modules", modules.stream()
-				.map(NBTSerializer::serialize)
-				.map(NBTTagWrapper::new)
-				.toList());
+		tag.set("Grid", grid.serialize());
 	}
 }

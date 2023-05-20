@@ -4,5 +4,5 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 
 public interface DracoModuleCreator<M extends DracoModule>
 {
-	M create(String key, DracoItem parentItem);
+	M create(DracoModuleReference<M> reference, DracoItem parentItem);
 }

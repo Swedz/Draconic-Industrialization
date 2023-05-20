@@ -1,17 +1,18 @@
 package net.swedz.draconic_industrialization.module.module.module;
 
-import net.swedz.draconic_industrialization.api.NBTTagWrapper;
+import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
+import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 
 public final class ColorizerDracoModule extends DracoModule
 {
 	public DracoColor color;
 	
-	public ColorizerDracoModule(String key, DracoItem parentItem)
+	public ColorizerDracoModule(DracoModuleReference reference, DracoItem parentItem)
 	{
-		super(key, parentItem);
+		super(reference, parentItem);
 	}
 	
 	@Override

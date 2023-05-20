@@ -26,7 +26,7 @@ import net.swedz.draconic_industrialization.module.module.DracoModules;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class DracoMenu extends AbstractContainerMenu
+public final class DracoMenu extends AbstractContainerMenu
 {
 	public static final MenuType<DracoMenu> TYPE = Registry.register(Registry.MENU, DraconicIndustrialization.id("draco_menu"), new MenuType<>(DracoMenu::new));
 	

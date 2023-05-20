@@ -1,7 +1,7 @@
 package net.swedz.draconic_industrialization.api.tier;
 
-import net.swedz.draconic_industrialization.api.NBTSerializer;
-import net.swedz.draconic_industrialization.api.NBTTagWrapper;
+import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
+import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 
 import java.util.Objects;
 
