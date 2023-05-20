@@ -145,8 +145,7 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	@Override
 	protected void renderLabels(PoseStack matrices, int mouseX, int mouseY)
 	{
-		//font.draw(poseStack, title, (float) titleLabelX, (float) titleLabelY, 4210752);
-		//font.draw(matrices, playerInventoryTitle, (float) inventoryLabelX, (float) inventoryLabelY, 4210752);
+		// No, thank you
 	}
 	
 	private void renderPlayerPreview(int mouseX, int mouseY)
