@@ -3,6 +3,8 @@ package net.swedz.draconic_industrialization.api.tier;
 import net.swedz.draconic_industrialization.api.NBTSerializer;
 import net.swedz.draconic_industrialization.api.NBTTagWrapper;
 
+import java.util.Objects;
+
 public final class DracoColor implements NBTSerializer<DracoColor>
 {
 	private final DracoTier parentTier;
@@ -26,6 +28,18 @@ public final class DracoColor implements NBTSerializer<DracoColor>
 		return from(tier, new NBTTagWrapper());
 	}
 	
+	public static DracoColor interpolate(DracoColor a, DracoColor b, float fractionFromA)
+	{
+		DracoColor interpolated = new DracoColor(null);
+		
+		float fractionFromB = 1 - fractionFromA;
+		interpolated.red = a.red * fractionFromB + b.red * fractionFromB;
+		interpolated.green = a.green * fractionFromB + b.green * fractionFromB;
+		interpolated.blue = a.blue * fractionFromB + b.blue * fractionFromB;
+		
+		return interpolated;
+	}
+	
 	@Override
 	public void read(NBTTagWrapper tag)
 	{
@@ -41,5 +55,20 @@ public final class DracoColor implements NBTSerializer<DracoColor>
 		tag.setFloat("r", red);
 		tag.setFloat("g", green);
 		tag.setFloat("b", blue);
+	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		return other instanceof DracoColor otherColor &&
+				red == otherColor.red &&
+				green == otherColor.green &&
+				blue == otherColor.blue;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(red, green, blue);
 	}
 }
