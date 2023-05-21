@@ -3,13 +3,10 @@ package net.swedz.draconic_industrialization.dracomenu;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,6 +22,9 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
+import net.swedz.draconic_industrialization.packet.serverbound.dracomenu.InsertModuleDracoMenuPacket;
+import net.swedz.draconic_industrialization.packet.serverbound.dracomenu.StartConfigureModuleDracoMenuPacket;
+import net.swedz.draconic_industrialization.packet.serverbound.dracomenu.TakeModuleDracoMenuPacket;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.Color;
@@ -68,25 +68,41 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		return new DracoMenuGridHelper(menu.getSelectedItem().item().gridSize(), leftPos, topPos, 16);
 	}
 	
-	private boolean clickedDracoGridSlot(DracoMenuGridHelper gridHelper, int slotX, int slotY, Optional<DracoGridEntry> optionalEntry)
+	private boolean clickedDracoGridSlot(DracoMenuGridHelper gridHelper, int slotX, int slotY, int button, Optional<DracoGridEntry> optionalEntry)
 	{
+		boolean leftClick = button == GLFW.GLFW_MOUSE_BUTTON_LEFT;
+		boolean rightClick = button == GLFW.GLFW_MOUSE_BUTTON_RIGHT;
 		boolean hasCarried = !menu.getCarried().isEmpty();
-		if(hasCarried && menu.getCarried().getItem() instanceof DracoModuleItem moduleItem && optionalEntry.isEmpty())
+		// Left clicking an empty grid slot with a module item
+		if(leftClick && hasCarried && menu.getCarried().getItem() instanceof DracoModuleItem moduleItem && optionalEntry.isEmpty())
 		{
-			FriendlyByteBuf packet = PacketByteBufs.create();
-			packet.writeInt(slotX);
-			packet.writeInt(slotY);
-			//packet.writeItem(menu.getCarried()); // this is likely unnecessary, since the server knows what your carried item is
-			ClientPlayNetworking.send(DIPacketChannels.ClientToServer.DRACO_MENU_INSERT_ITEM, packet);
+			InsertModuleDracoMenuPacket packet = DIPacketChannels.Serverbound.DRACO_MENU_INSERT_MODULE.createPacket();
+			packet.slotX = slotX;
+			packet.slotY = slotY;
+			packet.send();
 			return true;
 		}
+		// Clicking a filled grid slot with an empty cursor
 		else if(!hasCarried && optionalEntry.isPresent())
 		{
-			FriendlyByteBuf packet = PacketByteBufs.create();
-			packet.writeInt(slotX);
-			packet.writeInt(slotY);
-			ClientPlayNetworking.send(DIPacketChannels.ClientToServer.DRACO_MENU_TAKE_ITEM, packet);
-			return true;
+			// Extract the module from the slot
+			if(leftClick)
+			{
+				TakeModuleDracoMenuPacket packet = DIPacketChannels.Serverbound.DRACO_MENU_TAKE_MODULE.createPacket();
+				packet.slotX = slotX;
+				packet.slotY = slotY;
+				packet.send();
+				return true;
+			}
+			// Open the module's config menu
+			else if(rightClick)
+			{
+				StartConfigureModuleDracoMenuPacket packet = DIPacketChannels.Serverbound.DRACO_MENU_START_CONFIGURE_MODULE.createPacket();
+				packet.slotX = slotX;
+				packet.slotY = slotY;
+				packet.send();
+				return true;
+			}
 		}
 		return false;
 	}
@@ -94,7 +110,7 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	@Override
 	public boolean mouseClicked(double mx, double my, int button)
 	{
-		if(button == GLFW.GLFW_MOUSE_BUTTON_LEFT && menu.hasSelectedItem())
+		if(menu.hasSelectedItem())
 		{
 			int mouseX = (int) mx;
 			int mouseY = (int) my;
@@ -105,7 +121,7 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 				DracoItemConfiguration configuration = menu.getSelectedItemConfiguration();
 				int slotX = gridHelper.slotXAt(mouseX);
 				int slotY = gridHelper.slotYAt(mouseY);
-				return this.clickedDracoGridSlot(gridHelper, slotX, slotY, configuration.grid().get(slotX, slotY));
+				return this.clickedDracoGridSlot(gridHelper, slotX, slotY, button, configuration.grid().get(slotX, slotY));
 			}
 		}
 		return super.mouseClicked(mx, my, button);

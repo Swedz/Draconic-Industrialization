@@ -8,9 +8,10 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.dracomenu.DracoMenu;
-import net.swedz.draconic_industrialization.dracomenu.DracoMenuPackets;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
+import net.swedz.draconic_industrialization.packet.DIPacketChannels;
+import net.swedz.draconic_industrialization.packet.PacketType;
 import net.swedz.draconic_industrialization.particles.DIParticles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,14 +38,14 @@ public final class DraconicIndustrialization implements ModInitializer
 		DIBlocks.init();
 		DIEntities.init();
 		DIParticles.init();
-		
 		DracoMenu.init();
-		DracoMenuPackets.initServer();
 	}
 	
 	@Override
 	public void onInitialize()
 	{
 		loadClasses();
+		
+		DIPacketChannels.registerAllListeners(PacketType.SERVERBOUND);
 	}
 }

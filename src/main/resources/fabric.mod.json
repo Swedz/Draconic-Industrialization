@@ -21,9 +21,6 @@
     "main": [
       "net.swedz.draconic_industrialization.DraconicIndustrialization"
     ],
-    "fabric-datagen": [
-      "net.swedz.draconic_industrialization.datagen.DIDatagenEntrypoint"
-    ],
     "client": [
       "net.swedz.draconic_industrialization.DraconicIndustrializationClient"
     ],
@@ -32,6 +29,9 @@
     ],
     "cardinal-components": [
       "net.swedz.draconic_industrialization.DraconicIndustrializationCardinalComponents"
+    ],
+    "fabric-datagen": [
+      "net.swedz.draconic_industrialization.datagen.DIDatagenEntrypoint"
     ]
   },
   "mixins": [

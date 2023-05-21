@@ -17,6 +17,8 @@ import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.render.DraconicArmorItemModel;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.render.DraconicArmorRenderer;
 import net.swedz.draconic_industrialization.keybinds.DIKeybinds;
+import net.swedz.draconic_industrialization.packet.DIPacketChannels;
+import net.swedz.draconic_industrialization.packet.PacketType;
 import net.swedz.draconic_industrialization.particles.DIParticles;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
@@ -44,5 +46,7 @@ public final class DraconicIndustrializationClient implements ClientModInitializ
 		BlockEntityRenderers.register(DIBlocks.CRYSTAL_NODE_ENTITY, (d) -> new CrystalNodeBlockRenderer());
 		
 		MenuScreens.register(DracoMenu.TYPE, DracoScreen::new);
+		
+		DIPacketChannels.registerAllListeners(PacketType.CLIENTBOUND);
 	}
 }

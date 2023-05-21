@@ -4,8 +4,6 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
@@ -19,7 +17,7 @@ public final class DIKeybinds
 	private static final Set<DIKeybind> KEYBINDS = Sets.newHashSet();
 	
 	public static final KeyMapping OPEN_DRACO_MENU = keyboard("open_draco_menu", "Open Draco Menu", GLFW.GLFW_KEY_G, true, (client) ->
-			ClientPlayNetworking.send(DIPacketChannels.ClientToServer.DRACO_MENU_REQUEST_OPEN, PacketByteBufs.empty()));
+			DIPacketChannels.Serverbound.DRACO_MENU_REQUEST_OPEN.createPacket().send());
 	
 	public static Set<DIKeybind> all()
 	{
