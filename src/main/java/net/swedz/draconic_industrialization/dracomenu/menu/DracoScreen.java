@@ -28,7 +28,7 @@ public abstract class DracoScreen<M extends DracoMenu> extends AbstractContainer
 	public static final ResourceLocation BACKGROUND_TOP_BACKGROUND = DraconicIndustrialization.id("textures/gui/draco_menu/top_background.png");
 	public static final ResourceLocation BACKGROUND_TOP_BORDER     = DraconicIndustrialization.id("textures/gui/draco_menu/top_border.png");
 	public static final ResourceLocation BACKGROUND_BOTTOM         = DraconicIndustrialization.id("textures/gui/draco_menu/bottom.png");
-	public static final ResourceLocation SELECTED_SLOT_OVERLAY = DraconicIndustrialization.id("textures/gui/draco_menu/selected_slot.png");
+	public static final ResourceLocation SELECTED_SLOT_OVERLAY     = DraconicIndustrialization.id("textures/gui/draco_menu/selected_slot.png");
 	
 	protected long tick;
 	
