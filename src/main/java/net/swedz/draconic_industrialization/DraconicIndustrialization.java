@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
-import net.swedz.draconic_industrialization.dracomenu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoMenu;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
@@ -38,7 +38,7 @@ public final class DraconicIndustrialization implements ModInitializer
 		DIBlocks.init();
 		DIEntities.init();
 		DIParticles.init();
-		DracoMenu.init();
+		MainDracoMenu.init();
 	}
 	
 	@Override

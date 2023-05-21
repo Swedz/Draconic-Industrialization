@@ -7,7 +7,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
-import net.swedz.draconic_industrialization.dracomenu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoMenu;
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
@@ -24,7 +24,7 @@ public final class InsertModuleDracoMenuPacket extends SlotXYServerboundPacket
 	@Override
 	public boolean confirm(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, PacketSender responseSender)
 	{
-		if(!(player.containerMenu instanceof DracoMenu menu))
+		if(!(player.containerMenu instanceof MainDracoMenu menu))
 		{
 			DraconicIndustrialization.LOGGER.warn(
 					"{} sent a Draco Menu (Insert Item) packet without being inside of the menu",
@@ -54,7 +54,7 @@ public final class InsertModuleDracoMenuPacket extends SlotXYServerboundPacket
 	@Override
 	public void handle(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, PacketSender responseSender)
 	{
-		final DracoMenu menu = (DracoMenu) player.containerMenu;
+		final MainDracoMenu menu = (MainDracoMenu) player.containerMenu;
 		final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
 		final ItemStack insertItem = menu.getCarried();
 		final DracoModuleItem moduleItem = (DracoModuleItem) insertItem.getItem();

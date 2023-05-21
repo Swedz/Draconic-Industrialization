@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
-import net.swedz.draconic_industrialization.dracomenu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
 
 import java.util.Random;
 

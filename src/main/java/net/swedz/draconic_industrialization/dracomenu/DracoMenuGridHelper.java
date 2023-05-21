@@ -1,4 +1,4 @@
-package net.swedz.draconic_industrialization.dracomenu.grid;
+package net.swedz.draconic_industrialization.dracomenu;
 
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSize;
 

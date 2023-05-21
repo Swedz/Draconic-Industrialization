@@ -5,7 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
-import net.swedz.draconic_industrialization.dracomenu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoMenu;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
 
@@ -19,7 +19,7 @@ public final class TakeModuleDracoMenuPacket extends SlotXYServerboundPacket
 	@Override
 	public boolean confirm(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, PacketSender responseSender)
 	{
-		if(!(player.containerMenu instanceof DracoMenu menu))
+		if(!(player.containerMenu instanceof MainDracoMenu menu))
 		{
 			DraconicIndustrialization.LOGGER.warn(
 					"{} sent a Draco Menu (Take Item) packet without being inside of the menu",
@@ -49,7 +49,7 @@ public final class TakeModuleDracoMenuPacket extends SlotXYServerboundPacket
 	@Override
 	public void handle(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, PacketSender responseSender)
 	{
-		final DracoMenu menu = (DracoMenu) player.containerMenu;
+		final MainDracoMenu menu = (MainDracoMenu) player.containerMenu;
 		final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
 		
 		itemConfiguration.grid().pull(slotX, slotY).ifPresent((entry) ->
