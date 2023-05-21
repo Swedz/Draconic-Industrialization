@@ -163,10 +163,13 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 		if(menu.hasSelectedItem() && menu.getCarried().isEmpty())
 		{
 			final DracoMenuGridHelper gridHelper = this.gridHelper();
-			final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
-			
-			itemConfiguration.grid().get(gridHelper.slotXAt(mouseX), gridHelper.slotYAt(mouseY)).ifPresent((entry) ->
-					this.renderComponentTooltip(matrices, entry.module().tooltip(itemConfiguration.item()), mouseX, mouseY));
+			if(gridHelper.contains(mouseX, mouseY))
+			{
+				final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
+				
+				itemConfiguration.grid().get(gridHelper.slotXAt(mouseX), gridHelper.slotYAt(mouseY)).ifPresent((entry) ->
+						this.renderComponentTooltip(matrices, entry.module().tooltip(itemConfiguration.item()), mouseX, mouseY));
+			}
 		}
 	}
 	
