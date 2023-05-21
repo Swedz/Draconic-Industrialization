@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.module.module.module;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
@@ -36,7 +37,12 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 	@Override
 	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
-		// TODO
+		lines.add(Component
+				.translatable("draco_menu.module.armor_appearance.model").withStyle(ChatFormatting.DARK_GRAY)
+				.append(Component.translatable(model.translationKey()).withStyle(ChatFormatting.WHITE)));
+		lines.add(Component
+				.translatable("draco_menu.module.armor_appearance.shield").withStyle(ChatFormatting.DARK_GRAY)
+				.append(Component.translatable(shield.translationKey()).withStyle(ChatFormatting.WHITE)));
 	}
 	
 	@Override

@@ -1,6 +1,8 @@
 package net.swedz.draconic_industrialization.module.module.module;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
 import net.swedz.draconic_industrialization.module.DracoItem;
@@ -27,7 +29,9 @@ public final class ColorizerDracoModule extends DracoModule
 	@Override
 	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
-		// TODO
+		lines.add(Component
+				.translatable("draco_menu.module.colorizer.color").withStyle(ChatFormatting.DARK_GRAY)
+				.append(Component.literal("(%d, %d, %d)".formatted((int) color.red * 255, (int) color.green * 255, (int) color.blue * 255)).withStyle(Style.EMPTY.withColor(color.toRGB()))));
 	}
 	
 	@Override

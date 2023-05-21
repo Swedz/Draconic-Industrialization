@@ -17,8 +17,11 @@ final class LangDatagen
 		map.put("category.draconic_industrialization.draconic_industrialization", "Draconic Industrialization");
 		DIKeybinds.all().forEach((bind) -> map.put(bind.keyMapping().getName(), bind.englishName()));
 		
-		// Draco screen
+		// Draco Menu
 		map.put("screen.draconic_industrialization.draco", "Draco Configurator");
+		map.put("draco_menu.module.colorizer.color", "■ Color: ");
+		map.put("draco_menu.module.armor_appearance.model", "■ Model: ");
+		map.put("draco_menu.module.armor_appearance.shield", "■ Shield: ");
 		
 		// Armor model types
 		for(DraconicArmorModelType value : DraconicArmorModelType.values())
