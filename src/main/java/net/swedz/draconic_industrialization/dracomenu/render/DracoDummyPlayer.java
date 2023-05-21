@@ -10,8 +10,6 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 
 public final class DracoDummyPlayer extends DummyClientPlayerEntity
 {
-	private static final EquipmentSlot[] DEFAULT_SLOT_PRIORITY_ORDER = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
-	
 	public DracoDummyPlayer(LocalPlayer fromPlayer)
 	{
 		super(fromPlayer);
