@@ -36,15 +36,11 @@ public final class DracoModules
 	
 	public static DracoModule create(String key, DracoItem parentItem, NBTTagWrapper tag)
 	{
-		return REFERENCES.get(key).creator()
-				.create(REFERENCES.get(key), parentItem)
-				.deserialize(tag);
+		return REFERENCES.get(key).create().deserialize(tag, parentItem);
 	}
 	
 	public static <M extends DracoModule> M create(DracoModuleReference<M> module, DracoItem parentItem, NBTTagWrapper tag)
 	{
-		return (M) module.creator()
-				.create(module, parentItem)
-				.deserialize(tag);
+		return (M) module.create().deserialize(tag, parentItem);
 	}
 }

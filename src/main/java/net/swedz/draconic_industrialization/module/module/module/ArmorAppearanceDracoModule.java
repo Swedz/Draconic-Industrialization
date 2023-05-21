@@ -16,15 +16,15 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 	public DraconicArmorModelType  model;
 	public DraconicArmorShieldType shield;
 	
-	public ArmorAppearanceDracoModule(DracoModuleReference reference, DracoItem parentItem)
+	public ArmorAppearanceDracoModule(DracoModuleReference reference)
 	{
-		super(reference, parentItem);
+		super(reference);
 	}
 	
 	@Override
-	public boolean applies()
+	public boolean applies(DracoItem item)
 	{
-		return parentItem instanceof DraconicArmorItem;
+		return item instanceof DraconicArmorItem;
 	}
 	
 	@Override
@@ -34,23 +34,23 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 	}
 	
 	@Override
-	public void appendTooltip(List<Component> lines)
+	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
 		// TODO
 	}
 	
 	@Override
-	public void read(NBTTagWrapper tag)
+	public void read(NBTTagWrapper tag, DracoItem item)
 	{
-		super.read(tag);
+		super.read(tag, item);
 		model = tag.getEnumOrDefault(DraconicArmorModelType.class, "Model", DraconicArmorModelType.DEFAULT);
 		shield = tag.getEnumOrDefault(DraconicArmorShieldType.class, "Shield", DraconicArmorShieldType.DEFAULT);
 	}
 	
 	@Override
-	public void write(NBTTagWrapper tag)
+	public void write(NBTTagWrapper tag, DracoItem item)
 	{
-		super.write(tag);
+		super.write(tag, item);
 		tag.setEnum("Model", model);
 		tag.setEnum("Shield", shield);
 	}

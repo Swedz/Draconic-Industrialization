@@ -13,9 +13,9 @@ public final class ColorizerDracoModule extends DracoModule
 {
 	public DracoColor color;
 	
-	public ColorizerDracoModule(DracoModuleReference reference, DracoItem parentItem)
+	public ColorizerDracoModule(DracoModuleReference reference)
 	{
-		super(reference, parentItem);
+		super(reference);
 	}
 	
 	@Override
@@ -25,22 +25,22 @@ public final class ColorizerDracoModule extends DracoModule
 	}
 	
 	@Override
-	public void appendTooltip(List<Component> lines)
+	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
 		// TODO
 	}
 	
 	@Override
-	public void read(NBTTagWrapper tag)
+	public void read(NBTTagWrapper tag, DracoItem item)
 	{
-		super.read(tag);
-		color = DracoColor.from(parentItem.tier(), tag.getOrEmpty("Color"));
+		super.read(tag, item);
+		color = DracoColor.from(item.tier(), tag.getOrEmpty("Color"));
 	}
 	
 	@Override
-	public void write(NBTTagWrapper tag)
+	public void write(NBTTagWrapper tag, DracoItem item)
 	{
-		super.write(tag);
+		super.write(tag, item);
 		tag.set("Color", color.serialize());
 	}
 }

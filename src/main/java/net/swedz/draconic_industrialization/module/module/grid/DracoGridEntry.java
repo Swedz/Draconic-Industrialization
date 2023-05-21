@@ -90,6 +90,6 @@ public final class DracoGridEntry extends DracoGridSlot implements NBTSerializer
 	{
 		tag.setInt("X", x);
 		tag.setInt("Y", y);
-		tag.set("Module", module.serialize());
+		tag.set("Module", module.serialize(item));
 	}
 }

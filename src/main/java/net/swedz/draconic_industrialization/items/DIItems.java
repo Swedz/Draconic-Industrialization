@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
-import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
+import net.swedz.draconic_industrialization.items.item.dracomodule.DracoModuleItem;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.material.DIMaterialHardness;
 import net.swedz.draconic_industrialization.material.DIMaterialPart;

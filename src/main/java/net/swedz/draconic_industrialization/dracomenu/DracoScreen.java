@@ -20,7 +20,7 @@ import net.swedz.draconic_industrialization.api.tier.DracoColor;
 import net.swedz.draconic_industrialization.dracomenu.grid.DracoMenuGridHelper;
 import net.swedz.draconic_industrialization.dracomenu.render.DracoDummyPlayer;
 import net.swedz.draconic_industrialization.dracomenu.render.DracoScreenParticle;
-import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
+import net.swedz.draconic_industrialization.items.item.dracomodule.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
@@ -166,7 +166,7 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 			final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
 			
 			itemConfiguration.grid().get(gridHelper.slotXAt(mouseX), gridHelper.slotYAt(mouseY)).ifPresent((entry) ->
-					this.renderComponentTooltip(matrices, entry.module().tooltip(), mouseX, mouseY));
+					this.renderComponentTooltip(matrices, entry.module().tooltip(itemConfiguration.item()), mouseX, mouseY));
 		}
 	}
 	
