@@ -35,10 +35,10 @@ repositories {
 			includeGroup "com.jamieswhiteshirt"
 		}
 	}
-	// PlayerAbilityLib (required by MI)
 	maven {
 		url = 'https://ladysnake.jfrog.io/artifactory/mods'
 		content {
+			// PlayerAbilityLib (required by MI)
 			includeGroup 'io.github.ladysnake'
 		}
 	}
