@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializerWithParam;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
-import net.swedz.draconic_industrialization.items.item.dracomodule.DracoModuleItem;
+import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 

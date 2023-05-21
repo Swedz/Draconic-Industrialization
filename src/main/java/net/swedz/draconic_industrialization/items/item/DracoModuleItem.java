@@ -1,4 +1,4 @@
-package net.swedz.draconic_industrialization.items.item.dracomodule;
+package net.swedz.draconic_industrialization.items.item;
 
 import net.minecraft.world.item.Item;
 import net.swedz.draconic_industrialization.module.module.DracoModule;

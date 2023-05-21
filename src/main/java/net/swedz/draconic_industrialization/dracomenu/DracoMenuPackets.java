@@ -11,7 +11,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
-import net.swedz.draconic_industrialization.items.item.dracomodule.DracoModuleItem;
+import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
