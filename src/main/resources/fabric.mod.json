@@ -29,12 +29,20 @@
     ],
     "preLaunch": [
       "net.swedz.draconic_industrialization.DraconicIndustrializationPreLaunch"
+    ],
+    "cardinal-components": [
+      "net.swedz.draconic_industrialization.DraconicIndustrializationCardinalComponents"
     ]
   },
   "mixins": [
     "draconic_industrialization.mixins.json"
   ],
   "accessWidener": "draconic_industrialization.accesswidener",
+  "custom": {
+    "cardinal-components": [
+      "draconic_industrialization:item.draco"
+    ]
+  },
 
   "depends": {
     "fabricloader": ">=0.14.9",

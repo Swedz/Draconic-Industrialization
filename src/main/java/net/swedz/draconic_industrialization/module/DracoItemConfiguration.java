@@ -1,8 +1,10 @@
 package net.swedz.draconic_industrialization.module;
 
+import dev.onyxstudios.cca.api.v3.item.CcaNbtType;
+import dev.onyxstudios.cca.api.v3.item.ItemComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
+import net.swedz.draconic_industrialization.DraconicIndustrializationCardinalComponents;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
@@ -16,32 +18,26 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DracoItemConfiguration implements NBTSerializer<DracoItemConfiguration>
+public final class DracoItemConfiguration extends ItemComponent
 {
-	public static final String PARENT_KEY = "DracoItemConfiguration";
+	private boolean valid;
 	
 	private final DracoItem item;
-	private final ItemStack itemStack;
 	
 	private final DracoTier tier;
 	
 	private DracoModuleGrid grid;
 	
-	DracoItemConfiguration(DracoItem item, ItemStack itemStack)
+	public DracoItemConfiguration(ItemStack itemStack)
 	{
-		this.item = item;
-		this.itemStack = itemStack;
+		super(itemStack, DraconicIndustrializationCardinalComponents.DRACO);
+		this.item = (DracoItem) itemStack.getItem();
 		this.tier = item.tier();
 	}
 	
 	public DracoItem item()
 	{
 		return item;
-	}
-	
-	public ItemStack itemStack()
-	{
-		return itemStack;
 	}
 	
 	public DracoTier tier()
@@ -51,12 +47,18 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 	
 	public DracoModuleGrid grid()
 	{
+		if(!valid)
+		{
+			CompoundTag gridTag = this.hasTag("Grid", CcaNbtType.COMPOUND) ? this.getTag("Grid", CcaNbtType.COMPOUND) : new CompoundTag();
+			grid = new DracoModuleGrid(item).deserialize(gridTag);
+			valid = true;
+		}
 		return grid;
 	}
 	
 	private <M extends DracoModule> Stream<M> moduleStream(DracoModuleReference<M> module)
 	{
-		return grid.entries().stream()
+		return this.grid().entries().stream()
 				.map(DracoGridEntry::module)
 				.filter((m) -> module.reference().isAssignableFrom(m.getClass()))
 				.map((m) -> (M) m);
@@ -82,23 +84,21 @@ public class DracoItemConfiguration implements NBTSerializer<DracoItemConfigurat
 		return this.getModule(module).orElseGet(() -> DracoModules.create(module, item, new NBTTagWrapper()));
 	}
 	
-	@Override
-	public void read(NBTTagWrapper tag)
-	{
-		grid = new DracoModuleGrid(item).deserialize(tag.getOrEmpty("Grid"));
-	}
-	
-	@Override
-	public void write(NBTTagWrapper tag)
-	{
-		tag.set("Grid", grid.serialize());
-	}
-	
 	public void save()
 	{
 		CompoundTag tag = new CompoundTag();
-		tag.put(DracoItemConfiguration.PARENT_KEY, this.serialize());
-		itemStack.getOrCreateTag().merge(tag);
-		itemStack.save(new CompoundTag());
+		CompoundTag dracoTag = this.getOrCreateRootTag();
+		dracoTag.put("Grid", grid.serialize());
+		tag.put(this.getRootTagKey(), dracoTag);
+		stack.getOrCreateTag().merge(tag);
+		stack.save(new CompoundTag());
+	}
+	
+	@Deprecated
+	@Override
+	public void onTagInvalidated()
+	{
+		super.onTagInvalidated();
+		valid = false;
 	}
 }

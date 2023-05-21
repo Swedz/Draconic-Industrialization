@@ -40,6 +40,8 @@ repositories {
 		content {
 			// PlayerAbilityLib (required by MI)
 			includeGroup 'io.github.ladysnake'
+			// Cardinal Components API
+			includeGroup 'dev.onyxstudios.cardinal-components-api'
 		}
 	}
 }
@@ -89,6 +91,9 @@ dependencies {
 
 	include implementation("com.github.LlamaLad7:MixinExtras:${project.mixinextras_version}")
 	annotationProcessor("com.github.LlamaLad7:MixinExtras:${project.mixinextras_version}")
+
+	include modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinalcomponents_version}")
+	include modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-item:${project.cardinalcomponents_version}")
 }
 
 base {
