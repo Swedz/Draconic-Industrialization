@@ -38,8 +38,8 @@ public final class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	private static final ResourceLocation BACKGROUND_TOP_BORDER     = DraconicIndustrialization.id("textures/gui/draco_menu/top_border.png");
 	private static final ResourceLocation BACKGROUND_BOTTOM         = DraconicIndustrialization.id("textures/gui/draco_menu/bottom.png");
 	
-	private static final Color TILE_COLOR_0 = new Color(63, 63, 63, 255);
-	private static final Color TILE_COLOR_1 = new Color(40, 40, 40, 255);
+	private static final Color TILE_COLOR_0     = new Color(63, 63, 63, 255);
+	private static final Color TILE_COLOR_1     = new Color(40, 40, 40, 255);
 	private static final Color TILE_HOVER_COLOR = new Color(255, 255, 255, 128);
 	
 	private static final ResourceLocation SELECTED_SLOT_OVERLAY = DraconicIndustrialization.id("textures/gui/draco_menu/selected_slot.png");

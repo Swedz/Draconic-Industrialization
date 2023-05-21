@@ -16,7 +16,7 @@ import java.util.Set;
 
 public final class DIItems
 {
-	private static final Set<DIItem>              ITEMS    = Sets.newHashSet();
+	private static final Set<DIItem> ITEMS = Sets.newHashSet();
 	
 	public static final Item DRACONIC_CIRCUIT           = builder().identifiable("draconic_circuit", "Draconic Circuit").generateBasicModel().build();
 	public static final Item WYVERN_CIRCUIT             = builder().identifiable("wyvern_circuit", "Wyvern Circuit").generateBasicModel().build();
