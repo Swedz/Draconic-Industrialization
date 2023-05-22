@@ -39,9 +39,10 @@ public final class RequestOpenDracoMenuPacket extends ServerboundPacket
 	@Override
 	public void handle(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, PacketSender responseSender)
 	{
-		player.openMenu(new SimpleMenuProvider(
-				MainDracoMenu::new,
-				Component.translatable("screen.draconic_industrialization.draco")
-		));
+		server.execute(() ->
+				player.openMenu(new SimpleMenuProvider(
+						MainDracoMenu::new,
+						Component.translatable("screen.draconic_industrialization.draco")
+				)));
 	}
 }
