@@ -42,7 +42,7 @@ public final class DracoMenu extends AbstractContainerMenu
 	
 	private final Map<EquipmentSlot, Slot> slotsByEquipment;
 	
-	private boolean slotLocked;
+	private boolean        slotLocked;
 	private DracoItemStack selectedItem;
 	
 	private DracoMenu(int syncId, Inventory inventory)

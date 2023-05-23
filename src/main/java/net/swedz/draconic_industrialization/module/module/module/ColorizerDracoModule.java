@@ -42,7 +42,8 @@ public final class ColorizerDracoModule extends DracoModule
 	@Override
 	public void appendWidgets(DracoMenu menu, List<ModuleOptionWidget> widgets)
 	{
-		widgets.add(new LabelModuleOptionWidget(menu,
+		widgets.add(new LabelModuleOptionWidget(
+				menu,
 				Component.translatable("draco_menu.module.colorizer.config.label"),
 				new Color(125, 125, 125, 255).getRGB()
 		));

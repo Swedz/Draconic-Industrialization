@@ -53,19 +53,22 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 	@Override
 	public void appendWidgets(DracoMenu menu, List<ModuleOptionWidget> widgets)
 	{
-		widgets.add(new LabelModuleOptionWidget(menu,
+		widgets.add(new LabelModuleOptionWidget(
+				menu,
 				Component.translatable("draco_menu.module.armor_appearance.config.label"),
 				new Color(125, 125, 125, 255).getRGB()
 		));
 		
-		widgets.add(new EnumModuleOptionWidget<>(menu,
+		widgets.add(new EnumModuleOptionWidget<>(
+				menu,
 				Component.translatable("draco_menu.module.armor_appearance.config.model"),
 				DraconicArmorModelType.class,
 				() -> model,
 				(value) -> model = value,
 				(value) -> Component.translatable(value.translationKey())
 		));
-		widgets.add(new EnumModuleOptionWidget<>(menu,
+		widgets.add(new EnumModuleOptionWidget<>(
+				menu,
 				Component.translatable("draco_menu.module.armor_appearance.config.shield"),
 				DraconicArmorShieldType.class,
 				() -> shield,

@@ -25,10 +25,10 @@ public final class ModuleConfigDracoScreen extends DracoScreen<DracoMenu>
 	private static final ResourceLocation RETURN = DraconicIndustrialization.id("textures/gui/draco_menu/return.png");
 	
 	private static final int CONTENT_XOFF = 94;
-	private static final int RETURN_YOFF = 5;
+	private static final int RETURN_YOFF  = 5;
 	private static final int OPTIONS_YOFF = 20;
 	
-	public static final int OPTIONS_WIDTH = 106;
+	public static final int OPTIONS_WIDTH  = 106;
 	public static final int OPTIONS_HEIGHT = 93;
 	
 	private final int moduleSlotX, moduleSlotY;
