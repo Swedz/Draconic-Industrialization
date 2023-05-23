@@ -20,8 +20,15 @@ final class LangDatagen
 		// Draco Menu
 		map.put("screen.draconic_industrialization.draco", "Draco Configurator");
 		map.put("draco_menu.module.colorizer.color", "■ Color: ");
+		map.put("draco_menu.module.colorizer.config.label", "Shield Color");
+		map.put("draco_menu.module.colorizer.config.red", "■ Red");
+		map.put("draco_menu.module.colorizer.config.green", "■ Green");
+		map.put("draco_menu.module.colorizer.config.blue", "■ Blue");
 		map.put("draco_menu.module.armor_appearance.model", "■ Model: ");
 		map.put("draco_menu.module.armor_appearance.shield", "■ Shield: ");
+		map.put("draco_menu.module.armor_appearance.config.label", "Armor Appearance");
+		map.put("draco_menu.module.armor_appearance.config.model", "■ Model");
+		map.put("draco_menu.module.armor_appearance.config.shield", "■ Shield");
 		
 		// Armor model types
 		for(DraconicArmorModelType value : DraconicArmorModelType.values())

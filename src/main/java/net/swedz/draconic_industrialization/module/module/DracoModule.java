@@ -6,6 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializerWithParam;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.ModuleOptionWidget;
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
@@ -60,6 +62,8 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 		this.appendTooltip(item, lines);
 		return lines;
 	}
+	
+	public abstract void appendWidgets(DracoMenu menu, List<ModuleOptionWidget> widgets);
 	
 	@Override
 	public void read(NBTTagWrapper tag, DracoItem item)

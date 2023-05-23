@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.blocks.block.crystalnode.CrystalNodeBlockRenderer;
 import net.swedz.draconic_industrialization.blocks.block.crystalnode.CrystalNodeGeoModel;
-import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
 import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoScreen;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
@@ -45,7 +45,7 @@ public final class DraconicIndustrializationClient implements ClientModInitializ
 		GeoItemRenderer.registerItemRenderer(DIBlocks.CRYSTAL_NODE.asItem(), new GeoItemRenderer(new CrystalNodeGeoModel()));
 		BlockEntityRenderers.register(DIBlocks.CRYSTAL_NODE_ENTITY, (d) -> new CrystalNodeBlockRenderer());
 		
-		MenuScreens.register(MainDracoMenu.TYPE, MainDracoScreen::new);
+		MenuScreens.register(DracoMenu.TYPE, MainDracoScreen::new);
 		
 		DIPacketChannels.registerAllListeners(PacketType.CLIENTBOUND);
 	}

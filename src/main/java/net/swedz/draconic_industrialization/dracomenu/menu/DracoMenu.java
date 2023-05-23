@@ -2,11 +2,13 @@ package net.swedz.draconic_industrialization.dracomenu.menu;
 
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
@@ -15,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
-import net.swedz.draconic_industrialization.dracomenu.DracoDummyPlayerUpdater;
 import net.swedz.draconic_industrialization.dracomenu.DracoItemStack;
 import net.swedz.draconic_industrialization.dracomenu.slot.DracoPlayerInventoryArmorSlot;
 import net.swedz.draconic_industrialization.dracomenu.slot.DracoPlayerInventorySlot;
@@ -25,28 +26,41 @@ import net.swedz.draconic_industrialization.module.module.DracoModules;
 
 import java.util.Map;
 
-public abstract class DracoMenu extends AbstractContainerMenu
+public final class DracoMenu extends AbstractContainerMenu
 {
+	public static final MenuType<DracoMenu> TYPE = Registry.register(Registry.MENU, DraconicIndustrialization.id("draco_menu.main"), new MenuType<>(DracoMenu::new));
+	
+	public static void init()
+	{
+		// Load the class
+	}
+	
 	public static final EquipmentSlot[] DEFAULT_SLOT_PRIORITY_ORDER = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
 	
-	protected final Player    player;
-	protected final Inventory inventory;
+	private final Player    player;
+	private final Inventory inventory;
 	
 	private final Map<EquipmentSlot, Slot> slotsByEquipment;
 	
+	private boolean slotLocked;
 	private DracoItemStack selectedItem;
 	
-	private DracoDummyPlayerUpdater dummyPlayerUpdater = DracoDummyPlayerUpdater.NOOP;
-	
-	public DracoMenu(MenuType<?> menuType, int syncId, Inventory inventory, Player player)
+	private DracoMenu(int syncId, Inventory inventory)
 	{
-		super(menuType, syncId);
+		this(syncId, inventory, inventory.player);
+	}
+	
+	public DracoMenu(int syncId, Inventory inventory, Player player)
+	{
+		super(TYPE, syncId);
 		
 		this.player = player;
 		this.inventory = inventory;
 		
 		this.slotsByEquipment = Maps.newHashMap();
 		this.initPlayerInventorySlots();
+		
+		this.setSelectedItem(this.pickDefaultItem());
 	}
 	
 	private void initPlayerInventorySlots()
@@ -118,6 +132,11 @@ public abstract class DracoMenu extends AbstractContainerMenu
 		return DracoItemStack.EMPTY;
 	}
 	
+	public void setSlotLocked(boolean slotLocked)
+	{
+		this.slotLocked = slotLocked;
+	}
+	
 	public boolean hasSelectedItem()
 	{
 		return !selectedItem.isEmpty();
@@ -137,7 +156,6 @@ public abstract class DracoMenu extends AbstractContainerMenu
 	{
 		final DracoItemStack previous = selectedItem;
 		selectedItem = itemStack;
-		dummyPlayerUpdater.update(previous, itemStack);
 	}
 	
 	public void select(Slot slot)
@@ -162,11 +180,6 @@ public abstract class DracoMenu extends AbstractContainerMenu
 		return DracoColor.from(DracoTier.DRACONIC);
 	}
 	
-	public void setDummyPlayerUpdater(DracoDummyPlayerUpdater updater)
-	{
-		this.dummyPlayerUpdater = updater;
-	}
-	
 	@Override
 	public ItemStack quickMoveStack(Player player, int index)
 	{
@@ -177,5 +190,16 @@ public abstract class DracoMenu extends AbstractContainerMenu
 	public boolean stillValid(Player player)
 	{
 		return true;
+	}
+	
+	@Override
+	public void clicked(int slotId, int button, ClickType clickType, Player player)
+	{
+		if(!slotLocked && slotId >= 0)
+		{
+			Slot slot = this.getSlot(slotId);
+			this.select(slot);
+		}
+		super.clicked(slotId, button, clickType, player);
 	}
 }

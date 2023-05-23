@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.SimpleMenuProvider;
 import net.swedz.draconic_industrialization.api.packet.ServerboundPacket;
-import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
 
 public final class RequestOpenDracoMenuPacket extends ServerboundPacket
@@ -41,7 +41,7 @@ public final class RequestOpenDracoMenuPacket extends ServerboundPacket
 	{
 		server.execute(() ->
 				player.openMenu(new SimpleMenuProvider(
-						MainDracoMenu::new,
+						DracoMenu::new,
 						Component.translatable("screen.draconic_industrialization.draco")
 				)));
 	}

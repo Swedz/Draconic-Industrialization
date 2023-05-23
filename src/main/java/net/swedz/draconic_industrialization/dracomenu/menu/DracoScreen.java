@@ -18,7 +18,6 @@ import net.swedz.draconic_industrialization.dracomenu.DracoMenuGridHelper;
 import net.swedz.draconic_industrialization.dracomenu.render.DracoDummyPlayer;
 import net.swedz.draconic_industrialization.dracomenu.render.DracoScreenParticle;
 import net.swedz.draconic_industrialization.module.DracoItem;
-import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 
 import java.util.List;
 import java.util.Random;
@@ -30,23 +29,17 @@ public abstract class DracoScreen<M extends DracoMenu> extends AbstractContainer
 	public static final ResourceLocation BACKGROUND_BOTTOM         = DraconicIndustrialization.id("textures/gui/draco_menu/bottom.png");
 	public static final ResourceLocation SELECTED_SLOT_OVERLAY     = DraconicIndustrialization.id("textures/gui/draco_menu/selected_slot.png");
 	
+	private static final List<DracoScreenParticle> particles    = Lists.newArrayList();
+	private static final DracoDummyPlayer          playerRender = new DracoDummyPlayer(Minecraft.getInstance().player);
+	
 	protected long tick;
-	
-	private final List<DracoScreenParticle> particles = Lists.newArrayList();
-	
-	private DracoDummyPlayer playerRender;
 	
 	public DracoScreen(M menu, Inventory inventory, Component title)
 	{
 		super(menu, inventory, title);
 		
-		menu.setDummyPlayerUpdater((from, to) -> playerRender.updateDueToSelectedItemChange(to));
-		
 		imageWidth = 242;
 		imageHeight = 235;
-		
-		playerRender = new DracoDummyPlayer(Minecraft.getInstance().player);
-		playerRender.updateDueToSelectedItemChange(menu.getSelectedItem()); // we have to call this because dummyPlayerUpdater only just now got initialized and this is initialized AFTER the menu is initialized
 	}
 	
 	protected DracoMenuGridHelper gridHelper()
@@ -111,32 +104,10 @@ public abstract class DracoScreen<M extends DracoMenu> extends AbstractContainer
 	
 	private void renderPlayerPreview(int mouseX, int mouseY)
 	{
+		playerRender.updateDueToSelectedItemChange(menu.getSelectedItem());
 		int previewPosX = leftPos + 60;
 		int previewPosY = topPos + 88;
 		InventoryScreen.renderEntityInInventory(previewPosX, previewPosY, 30, (float) previewPosX - mouseX, (float) previewPosY - 50 - mouseY, playerRender);
-	}
-	
-	@Override
-	protected void renderTooltip(PoseStack matrices, int mouseX, int mouseY)
-	{
-		super.renderTooltip(matrices, mouseX, mouseY);
-		
-		this.renderGridTooltip(matrices, mouseX, mouseY);
-	}
-	
-	private void renderGridTooltip(PoseStack matrices, int mouseX, int mouseY)
-	{
-		if(menu.hasSelectedItem() && menu.getCarried().isEmpty())
-		{
-			final DracoMenuGridHelper gridHelper = this.gridHelper();
-			if(gridHelper.contains(mouseX, mouseY))
-			{
-				final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
-				
-				itemConfiguration.grid().get(gridHelper.slotXAt(mouseX), gridHelper.slotYAt(mouseY)).ifPresent((entry) ->
-						this.renderComponentTooltip(matrices, entry.module().tooltip(itemConfiguration.item()), mouseX, mouseY));
-			}
-		}
 	}
 	
 	@Override
