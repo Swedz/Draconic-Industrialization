@@ -3,6 +3,7 @@ package net.swedz.draconic_industrialization.dracomenu.menu.main;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +23,7 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.Color;
 import java.util.Optional;
 
-public final class MainDracoScreen extends DracoScreen<DracoMenu>
+public final class MainDracoScreen extends DracoScreen
 {
 	private static final Color TILE_COLOR_0     = new Color(63, 63, 63, 255);
 	private static final Color TILE_COLOR_1     = new Color(40, 40, 40, 255);
@@ -150,7 +151,12 @@ public final class MainDracoScreen extends DracoScreen<DracoMenu>
 				final DracoItemConfiguration itemConfiguration = menu.getSelectedItemConfiguration();
 				
 				itemConfiguration.grid().get(gridHelper.slotXAt(mouseX), gridHelper.slotYAt(mouseY)).ifPresent((entry) ->
-						this.renderComponentTooltip(matrices, entry.module().tooltip(itemConfiguration.item()), mouseX, mouseY));
+				{
+					final Color color = menu.getDisplayColor().toColor();
+					RenderSystem.setShader(GameRenderer::getPositionTexShader);
+					RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1);
+					this.renderComponentTooltip(matrices, entry.module().tooltip(itemConfiguration.item()), mouseX, mouseY);
+				});
 			}
 		}
 	}

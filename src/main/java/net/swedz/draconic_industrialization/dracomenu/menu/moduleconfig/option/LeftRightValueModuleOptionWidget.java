@@ -1,16 +1,13 @@
 package net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 
-import java.awt.Color;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -18,38 +15,36 @@ import static net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.M
 
 public abstract class LeftRightValueModuleOptionWidget<V> extends ValueModuleOptionWidget<V>
 {
-	public LeftRightValueModuleOptionWidget(DracoMenu menu, Component label, int height, Supplier<V> valueGetter, Consumer<V> valueUpdated)
+	public LeftRightValueModuleOptionWidget(DracoScreen screen, Component label, int height, Supplier<V> valueGetter, Consumer<V> valueUpdated)
 	{
-		super(menu, label, height, valueGetter, valueUpdated);
+		super(screen, label, height, valueGetter, valueUpdated);
 	}
 	
 	protected abstract int valueWidth();
 	
 	protected int leftButtonX()
 	{
-		return OPTIONS_WIDTH - 7 - this.valueWidth() - 7;
+		return this.rightButtonX() - this.valueWidth() - 7;
 	}
 	
 	protected int valueTextX()
 	{
-		return OPTIONS_WIDTH - 7 - this.valueWidth() / 2;
+		return this.rightButtonX() - this.valueWidth() / 2;
 	}
 	
 	protected int rightButtonX()
 	{
-		return OPTIONS_WIDTH - 7;
+		return CONTENT_WIDTH - 7;
 	}
 	
-	protected boolean hoveringLeftButton(int mouseX, int mouseY)
+	protected boolean isHoveringLeftButton(int mouseX, int mouseY)
 	{
-		return mouseX >= this.leftButtonX() && mouseX < this.leftButtonX() + 7 &&
-				mouseY >= 0 && mouseY < height;
+		return this.isHoveringButton(this.leftButtonX(), mouseX, mouseY);
 	}
 	
-	protected boolean hoveringRightButton(int mouseX, int mouseY)
+	protected boolean isHoveringRightButton(int mouseX, int mouseY)
 	{
-		return mouseX >= this.rightButtonX() && mouseX < this.rightButtonX() + 7 &&
-				mouseY >= 0 && mouseY < height;
+		return this.isHoveringButton(this.rightButtonX(), mouseX, mouseY);
 	}
 	
 	protected boolean isLeftEnabled()
@@ -72,19 +67,14 @@ public abstract class LeftRightValueModuleOptionWidget<V> extends ValueModuleOpt
 	
 	protected abstract Component toText(V value);
 	
-	protected V clamp(V value)
-	{
-		return value;
-	}
-	
 	@Override
 	public void click(int mouseX, int mouseY)
 	{
-		if(this.isLeftEnabled() && this.hoveringLeftButton(mouseX, mouseY))
+		if(this.isLeftEnabled() && this.isHoveringLeftButton(mouseX, mouseY))
 		{
 			this.setValue(this.clamp(this.leftValue()));
 		}
-		else if(this.isRightEnabled() && this.hoveringRightButton(mouseX, mouseY))
+		else if(this.isRightEnabled() && this.isHoveringRightButton(mouseX, mouseY))
 		{
 			this.setValue(this.clamp(this.rightValue()));
 		}
@@ -99,18 +89,7 @@ public abstract class LeftRightValueModuleOptionWidget<V> extends ValueModuleOpt
 		
 		if(this.isLeftEnabled())
 		{
-			int minusX = x + this.leftButtonX();
-			
-			if(this.hoveringLeftButton(mouseX, mouseY))
-			{
-				GuiComponent.fill(matrices, minusX - 1, y - 1, minusX + 8, y + 8, this.color().getRGB());
-				GuiComponent.fill(matrices, minusX, y, minusX + 7, y + 7, Color.BLACK.getRGB());
-			}
-			
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-			RenderSystem.setShaderColor(this.color().getRed() / 255f, this.color().getGreen() / 255f, this.color().getBlue() / 255f, 1);
-			RenderSystem.setShaderTexture(0, this.leftButtonAsset());
-			GuiComponent.blit(matrices, minusX, y, 0, 0, 0, 7, 7, 7, 7);
+			this.renderButton(matrices, x, y, mouseX, mouseY, this.leftButtonX(), this.leftButtonAsset(), this.color());
 		}
 		
 		Component valueText = this.toText(this.getValue());
@@ -118,18 +97,7 @@ public abstract class LeftRightValueModuleOptionWidget<V> extends ValueModuleOpt
 		
 		if(this.isRightEnabled())
 		{
-			int plusX = x + this.rightButtonX();
-			
-			if(this.hoveringRightButton(mouseX, mouseY))
-			{
-				GuiComponent.fill(matrices, plusX - 1, y - 1, plusX + 8, y + 8, this.color().getRGB());
-				GuiComponent.fill(matrices, plusX, y, plusX + 7, y + 7, Color.BLACK.getRGB());
-			}
-			
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-			RenderSystem.setShaderColor(this.color().getRed() / 255f, this.color().getGreen() / 255f, this.color().getBlue() / 255f, 1);
-			RenderSystem.setShaderTexture(0, this.rightButtonAsset());
-			GuiComponent.blit(matrices, plusX, y, 0, 0, 0, 7, 7, 7, 7);
+			this.renderButton(matrices, x, y, mouseX, mouseY, this.rightButtonX(), this.rightButtonAsset(), this.color());
 		}
 	}
 }

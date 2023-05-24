@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
-import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 
 import java.awt.Color;
 
@@ -13,9 +13,9 @@ public final class LabelModuleOptionWidget extends ModuleOptionWidget
 {
 	private final int color;
 	
-	public LabelModuleOptionWidget(DracoMenu menu, Component label, int color)
+	public LabelModuleOptionWidget(DracoScreen screen, Component label, int color)
 	{
-		super(menu, label, 7);
+		super(screen, label, 7);
 		this.color = color;
 	}
 	

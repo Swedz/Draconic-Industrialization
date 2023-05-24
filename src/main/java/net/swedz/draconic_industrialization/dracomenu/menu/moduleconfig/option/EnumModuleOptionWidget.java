@@ -3,7 +3,8 @@ package net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
-import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenuStylesheet;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 
 import java.awt.Color;
 import java.util.function.Consumer;
@@ -16,9 +17,9 @@ public final class EnumModuleOptionWidget<E extends Enum<E>> extends LeftRightVa
 	
 	private final Function<E, Component> textGetter;
 	
-	public EnumModuleOptionWidget(DracoMenu menu, Component label, Class<E> enumClass, Supplier<E> valueGetter, Consumer<E> valueUpdated, Function<E, Component> textGetter)
+	public EnumModuleOptionWidget(DracoScreen screen, Component label, Class<E> enumClass, Supplier<E> valueGetter, Consumer<E> valueUpdated, Function<E, Component> textGetter)
 	{
-		super(menu, label, 7, valueGetter, valueUpdated);
+		super(screen, label, 7, valueGetter, valueUpdated);
 		this.enumClass = enumClass;
 		this.textGetter = textGetter;
 	}
@@ -62,6 +63,6 @@ public final class EnumModuleOptionWidget<E extends Enum<E>> extends LeftRightVa
 	@Override
 	public Color color()
 	{
-		return new Color(200, 200, 200, 255);
+		return DracoMenuStylesheet.COLOR_CONTENT;
 	}
 }

@@ -3,6 +3,7 @@ package net.swedz.draconic_industrialization.api.tier;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializer;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 
+import java.awt.Color;
 import java.util.Objects;
 
 public final class DracoColor implements NBTSerializer<DracoColor>
@@ -46,6 +47,11 @@ public final class DracoColor implements NBTSerializer<DracoColor>
 				(((int) (red * 255) & 0xFF) << 16) |
 				(((int) (green * 255) & 0xFF) << 8) |
 				(((int) (blue * 255) & 0xFF));
+	}
+	
+	public Color toColor()
+	{
+		return new Color(red, green, blue);
 	}
 	
 	@Override

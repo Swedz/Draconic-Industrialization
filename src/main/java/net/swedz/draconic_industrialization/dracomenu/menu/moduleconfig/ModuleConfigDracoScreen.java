@@ -1,17 +1,10 @@
 package net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.swedz.draconic_industrialization.DraconicIndustrialization;
-import net.swedz.draconic_industrialization.api.tier.DracoColor;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
-import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoScreen;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.ModuleOptionWidget;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
@@ -20,16 +13,12 @@ import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 
-public final class ModuleConfigDracoScreen extends DracoScreen<DracoMenu>
+public final class ModuleConfigDracoScreen extends DracoScreen
 {
-	private static final ResourceLocation RETURN = DraconicIndustrialization.id("textures/gui/draco_menu/return.png");
-	
-	private static final int CONTENT_XOFF = 94;
-	private static final int RETURN_YOFF  = 5;
-	private static final int OPTIONS_YOFF = 20;
-	
-	public static final int OPTIONS_WIDTH  = 106;
-	public static final int OPTIONS_HEIGHT = 93;
+	private static final int CONTENT_XOFF   = 94;
+	private static final int CONTENT_YOFF   = 5;
+	public static final  int CONTENT_WIDTH  = 106;
+	public static final  int CONTENT_HEIGHT = 93;
 	
 	private final int moduleSlotX, moduleSlotY;
 	private final DracoModule module;
@@ -43,7 +32,7 @@ public final class ModuleConfigDracoScreen extends DracoScreen<DracoMenu>
 		this.moduleSlotX = moduleSlotX;
 		this.moduleSlotY = moduleSlotY;
 		this.module = module;
-		module.appendWidgets(menu, widgets);
+		module.appendWidgets(this, widgets);
 		
 		int optionsY = 0;
 		for(ModuleOptionWidget widget : widgets)
@@ -53,7 +42,7 @@ public final class ModuleConfigDracoScreen extends DracoScreen<DracoMenu>
 		}
 	}
 	
-	private void postChanges()
+	public void postChanges()
 	{
 		PostModuleConfigChangesDracoMenuPacket packet = DIPacketChannels.Serverbound.DRACO_MENU_POST_MODULE_CONFIG_CHANGES.createPacket();
 		packet.slotX = moduleSlotX;
@@ -67,25 +56,18 @@ public final class ModuleConfigDracoScreen extends DracoScreen<DracoMenu>
 		return leftPos + CONTENT_XOFF;
 	}
 	
-	private int optionsY()
+	private int contentY()
 	{
-		return topPos + OPTIONS_YOFF;
+		return topPos + CONTENT_YOFF;
 	}
 	
 	@Override
 	public boolean mouseClicked(double mx, double my, int button)
 	{
-		if(mx >= this.contentX() && mx < this.contentX() + 7 && my >= topPos + RETURN_YOFF && my < topPos + RETURN_YOFF + 7)
-		{
-			this.postChanges();
-			menu.setSlotLocked(false);
-			Minecraft.getInstance().setScreen(new MainDracoScreen(menu, Minecraft.getInstance().player.getInventory(), title));
-			return true;
-		}
-		if(mx >= this.contentX() && mx < this.contentX() + OPTIONS_WIDTH && my >= this.optionsY() && my < this.optionsY() + OPTIONS_HEIGHT)
+		if(mx >= this.contentX() && mx < this.contentX() + CONTENT_WIDTH && my >= this.contentY() && my < this.contentY() + CONTENT_HEIGHT)
 		{
 			int relativeMouseX = (int) (mx - this.contentX());
-			int relativeMouseY = (int) (my - this.optionsY());
+			int relativeMouseY = (int) (my - this.contentY());
 			for(ModuleOptionWidget widget : widgets)
 			{
 				if(widget.contains(relativeMouseY))
@@ -99,22 +81,20 @@ public final class ModuleConfigDracoScreen extends DracoScreen<DracoMenu>
 		return super.mouseClicked(mx, my, button);
 	}
 	
+	private void renderWidgets(PoseStack matrices, int mouseX, int mouseY)
+	{
+		for(ModuleOptionWidget widget : widgets)
+		{
+			widget.render(matrices, this.contentX(), this.contentY() + widget.relativeY(), mouseX - this.contentX(), mouseY - this.contentY() - widget.relativeY());
+		}
+	}
+	
 	@Override
 	public void render(PoseStack matrices, int mouseX, int mouseY, float partialTick)
 	{
 		super.render(matrices, mouseX, mouseY, partialTick);
 		
-		final DracoColor color = menu.getDisplayColor();
-		
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(color.red, color.green, color.blue, 1);
-		RenderSystem.setShaderTexture(0, RETURN);
-		blit(matrices, this.contentX(), topPos + RETURN_YOFF, this.getBlitOffset(), 0, 0, 7, 7, 7, 7);
-		
-		for(ModuleOptionWidget widget : widgets)
-		{
-			widget.render(matrices, this.contentX(), this.optionsY() + widget.relativeY(), mouseX - this.contentX(), mouseY - this.optionsY() - widget.relativeY());
-		}
+		this.renderWidgets(matrices, mouseX, mouseY);
 	}
 	
 	@Override

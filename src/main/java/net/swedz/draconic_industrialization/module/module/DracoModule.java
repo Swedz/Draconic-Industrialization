@@ -3,10 +3,12 @@ package net.swedz.draconic_industrialization.module.module;
 import com.google.common.collect.Lists;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializerWithParam;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
-import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenuStylesheet;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.ModuleOptionWidget;
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
@@ -53,17 +55,22 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 		return Integer.MAX_VALUE;
 	}
 	
+	public MutableComponent title()
+	{
+		return reference.item().getName(reference.item().getDefaultInstance()).copy();
+	}
+	
 	public abstract void appendTooltip(DracoItem item, List<Component> lines);
 	
 	public List<Component> tooltip(DracoItem item)
 	{
 		List<Component> lines = Lists.newArrayList();
-		lines.add(reference.item().getName(reference.item().getDefaultInstance()));
+		lines.add(this.title().withStyle(DracoMenuStylesheet.HEADER));
 		this.appendTooltip(item, lines);
 		return lines;
 	}
 	
-	public abstract void appendWidgets(DracoMenu menu, List<ModuleOptionWidget> widgets);
+	public abstract void appendWidgets(DracoScreen screen, List<ModuleOptionWidget> widgets);
 	
 	@Override
 	public void read(NBTTagWrapper tag, DracoItem item)

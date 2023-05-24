@@ -1,12 +1,13 @@
 package net.swedz.draconic_industrialization.module.module.module;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
-import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenuStylesheet;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.EnumModuleOptionWidget;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.LabelModuleOptionWidget;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.ModuleOptionWidget;
+import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.TopStuffsModuleOptionWidget;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModelType;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorShieldType;
@@ -43,24 +44,31 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
 		lines.add(Component
-				.translatable("draco_menu.module.armor_appearance.model").withStyle(ChatFormatting.DARK_GRAY)
-				.append(Component.translatable(model.translationKey()).withStyle(ChatFormatting.WHITE)));
+				.translatable("draco_menu.module.armor_appearance.model").withStyle(DracoMenuStylesheet.CONTENT)
+				.append(Component.translatable(model.translationKey())));
 		lines.add(Component
-				.translatable("draco_menu.module.armor_appearance.shield").withStyle(ChatFormatting.DARK_GRAY)
-				.append(Component.translatable(shield.translationKey()).withStyle(ChatFormatting.WHITE)));
+				.translatable("draco_menu.module.armor_appearance.shield").withStyle(DracoMenuStylesheet.CONTENT)
+				.append(Component.translatable(shield.translationKey())));
 	}
 	
 	@Override
-	public void appendWidgets(DracoMenu menu, List<ModuleOptionWidget> widgets)
+	public void appendWidgets(DracoScreen screen, List<ModuleOptionWidget> widgets)
 	{
+		widgets.add(new TopStuffsModuleOptionWidget(screen, List.of(
+				this.title().withStyle(DracoMenuStylesheet.HEADER),
+				Component.translatable("draco_menu.module.armor_appearance.config.info.0").withStyle(DracoMenuStylesheet.CONTENT),
+				Component.translatable("draco_menu.module.armor_appearance.config.info.1").withStyle(DracoMenuStylesheet.CONTENT),
+				Component.translatable("draco_menu.module.armor_appearance.config.info.2").withStyle(DracoMenuStylesheet.CONTENT)
+		)));
+		
 		widgets.add(new LabelModuleOptionWidget(
-				menu,
+				screen,
 				Component.translatable("draco_menu.module.armor_appearance.config.label"),
 				new Color(125, 125, 125, 255).getRGB()
 		));
 		
 		widgets.add(new EnumModuleOptionWidget<>(
-				menu,
+				screen,
 				Component.translatable("draco_menu.module.armor_appearance.config.model"),
 				DraconicArmorModelType.class,
 				() -> model,
@@ -68,7 +76,7 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 				(value) -> Component.translatable(value.translationKey())
 		));
 		widgets.add(new EnumModuleOptionWidget<>(
-				menu,
+				screen,
 				Component.translatable("draco_menu.module.armor_appearance.config.shield"),
 				DraconicArmorShieldType.class,
 				() -> shield,

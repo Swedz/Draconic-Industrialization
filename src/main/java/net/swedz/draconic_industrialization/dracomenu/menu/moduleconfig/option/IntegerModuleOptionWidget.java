@@ -6,7 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
-import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenuStylesheet;
+import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.Color;
@@ -17,9 +18,9 @@ public final class IntegerModuleOptionWidget extends LeftRightValueModuleOptionW
 {
 	private final int minimumValue, maximumValue;
 	
-	public IntegerModuleOptionWidget(DracoMenu menu, Component label, int height, int minimumValue, int maximumValue, Supplier<Integer> valueGetter, Consumer<Integer> valueUpdated)
+	public IntegerModuleOptionWidget(DracoScreen screen, Component label, int height, int minimumValue, int maximumValue, Supplier<Integer> valueGetter, Consumer<Integer> valueUpdated)
 	{
-		super(menu, label, height, valueGetter, valueUpdated);
+		super(screen, label, height, valueGetter, valueUpdated);
 		this.minimumValue = minimumValue;
 		this.maximumValue = maximumValue;
 	}
@@ -86,6 +87,6 @@ public final class IntegerModuleOptionWidget extends LeftRightValueModuleOptionW
 	@Override
 	public Color color()
 	{
-		return new Color(200, 200, 200, 255);
+		return DracoMenuStylesheet.COLOR_CONTENT;
 	}
 }

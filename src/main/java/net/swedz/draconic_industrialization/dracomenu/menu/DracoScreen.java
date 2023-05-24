@@ -22,7 +22,7 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 import java.util.List;
 import java.util.Random;
 
-public abstract class DracoScreen<M extends DracoMenu> extends AbstractContainerScreen<M>
+public abstract class DracoScreen extends AbstractContainerScreen<DracoMenu>
 {
 	public static final ResourceLocation BACKGROUND_TOP_BACKGROUND = DraconicIndustrialization.id("textures/gui/draco_menu/top_background.png");
 	public static final ResourceLocation BACKGROUND_TOP_BORDER     = DraconicIndustrialization.id("textures/gui/draco_menu/top_border.png");
@@ -34,7 +34,7 @@ public abstract class DracoScreen<M extends DracoMenu> extends AbstractContainer
 	
 	protected long tick;
 	
-	public DracoScreen(M menu, Inventory inventory, Component title)
+	public DracoScreen(DracoMenu menu, Inventory inventory, Component title)
 	{
 		super(menu, inventory, title);
 		
