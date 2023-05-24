@@ -43,10 +43,10 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
 		lines.add(Component
-				.translatable("draco_menu.module.armor_appearance.model").withStyle(DracoMenuStylesheet.CONTENT)
+				.translatable("draco_menu.module.armor_appearance.attribute.model").withStyle(DracoMenuStylesheet.CONTENT)
 				.append(Component.translatable(model.translationKey())));
 		lines.add(Component
-				.translatable("draco_menu.module.armor_appearance.shield").withStyle(DracoMenuStylesheet.CONTENT)
+				.translatable("draco_menu.module.armor_appearance.attribute.shield").withStyle(DracoMenuStylesheet.CONTENT)
 				.append(Component.translatable(shield.translationKey())));
 	}
 	

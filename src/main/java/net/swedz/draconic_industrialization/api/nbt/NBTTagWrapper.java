@@ -90,6 +90,11 @@ public record NBTTagWrapper(CompoundTag tag)
 		return tag.getInt(key);
 	}
 	
+	public int getIntOrDefault(String key, int defaultValue)
+	{
+		return tag.contains(key) ? tag.getInt(key) : defaultValue;
+	}
+	
 	public void setInt(String key, int value)
 	{
 		tag.putInt(key, value);

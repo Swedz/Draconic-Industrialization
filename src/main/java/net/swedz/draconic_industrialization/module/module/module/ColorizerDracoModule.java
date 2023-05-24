@@ -38,7 +38,7 @@ public final class ColorizerDracoModule extends DracoModule
 	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
 		lines.add(Component
-				.translatable("draco_menu.module.colorizer.color").withStyle(DracoMenuStylesheet.CONTENT)
+				.translatable("draco_menu.module.colorizer.attribute.color").withStyle(DracoMenuStylesheet.CONTENT)
 				.append(Component.literal("(%d, %d, %d)".formatted((int) (color.red * 255), (int) (color.green * 255), (int) (color.blue * 255))).withStyle(Style.EMPTY.withColor(color.toRGB()))));
 	}
 	
@@ -60,21 +60,21 @@ public final class ColorizerDracoModule extends DracoModule
 		widgets.add(new IntegerModuleOptionWidget(
 				screen,
 				Component.translatable("draco_menu.module.colorizer.config.red"), 7,
-				0, 255,
+				0, 255, 16,
 				() -> (int) (color.red * 255),
 				(value) -> color.red = value / 255f
 		));
 		widgets.add(new IntegerModuleOptionWidget(
 				screen,
 				Component.translatable("draco_menu.module.colorizer.config.green"), 7,
-				0, 255,
+				0, 255, 16,
 				() -> (int) (color.green * 255),
 				(value) -> color.green = value / 255f
 		));
 		widgets.add(new IntegerModuleOptionWidget(
 				screen,
 				Component.translatable("draco_menu.module.colorizer.config.blue"), 7,
-				0, 255,
+				0, 255, 16,
 				() -> (int) (color.blue * 255),
 				(value) -> color.blue = value / 255f
 		));

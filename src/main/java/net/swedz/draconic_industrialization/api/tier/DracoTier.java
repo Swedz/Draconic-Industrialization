@@ -22,4 +22,9 @@ public enum DracoTier
 	{
 		return defaultRGB;
 	}
+	
+	public boolean greaterThanOrEqualTo(DracoTier tier)
+	{
+		return this.ordinal() >= tier.ordinal();
+	}
 }

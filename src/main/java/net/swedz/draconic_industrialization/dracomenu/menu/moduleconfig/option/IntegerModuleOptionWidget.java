@@ -12,17 +12,31 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.Color;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class IntegerModuleOptionWidget extends LeftRightValueModuleOptionWidget<Integer>
 {
-	private final int minimumValue, maximumValue;
+	private final int minimumValue, maximumValue, shiftMultiplier;
 	
-	public IntegerModuleOptionWidget(DracoScreen screen, Component label, int height, int minimumValue, int maximumValue, Supplier<Integer> valueGetter, Consumer<Integer> valueUpdated)
+	private final Function<Integer, String> toString;
+	
+	public IntegerModuleOptionWidget(DracoScreen screen, Component label, int height,
+									 int minimumValue, int maximumValue, int shiftMultiplier,
+									 Supplier<Integer> valueGetter, Consumer<Integer> valueUpdated, Function<Integer, String> toString)
 	{
 		super(screen, label, height, valueGetter, valueUpdated);
 		this.minimumValue = minimumValue;
 		this.maximumValue = maximumValue;
+		this.shiftMultiplier = shiftMultiplier;
+		this.toString = toString;
+	}
+	
+	public IntegerModuleOptionWidget(DracoScreen screen, Component label,
+									 int height, int minimumValue, int maximumValue, int shiftMultiplier,
+									 Supplier<Integer> valueGetter, Consumer<Integer> valueUpdated)
+	{
+		this(screen, label, height, minimumValue, maximumValue, shiftMultiplier, valueGetter, valueUpdated, (v) -> Integer.toString(v));
 	}
 	
 	@Override
@@ -63,13 +77,13 @@ public final class IntegerModuleOptionWidget extends LeftRightValueModuleOptionW
 	@Override
 	protected Integer leftValue()
 	{
-		return this.getValue() - (this.isHoldingShift() ? 16 : 1);
+		return this.getValue() - (this.isHoldingShift() ? shiftMultiplier : 1);
 	}
 	
 	@Override
 	protected Integer rightValue()
 	{
-		return this.getValue() + (this.isHoldingShift() ? 16 : 1);
+		return this.getValue() + (this.isHoldingShift() ? shiftMultiplier : 1);
 	}
 	
 	@Override
@@ -81,7 +95,7 @@ public final class IntegerModuleOptionWidget extends LeftRightValueModuleOptionW
 	@Override
 	protected Component toText(Integer value)
 	{
-		return Component.literal(Integer.toString(value));
+		return Component.literal(toString.apply(value));
 	}
 	
 	@Override

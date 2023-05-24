@@ -58,6 +58,9 @@ public final class DIItems
 	
 	public static final Item MODULE_COLORIZER       = builder().identifiable("module_colorizer", "Colorizer Module").creator((s) -> new DracoModuleItem(DracoModules.COLORIZER, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
 	public static final Item MODULE_ARMOR_APPEARNCE = builder().identifiable("module_armor_appearance", "Armor Appearance Module").creator((s) -> new DracoModuleItem(DracoModules.ARMOR_APPERANCE, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
+	public static final Item MODULE_SPEED_WYVERN    = builder().identifiable("module_speed_wyvern", "Speed Amplification Module (Wyvern)").creator((s) -> new DracoModuleItem(DracoModules.SPEED_WYVERN, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
+	public static final Item MODULE_SPEED_DRACONIC    = builder().identifiable("module_speed_draconic", "Speed Amplification Module (Draconic)").creator((s) -> new DracoModuleItem(DracoModules.SPEED_DRACONIC, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
+	public static final Item MODULE_SPEED_CHAOTIC    = builder().identifiable("module_speed_chaotic", "Speed Amplification Module (Chaotic)").creator((s) -> new DracoModuleItem(DracoModules.SPEED_CHAOTIC, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
 	
 	public static Set<DIItem> all()
 	{

@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
+import net.swedz.draconic_industrialization.api.attributes.AccumulatedAttributeWrappers;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializerWithParam;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenuStylesheet;
@@ -71,6 +72,10 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 	}
 	
 	public abstract void appendWidgets(DracoScreen screen, List<ModuleOptionWidget> widgets);
+	
+	public void applyAttributes(AccumulatedAttributeWrappers attributes, DracoItem item)
+	{
+	}
 	
 	@Override
 	public void read(NBTTagWrapper tag, DracoItem item)

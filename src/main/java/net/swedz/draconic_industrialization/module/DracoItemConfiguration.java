@@ -5,6 +5,7 @@ import dev.onyxstudios.cca.api.v3.item.ItemComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrializationCardinalComponents;
+import net.swedz.draconic_industrialization.api.attributes.AccumulatedAttributeWrappers;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
@@ -56,10 +57,14 @@ public final class DracoItemConfiguration extends ItemComponent
 		return grid;
 	}
 	
+	private Stream<DracoModule> modules()
+	{
+		return this.grid().entries().stream().map(DracoGridEntry::module);
+	}
+	
 	private <M extends DracoModule> Stream<M> moduleStream(DracoModuleReference<M> module)
 	{
-		return this.grid().entries().stream()
-				.map(DracoGridEntry::module)
+		return this.modules()
 				.filter((m) -> module.reference().isAssignableFrom(m.getClass()))
 				.map((m) -> (M) m);
 	}
@@ -92,6 +97,11 @@ public final class DracoItemConfiguration extends ItemComponent
 		tag.put(this.getRootTagKey(), dracoTag);
 		stack.getOrCreateTag().merge(tag);
 		stack.save(new CompoundTag());
+		
+		stack.getOrCreateTag().remove("AttributeModifiers");
+		AccumulatedAttributeWrappers attributes = new AccumulatedAttributeWrappers();
+		this.modules().forEach((m) -> m.applyAttributes(attributes, item));
+		attributes.apply(stack);
 	}
 	
 	@Deprecated

@@ -26,6 +26,11 @@ public final class DracoGridSlotShape
 		return shape;
 	}
 	
+	public static DracoGridSlotShape single()
+	{
+		return of(1, 1);
+	}
+	
 	private DracoGridSlotShape with(int x, int y)
 	{
 		slots.add(new DracoGridSlot(x, y));
