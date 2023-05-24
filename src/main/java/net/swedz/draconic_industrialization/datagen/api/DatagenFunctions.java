@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.data.CachedOutput;
 import net.swedz.draconic_industrialization.datagen.client.functions.block.BasicBlockModelDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.client.functions.item.BasicItemModelDatagenFunction;
+import net.swedz.draconic_industrialization.datagen.client.functions.item.DracoModuleItemModelDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.client.functions.particle.ParticleTextureDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.block.BlockLootTableDatagenFunction;
 import net.swedz.draconic_industrialization.datagen.server.functions.block.BlockTagDatagenFunction;
@@ -32,7 +33,8 @@ public final class DatagenFunctions
 		
 		public static final class Item extends FunctionStorage<Item>
 		{
-			public static final BasicItemModelDatagenFunction BASIC_MODEL = new BasicItemModelDatagenFunction();
+			public static final BasicItemModelDatagenFunction       BASIC_MODEL        = new BasicItemModelDatagenFunction();
+			public static final DracoModuleItemModelDatagenFunction DRACO_MODULE_MODEL = new DracoModuleItemModelDatagenFunction();
 			
 			public static final Item INSTANCE = new Item().collect();
 		}
