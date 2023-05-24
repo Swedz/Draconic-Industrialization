@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.api.attributes.AccumulatedAttributeWrappers;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializerWithParam;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
+import net.swedz.draconic_industrialization.api.tier.DracoTier;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenuStylesheet;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.ModuleOptionWidget;
@@ -21,14 +22,9 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 {
 	protected final DracoModuleReference reference;
 	
-	protected final String             key;
-	protected final DracoGridSlotShape gridShape;
-	
 	public DracoModule(DracoModuleReference reference)
 	{
 		this.reference = reference;
-		this.key = reference.key();
-		this.gridShape = reference.gridShape();
 	}
 	
 	public DracoModuleReference reference()
@@ -38,17 +34,22 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 	
 	public String key()
 	{
-		return key;
+		return reference.key();
+	}
+	
+	public DracoTier tier()
+	{
+		return reference.tier();
 	}
 	
 	public DracoGridSlotShape gridShape()
 	{
-		return gridShape;
+		return reference.gridShape();
 	}
 	
 	public boolean applies(DracoItem item)
 	{
-		return true;
+		return item.tier().greaterThanOrEqualTo(this.tier());
 	}
 	
 	public int max()
@@ -80,13 +81,13 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 	@Override
 	public void read(NBTTagWrapper tag, DracoItem item)
 	{
-		tag.setString("Key", key);
+		tag.setString("Key", this.key());
 	}
 	
 	@Override
 	public void write(NBTTagWrapper tag, DracoItem item)
 	{
-		tag.setString("Key", key);
+		tag.setString("Key", this.key());
 	}
 	
 	public ItemStack itemize(DracoItem parent)

@@ -19,11 +19,11 @@ import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 import java.util.List;
 import java.util.UUID;
 
-public final class SpeedDracoModule extends PercentageBasedDracoModule
+public final class JumpDracoModule extends PercentageBasedDracoModule
 {
-	private static final UUID ATTRIBUTE_ID = UUID.fromString("99a5b4c6-fa1f-11ed-be56-0242ac120002");
+	private static final UUID ATTRIBUTE_ID = UUID.fromString("2825593e-fa27-11ed-be56-0242ac120002");
 	
-	public SpeedDracoModule(DracoModuleReference reference, double maxSpeedPercentage)
+	public JumpDracoModule(DracoModuleReference reference, double maxSpeedPercentage)
 	{
 		super(reference, 5, maxSpeedPercentage);
 	}
@@ -39,7 +39,7 @@ public final class SpeedDracoModule extends PercentageBasedDracoModule
 	public void appendTooltip(DracoItem item, List<Component> lines)
 	{
 		lines.add(Component
-				.translatable("draco_menu.module.speed_amplifier.attribute.boost").withStyle(DracoMenuStylesheet.CONTENT)
+				.translatable("draco_menu.module.jump_amplifier.attribute.boost").withStyle(DracoMenuStylesheet.CONTENT)
 				.append(Component.literal(this.bonusString(value))));
 	}
 	
@@ -48,19 +48,18 @@ public final class SpeedDracoModule extends PercentageBasedDracoModule
 	{
 		widgets.add(new TopStuffsModuleOptionWidget(screen, List.of(
 				this.title().withStyle(DracoMenuStylesheet.HEADER),
-				Component.translatable("draco_menu.module.speed_amplifier.config.info.0").withStyle(DracoMenuStylesheet.CONTENT),
-				Component.translatable("draco_menu.module.speed_amplifier.config.info.1").withStyle(DracoMenuStylesheet.CONTENT)
+				Component.translatable("draco_menu.module.jump_amplifier.config.info.0").withStyle(DracoMenuStylesheet.CONTENT)
 		)));
 		
 		widgets.add(new LabelModuleOptionWidget(
 				screen,
-				Component.translatable("draco_menu.module.speed_amplifier.config.label"),
+				Component.translatable("draco_menu.module.jump_amplifier.config.label"),
 				DracoMenuStylesheet.COLOR_HEADER.getRGB()
 		));
 		
 		widgets.add(new IntegerModuleOptionWidget(
 				screen,
-				Component.translatable("draco_menu.module.speed_amplifier.config.boost"), 7,
+				Component.translatable("draco_menu.module.jump_amplifier.config.boost"), 7,
 				0, maxValue, 1,
 				() -> value,
 				(value) -> this.value = value,
@@ -72,8 +71,8 @@ public final class SpeedDracoModule extends PercentageBasedDracoModule
 	public void applyAttributes(AccumulatedAttributeWrappers attributes, DracoItem item)
 	{
 		attributes.add(
-				Attributes.MOVEMENT_SPEED,
-				ATTRIBUTE_ID, "DracoArmor.Speed",
+				Attributes.JUMP_STRENGTH, // FIXME uhhhhh this is horse jump strength... not player jump strength...
+				ATTRIBUTE_ID, "DracoArmor.Jump",
 				AttributeModifier.Operation.MULTIPLY_BASE,
 				EquipmentSlot.CHEST,
 				this.bonus()

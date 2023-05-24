@@ -38,11 +38,16 @@ final class LangDatagen
 		map.put("draco_menu.module.armor_appearance.config.model", "■ Model");
 		map.put("draco_menu.module.armor_appearance.config.shield", "■ Shield");
 		
-		map.put("draco_menu.module.speed_amplifier.attribute.speed", "■ Speed: ");
+		map.put("draco_menu.module.speed_amplifier.attribute.boost", "■ Boost: ");
 		map.put("draco_menu.module.speed_amplifier.config.label", "Speed Amplifier");
 		map.put("draco_menu.module.speed_amplifier.config.info.0", "The speed of your items can be amplified by a certain percentage.");
 		map.put("draco_menu.module.speed_amplifier.config.info.1", "This can mean different things for different item types. For armor, it means your movement speed when wearing it. For tools, it means the digging speed.");
-		map.put("draco_menu.module.speed_amplifier.config.speed", "■ Speed");
+		map.put("draco_menu.module.speed_amplifier.config.boost", "■ Boost");
+		
+		map.put("draco_menu.module.jump_amplifier.attribute.boost", "■ Boost: ");
+		map.put("draco_menu.module.jump_amplifier.config.label", "Jump Amplifier");
+		map.put("draco_menu.module.jump_amplifier.config.info.0", "Your jump strength can be amplified by your armor by a certain percentage.");
+		map.put("draco_menu.module.jump_amplifier.config.boost", "■ Boost");
 		
 		map.put("draco_menu.module.generic.clipboard", "Load from clipboard");
 		

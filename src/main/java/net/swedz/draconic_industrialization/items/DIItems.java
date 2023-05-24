@@ -5,10 +5,12 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
+import net.swedz.draconic_industrialization.datagen.api.DatagenFunctions;
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.material.DIMaterialHardness;
 import net.swedz.draconic_industrialization.material.DIMaterialPart;
+import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
 import net.swedz.draconic_industrialization.recipes.StandardRecipes;
 
@@ -56,11 +58,14 @@ public final class DIItems
 	public static final Item DRACONIC_ARMOR = builder().identifiable("draconic_armor", "Draconic Armor").creator((s) -> new DraconicArmorItem(DracoTier.DRACONIC, s)).build();
 	public static final Item CHAOTIC_ARMOR  = builder().identifiable("chaotic_armor", "Chaotic Armor").creator((s) -> new DraconicArmorItem(DracoTier.CHAOTIC, s)).build();
 	
-	public static final Item MODULE_COLORIZER       = builder().identifiable("module_colorizer", "Colorizer Module").creator((s) -> new DracoModuleItem(DracoModules.COLORIZER, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
-	public static final Item MODULE_ARMOR_APPEARNCE = builder().identifiable("module_armor_appearance", "Armor Appearance Module").creator((s) -> new DracoModuleItem(DracoModules.ARMOR_APPERANCE, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
-	public static final Item MODULE_SPEED_WYVERN    = builder().identifiable("module_speed_wyvern", "Speed Amplification Module (Wyvern)").creator((s) -> new DracoModuleItem(DracoModules.SPEED_WYVERN, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
-	public static final Item MODULE_SPEED_DRACONIC    = builder().identifiable("module_speed_draconic", "Speed Amplification Module (Draconic)").creator((s) -> new DracoModuleItem(DracoModules.SPEED_DRACONIC, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
-	public static final Item MODULE_SPEED_CHAOTIC    = builder().identifiable("module_speed_chaotic", "Speed Amplification Module (Chaotic)").creator((s) -> new DracoModuleItem(DracoModules.SPEED_CHAOTIC, s)).withSettings((s) -> s.maxCount(1)).generateBasicModel().build();
+	public static final Item MODULE_COLORIZER       = module("module_colorizer", "Colorizer Module", DracoModules.COLORIZER);
+	public static final Item MODULE_ARMOR_APPEARNCE = module("module_armor_appearance", "Armor Appearance Module", DracoModules.ARMOR_APPERANCE);
+	public static final Item MODULE_SPEED_WYVERN    = module("module_speed_wyvern", "Speed Amplification Module (Wyvern)", DracoModules.SPEED_WYVERN);
+	public static final Item MODULE_SPEED_DRACONIC  = module("module_speed_draconic", "Speed Amplification Module (Draconic)", DracoModules.SPEED_DRACONIC);
+	public static final Item MODULE_SPEED_CHAOTIC   = module("module_speed_chaotic", "Speed Amplification Module (Chaotic)", DracoModules.SPEED_CHAOTIC);
+	public static final Item MODULE_JUMP_WYVERN     = module("module_jump_wyvern", "Jump Amplification Module (Wyvern)", DracoModules.JUMP_WYVERN);
+	public static final Item MODULE_JUMP_DRACONIC   = module("module_jump_draconic", "Jump Amplification Module (Draconic)", DracoModules.JUMP_DRACONIC);
+	public static final Item MODULE_JUMP_CHAOTIC    = module("module_jump_chaotic", "Jump Amplification Module (Chaotic)", DracoModules.JUMP_CHAOTIC);
 	
 	public static Set<DIItem> all()
 	{
@@ -72,14 +77,25 @@ public final class DIItems
 		ITEMS.add(item);
 	}
 	
-	public static ItemBuilder builder()
+	private static ItemBuilder builder()
 	{
 		return ItemBuilder.create();
 	}
 	
-	public static DIMaterial material(String id, String englishName, double hardness)
+	private static DIMaterial material(String id, String englishName, double hardness)
 	{
 		return new DIMaterial(id, englishName, hardness);
+	}
+	
+	private static Item module(String id, String name, DracoModuleReference moduleReference)
+	{
+		return builder()
+				.identifiable(id, name)
+				.creator((s) -> new DracoModuleItem(moduleReference, s))
+				.withSettings((s) -> s
+						.maxCount(1)
+						.datagenFunction(DatagenFunctions.Client.Item.DRACO_MODULE_MODEL))
+				.build();
 	}
 	
 	public static void init()
