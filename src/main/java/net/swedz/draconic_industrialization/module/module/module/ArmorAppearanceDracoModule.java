@@ -15,7 +15,6 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
 import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 
-import java.awt.Color;
 import java.util.List;
 
 public final class ArmorAppearanceDracoModule extends DracoModule
@@ -64,7 +63,7 @@ public final class ArmorAppearanceDracoModule extends DracoModule
 		widgets.add(new LabelModuleOptionWidget(
 				screen,
 				Component.translatable("draco_menu.module.armor_appearance.config.label"),
-				new Color(125, 125, 125, 255).getRGB()
+				DracoMenuStylesheet.COLOR_HEADER.getRGB()
 		));
 		
 		widgets.add(new EnumModuleOptionWidget<>(
