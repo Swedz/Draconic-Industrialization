@@ -88,7 +88,7 @@ public final class DracoItemConfiguration extends ItemComponent
 	{
 		CompoundTag tag = new CompoundTag();
 		CompoundTag dracoTag = this.getOrCreateRootTag();
-		dracoTag.put("Grid", grid.serialize());
+		dracoTag.put("Grid", this.grid().serialize());
 		tag.put(this.getRootTagKey(), dracoTag);
 		stack.getOrCreateTag().merge(tag);
 		stack.save(new CompoundTag());
