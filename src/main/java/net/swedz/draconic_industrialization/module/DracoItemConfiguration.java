@@ -57,7 +57,7 @@ public final class DracoItemConfiguration extends ItemComponent
 		return grid;
 	}
 	
-	private Stream<DracoModule> modules()
+	public Stream<DracoModule> modules()
 	{
 		return this.grid().entries().stream().map(DracoGridEntry::module);
 	}

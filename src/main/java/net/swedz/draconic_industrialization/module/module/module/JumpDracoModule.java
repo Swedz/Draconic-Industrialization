@@ -3,9 +3,9 @@ package net.swedz.draconic_industrialization.module.module.module;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.swedz.draconic_industrialization.api.attributes.AccumulatedAttributeWrappers;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
+import net.swedz.draconic_industrialization.attributes.DIAttributes;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenuStylesheet;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.IntegerModuleOptionWidget;
@@ -15,6 +15,7 @@ import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.T
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
+import net.swedz.draconic_industrialization.module.module.PercentageBasedDracoModule;
 
 import java.util.List;
 import java.util.UUID;
@@ -60,7 +61,7 @@ public final class JumpDracoModule extends PercentageBasedDracoModule
 		widgets.add(new IntegerModuleOptionWidget(
 				screen,
 				Component.translatable("draco_menu.module.jump_amplifier.config.boost"), 7,
-				0, maxValue, 1,
+				0, maxValue, 5,
 				() -> value,
 				(value) -> this.value = value,
 				this::bonusString
@@ -71,7 +72,7 @@ public final class JumpDracoModule extends PercentageBasedDracoModule
 	public void applyAttributes(AccumulatedAttributeWrappers attributes, DracoItem item)
 	{
 		attributes.add(
-				Attributes.JUMP_STRENGTH, // FIXME uhhhhh this is horse jump strength... not player jump strength...
+				DIAttributes.JUMP_HEIGHT,
 				ATTRIBUTE_ID, "DracoArmor.Jump",
 				AttributeModifier.Operation.MULTIPLY_BASE,
 				EquipmentSlot.CHEST,

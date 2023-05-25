@@ -9,6 +9,7 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 import net.swedz.draconic_industrialization.module.module.module.ArmorAppearanceDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.ColorizerDracoModule;
+import net.swedz.draconic_industrialization.module.module.module.FlightDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.JumpDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.SpeedDracoModule;
 
@@ -48,18 +49,24 @@ public final class DracoModules
 	
 	public static final DracoModuleReference<JumpDracoModule> JUMP_WYVERN   = register(
 			"jump", "JumpWyvern", DracoTier.WYVERN, DracoGridSlotShape.of(2, 1),
-			JumpDracoModule.class, (r) -> new JumpDracoModule(r, 10),
+			JumpDracoModule.class, (r) -> new JumpDracoModule(r, 25),
 			() -> DIItems.MODULE_JUMP_WYVERN
 	);
 	public static final DracoModuleReference<JumpDracoModule> JUMP_DRACONIC = register(
 			"jump", "JumpDraconic", DracoTier.DRACONIC, DracoGridSlotShape.of(2, 1),
-			JumpDracoModule.class, (r) -> new JumpDracoModule(r, 25),
+			JumpDracoModule.class, (r) -> new JumpDracoModule(r, 75),
 			() -> DIItems.MODULE_JUMP_DRACONIC
 	);
 	public static final DracoModuleReference<JumpDracoModule> JUMP_CHAOTIC  = register(
 			"jump", "JumpChaotic", DracoTier.CHAOTIC, DracoGridSlotShape.of(2, 1),
-			JumpDracoModule.class, (r) -> new JumpDracoModule(r, 50),
+			JumpDracoModule.class, (r) -> new JumpDracoModule(r, 150),
 			() -> DIItems.MODULE_JUMP_CHAOTIC
+	);
+	
+	public static final DracoModuleReference<FlightDracoModule> FLIGHT = register(
+			"flight", "Flight", DracoTier.WYVERN, DracoGridSlotShape.of(2, 2),
+			FlightDracoModule.class, FlightDracoModule::new,
+			() -> DIItems.MODULE_FLIGHT
 	);
 	
 	private static <M extends DracoModule> DracoModuleReference<M> register(String id, String key, DracoTier tier, DracoGridSlotShape gridShape, Class<M> moduleClass, DracoModuleCreator<M> creator, Supplier<Item> itemSupplier)

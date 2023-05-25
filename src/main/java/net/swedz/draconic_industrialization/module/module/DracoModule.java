@@ -62,7 +62,9 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 		return reference.item().getName(reference.item().getDefaultInstance()).copy();
 	}
 	
-	public abstract void appendTooltip(DracoItem item, List<Component> lines);
+	public void appendTooltip(DracoItem item, List<Component> lines)
+	{
+	}
 	
 	public List<Component> tooltip(DracoItem item)
 	{
@@ -72,7 +74,14 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 		return lines;
 	}
 	
-	public abstract void appendWidgets(DracoScreen screen, List<ModuleOptionWidget> widgets);
+	public boolean hasStuffToConfigure()
+	{
+		return true;
+	}
+	
+	public void appendWidgets(DracoScreen screen, List<ModuleOptionWidget> widgets)
+	{
+	}
 	
 	public void applyAttributes(AccumulatedAttributeWrappers attributes, DracoItem item)
 	{

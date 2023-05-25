@@ -15,6 +15,7 @@ import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.T
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
+import net.swedz.draconic_industrialization.module.module.PercentageBasedDracoModule;
 
 import java.util.List;
 import java.util.UUID;

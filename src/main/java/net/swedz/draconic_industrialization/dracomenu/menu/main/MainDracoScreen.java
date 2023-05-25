@@ -62,7 +62,7 @@ public final class MainDracoScreen extends DracoScreen
 				return true;
 			}
 			// Open the module's config menu
-			else if(rightClick)
+			else if(rightClick && entry.module().hasStuffToConfigure())
 			{
 				menu.setSlotLocked(true);
 				Minecraft.getInstance().setScreen(new ModuleConfigDracoScreen(menu, Minecraft.getInstance().player.getInventory(), title, entry.x(), entry.y(), entry.module()));

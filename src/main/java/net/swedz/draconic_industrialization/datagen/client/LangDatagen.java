@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.datagen.client;
 
+import net.swedz.draconic_industrialization.attributes.DIAttributes;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorModelType;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorShieldType;
 import net.swedz.draconic_industrialization.keybinds.DIKeybinds;
@@ -62,5 +63,9 @@ final class LangDatagen
 		{
 			map.put(value.translationKey(), value.englishName());
 		}
+		
+		// Attributes
+		DIAttributes.all().forEach((attribute, englishName) ->
+				map.put(attribute.getDescriptionId(), englishName));
 	}
 }

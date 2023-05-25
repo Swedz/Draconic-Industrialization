@@ -1,15 +1,19 @@
 package net.swedz.draconic_industrialization;
 
+import io.github.ladysnake.pal.AbilitySource;
+import io.github.ladysnake.pal.Pal;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.swedz.draconic_industrialization.attributes.DIAttributes;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
+import net.swedz.draconic_industrialization.module.module.module.FlightDracoModule;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
 import net.swedz.draconic_industrialization.packet.PacketType;
 import net.swedz.draconic_industrialization.particles.DIParticles;
@@ -32,12 +36,15 @@ public final class DraconicIndustrialization implements ModInitializer
 			() -> new ItemStack(Registry.ITEM.get(id("awakened_draconium_circuit")))
 	);
 	
+	public static final AbilitySource ABILITY_SOURCE = Pal.getAbilitySource(id(ID));
+	
 	public static void loadClasses()
 	{
 		DIItems.init();
 		DIBlocks.init();
 		DIEntities.init();
 		DIParticles.init();
+		DIAttributes.init();
 		DracoMenu.init();
 	}
 	
@@ -47,5 +54,7 @@ public final class DraconicIndustrialization implements ModInitializer
 		loadClasses();
 		
 		DIPacketChannels.registerAllListeners(PacketType.SERVERBOUND);
+		
+		FlightDracoModule.initializeListener();
 	}
 }

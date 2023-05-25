@@ -1,7 +1,4 @@
-package net.swedz.draconic_industrialization.module.module.module;
-
-import net.swedz.draconic_industrialization.module.module.DracoModule;
-import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
+package net.swedz.draconic_industrialization.module.module;
 
 public abstract class PercentageBasedDracoModule extends DracoModule
 {

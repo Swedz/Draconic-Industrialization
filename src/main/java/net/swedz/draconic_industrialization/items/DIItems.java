@@ -66,6 +66,7 @@ public final class DIItems
 	public static final Item MODULE_JUMP_WYVERN     = module("module_jump_wyvern", "Jump Amplification Module (Wyvern)", DracoModules.JUMP_WYVERN);
 	public static final Item MODULE_JUMP_DRACONIC   = module("module_jump_draconic", "Jump Amplification Module (Draconic)", DracoModules.JUMP_DRACONIC);
 	public static final Item MODULE_JUMP_CHAOTIC    = module("module_jump_chaotic", "Jump Amplification Module (Chaotic)", DracoModules.JUMP_CHAOTIC);
+	public static final Item MODULE_FLIGHT          = module("module_flight", "Gravitational Alteration Module", DracoModules.FLIGHT);
 	
 	public static Set<DIItem> all()
 	{
