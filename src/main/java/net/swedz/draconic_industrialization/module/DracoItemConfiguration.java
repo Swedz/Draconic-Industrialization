@@ -2,6 +2,8 @@ package net.swedz.draconic_industrialization.module;
 
 import dev.onyxstudios.cca.api.v3.item.CcaNbtType;
 import dev.onyxstudios.cca.api.v3.item.ItemComponent;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.swedz.draconic_industrialization.DraconicIndustrializationCardinalComponents;
@@ -13,6 +15,9 @@ import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
 import net.swedz.draconic_industrialization.module.module.grid.DracoModuleGrid;
+import net.swedz.draconic_industrialization.module.module.module.EnergyDracoModule;
+import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.base.SimpleBatteryItem;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +33,8 @@ public final class DracoItemConfiguration extends ItemComponent
 	private final DracoTier tier;
 	
 	private DracoModuleGrid grid;
+	
+	private EnergyStorage energyStorage;
 	
 	public DracoItemConfiguration(ItemStack itemStack)
 	{
@@ -62,11 +69,16 @@ public final class DracoItemConfiguration extends ItemComponent
 		return this.grid().entries().stream().map(DracoGridEntry::module);
 	}
 	
-	private <M extends DracoModule> Stream<M> moduleStream(DracoModuleReference<M> module)
+	private <M extends DracoModule> Stream<M> moduleStream(Class<M> module)
 	{
 		return this.modules()
-				.filter((m) -> module.reference().isAssignableFrom(m.getClass()))
+				.filter((m) -> module.isAssignableFrom(m.getClass()))
 				.map((m) -> (M) m);
+	}
+	
+	private <M extends DracoModule> Stream<M> moduleStream(DracoModuleReference<M> module)
+	{
+		return this.moduleStream(module.reference());
 	}
 	
 	public <M extends DracoModule> List<M> getModules(DracoModuleReference<M> module)
@@ -87,6 +99,33 @@ public final class DracoItemConfiguration extends ItemComponent
 	public <M extends DracoModule> M getModuleOrCreate(DracoModuleReference<M> module)
 	{
 		return this.getModule(module).orElseGet(() -> DracoModules.create(module, item, new NBTTagWrapper()));
+	}
+	
+	public EnergyStorage energyStorage(ContainerItemContext context)
+	{
+		if(!valid)
+		{
+			List<EnergyDracoModule> energyModules = this.moduleStream(EnergyDracoModule.class).toList();
+			long capacity = energyModules.stream().mapToLong(EnergyDracoModule::capacity).sum();
+			long io = energyModules.stream().mapToLong(EnergyDracoModule::io).sum();
+			energyStorage = SimpleBatteryItem.createStorage(context, capacity, io, io);
+			if(energyStorage.getAmount() > energyStorage.getCapacity())
+			{
+				long amountToExtract = energyStorage.getAmount() - energyStorage.getCapacity();
+				try (Transaction transaction = Transaction.openOuter())
+				{
+					energyStorage.extract(amountToExtract, transaction);
+					transaction.commit();
+				}
+			}
+			valid = true;
+		}
+		return energyStorage;
+	}
+	
+	public EnergyStorage energyStorage()
+	{
+		return ContainerItemContext.withConstant(stack).find(EnergyStorage.ITEM);
 	}
 	
 	public void save()

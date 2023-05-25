@@ -9,6 +9,7 @@ import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 import net.swedz.draconic_industrialization.module.module.module.ArmorAppearanceDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.ColorizerDracoModule;
+import net.swedz.draconic_industrialization.module.module.module.EnergyDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.FlightDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.JumpDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.SpeedDracoModule;
@@ -67,6 +68,22 @@ public final class DracoModules
 			"flight", "Flight", DracoTier.WYVERN, DracoGridSlotShape.of(2, 2),
 			FlightDracoModule.class, FlightDracoModule::new,
 			() -> DIItems.MODULE_FLIGHT
+	);
+	
+	public static final DracoModuleReference<EnergyDracoModule> ENERGY_WYVERN   = register(
+			"energy", "EnergyWyvern", DracoTier.WYVERN, DracoGridSlotShape.single(),
+			EnergyDracoModule.class, (r) -> new EnergyDracoModule(r, 4000000, 64000),
+			() -> DIItems.MODULE_ENERGY_WYVERN
+	);
+	public static final DracoModuleReference<EnergyDracoModule> ENERGY_DRACONIC = register(
+			"energy", "EnergyDraconic", DracoTier.DRACONIC, DracoGridSlotShape.single(),
+			EnergyDracoModule.class, (r) -> new EnergyDracoModule(r, 16000000, 256000),
+			() -> DIItems.MODULE_ENERGY_DRACONIC
+	);
+	public static final DracoModuleReference<EnergyDracoModule> ENERGY_CHAOTIC  = register(
+			"energy", "EnergyChaotic", DracoTier.CHAOTIC, DracoGridSlotShape.single(),
+			EnergyDracoModule.class, (r) -> new EnergyDracoModule(r, 64000000, 1000000),
+			() -> DIItems.MODULE_ENERGY_CHAOTIC
 	);
 	
 	private static <M extends DracoModule> DracoModuleReference<M> register(String id, String key, DracoTier tier, DracoGridSlotShape gridShape, Class<M> moduleClass, DracoModuleCreator<M> creator, Supplier<Item> itemSupplier)

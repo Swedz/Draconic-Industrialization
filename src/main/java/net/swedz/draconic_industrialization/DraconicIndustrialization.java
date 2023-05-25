@@ -13,12 +13,14 @@ import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
+import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.module.FlightDracoModule;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
 import net.swedz.draconic_industrialization.packet.PacketType;
 import net.swedz.draconic_industrialization.particles.DIParticles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import team.reborn.energy.api.EnergyStorage;
 
 public final class DraconicIndustrialization implements ModInitializer
 {
@@ -56,5 +58,10 @@ public final class DraconicIndustrialization implements ModInitializer
 		DIPacketChannels.registerAllListeners(PacketType.SERVERBOUND);
 		
 		FlightDracoModule.initializeListener();
+		
+		EnergyStorage.ITEM.registerForItems(
+				(stack, context) -> ((DracoItem) stack.getItem()).dracoConfiguration(stack).energyStorage(context),
+				DIItems.WYVERN_ARMOR, DIItems.DRACONIC_ARMOR, DIItems.CHAOTIC_ARMOR
+		);
 	}
 }
