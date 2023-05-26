@@ -90,9 +90,9 @@ public final class ModuleConfigDracoScreen extends DracoScreen
 	}
 	
 	@Override
-	public void render(PoseStack matrices, int mouseX, int mouseY, float partialTick)
+	protected void renderLate(PoseStack matrices, int mouseX, int mouseY, float partialTick)
 	{
-		super.render(matrices, mouseX, mouseY, partialTick);
+		super.renderLate(matrices, mouseX, mouseY, partialTick);
 		
 		this.renderWidgets(matrices, mouseX, mouseY);
 	}

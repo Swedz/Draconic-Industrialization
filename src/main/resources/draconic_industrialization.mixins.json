@@ -11,6 +11,7 @@
     ],
     "client": [
         "client.DragonFliesThroughMainMenuMixin",
+        "client.InterceptCarriedItemRendererMixin",
         "client.LivingEntityRendererMixin",
         "client.PlayerRendererMixin"
     ],

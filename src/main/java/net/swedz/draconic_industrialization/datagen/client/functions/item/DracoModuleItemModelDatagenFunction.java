@@ -1,5 +1,6 @@
 package net.swedz.draconic_industrialization.datagen.client.functions.item;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.CachedOutput;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
@@ -11,6 +12,7 @@ import net.swedz.draconic_industrialization.datagen.client.DIDatagenClient;
 import net.swedz.draconic_industrialization.items.DIItem;
 import net.swedz.draconic_industrialization.items.DIItemSettings;
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 
 import java.io.IOException;
 
@@ -20,6 +22,15 @@ public final class DracoModuleItemModelDatagenFunction extends ClientDatagenFunc
 	public DatagenFunctionCategory category()
 	{
 		return DatagenFunctionCategory.ITEM_CLIENT;
+	}
+	
+	private String format(String string, int width, int height, boolean baseLayer)
+	{
+		if((baseLayer && (width > 1 || height > 1)) || (!baseLayer && width != height))
+		{
+			string += "_%dx%d".formatted(width, height);
+		}
+		return string;
 	}
 	
 	private String baseLayer(DracoTier tier)
@@ -32,18 +43,40 @@ public final class DracoModuleItemModelDatagenFunction extends ClientDatagenFunc
 				};
 	}
 	
-	private JsonObject buildItemModelJson(DIItem item)
+	private JsonObject buildItemModelJson(DatagenProvider provider, DIItem item, boolean gui)
 	{
 		final DracoModuleItem moduleItem = (DracoModuleItem) item.item();
+		final DracoGridSlotShape shape = moduleItem.moduleReference().gridShape();
+		final int width = shape.width();
+		final int height = shape.height();
 		
 		final JsonObject json = new JsonObject();
 		
 		json.addProperty("parent", "item/generated");
 		
 		JsonObject textures = new JsonObject();
-		textures.addProperty("layer0", this.baseLayer(moduleItem.moduleReference().tier()));
-		textures.addProperty("layer1", "draconic_industrialization:item/module/%s".formatted(moduleItem.moduleReference().id()));
+		String baseLayer = this.baseLayer(moduleItem.moduleReference().tier());
+		String iconLayer = "draconic_industrialization:item/module/%s".formatted(moduleItem.moduleReference().id());
+		if(gui)
+		{
+			baseLayer = this.format(baseLayer, width, height, true);
+			iconLayer = this.format(iconLayer, width, height, false);
+		}
+		textures.addProperty("layer0", baseLayer);
+		textures.addProperty("layer1", iconLayer);
 		json.add("textures", textures);
+		
+		if(!gui)
+		{
+			JsonArray overrides = new JsonArray();
+			JsonObject guiOverride = new JsonObject();
+			JsonObject guiOverridePredicate = new JsonObject();
+			guiOverridePredicate.addProperty(DraconicIndustrialization.id("in_draco_gui").toString(), 1);
+			guiOverride.add("predicate", guiOverridePredicate);
+			guiOverride.addProperty("model", DIDatagenClient.itemModelTarget(provider.dataGenerator().getModId(), item.id(false) + "_in_gui"));
+			overrides.add(guiOverride);
+			json.add("overrides", overrides);
+		}
 		
 		return json;
 	}
@@ -63,7 +96,11 @@ public final class DracoModuleItemModelDatagenFunction extends ClientDatagenFunc
 		}
 		
 		final DIItemSettings settings = item.settings();
-		final String modelPath = DIDatagenClient.itemModelPath(provider.dataGenerator().getModId(), item.id(false));
-		provider.writeJsonIfNotExist(output, modelPath, this.buildItemModelJson(item));
+		
+		final String baseModelPath = DIDatagenClient.itemModelPath(provider.dataGenerator().getModId(), item.id(false));
+		provider.writeJsonIfNotExist(output, baseModelPath, this.buildItemModelJson(provider, item, false));
+		
+		final String guiModelPath = DIDatagenClient.itemModelPath(provider.dataGenerator().getModId(), item.id(false) + "_in_gui");
+		provider.writeJsonIfNotExist(output, guiModelPath, this.buildItemModelJson(provider, item, true));
 	}
 }

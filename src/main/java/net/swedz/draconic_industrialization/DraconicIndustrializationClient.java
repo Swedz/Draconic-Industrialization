@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.particle.HeartParticle;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.swedz.draconic_industrialization.blocks.DIBlocks;
 import net.swedz.draconic_industrialization.blocks.block.crystalnode.CrystalNodeBlockRenderer;
 import net.swedz.draconic_industrialization.blocks.block.crystalnode.CrystalNodeGeoModel;
@@ -14,6 +15,7 @@ import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
 import net.swedz.draconic_industrialization.dracomenu.menu.main.MainDracoScreen;
 import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
+import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.render.DraconicArmorItemModel;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.render.DraconicArmorRenderer;
 import net.swedz.draconic_industrialization.keybinds.DIKeybinds;
@@ -48,5 +50,9 @@ public final class DraconicIndustrializationClient implements ClientModInitializ
 		MenuScreens.register(DracoMenu.TYPE, MainDracoScreen::new);
 		
 		DIPacketChannels.registerAllListeners(PacketType.CLIENTBOUND);
+		
+		DIItems.all().stream().filter((i) -> i.item() instanceof DracoModuleItem).forEach((item) ->
+				ItemProperties.register(item.item(), DraconicIndustrialization.id("in_draco_gui"), (stack, level, entity, i) ->
+						stack.getOrCreateTag().contains(DraconicIndustrialization.id("in_draco_gui").toString()) ? 1 : 0));
 	}
 }

@@ -6,16 +6,19 @@ import java.util.List;
 
 public final class DracoGridSlotShape
 {
+	private final int width, height;
 	private final List<DracoGridSlot> slots;
 	
-	private DracoGridSlotShape()
+	private DracoGridSlotShape(int width, int height)
 	{
+		this.width = width;
+		this.height = height;
 		this.slots = Lists.newArrayList();
 	}
 	
 	public static DracoGridSlotShape of(int width, int height)
 	{
-		DracoGridSlotShape shape = new DracoGridSlotShape();
+		DracoGridSlotShape shape = new DracoGridSlotShape(width, height);
 		for(int x = 0; x < width; x++)
 		{
 			for(int y = 0; y < height; y++)
@@ -35,6 +38,16 @@ public final class DracoGridSlotShape
 	{
 		slots.add(new DracoGridSlot(x, y));
 		return this;
+	}
+	
+	public int width()
+	{
+		return width;
+	}
+	
+	public int height()
+	{
+		return height;
 	}
 	
 	public List<DracoGridSlot> slots()

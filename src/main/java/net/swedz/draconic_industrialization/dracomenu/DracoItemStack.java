@@ -15,7 +15,7 @@ public record DracoItemStack(DracoItem item, Slot slot)
 	
 	public boolean isEmpty()
 	{
-		return this == EMPTY;
+		return this == EMPTY || this.stack().isEmpty();
 	}
 	
 	public boolean matches(Slot other)

@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "draconic_industrialization:item/module/wyvern_2x2",
+    "layer1": "draconic_industrialization:item/module/flight"
+  }
+}

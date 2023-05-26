@@ -82,17 +82,22 @@ public abstract class DracoScreen extends AbstractContainerScreen<DracoMenu>
 	
 	// Our rendering
 	
-	@Override
-	public void render(PoseStack matrices, int mouseX, int mouseY, float partialTick)
+	protected void renderLate(PoseStack matrices, int mouseX, int mouseY, float partialTick)
 	{
-		super.render(matrices, mouseX, mouseY, partialTick);
-		
 		if(menu.hasSelectedItem())
 		{
 			this.renderParticles(matrices, partialTick);
 			
 			this.renderPlayerPreview(mouseX, mouseY);
 		}
+	}
+	
+	@Override
+	public void render(PoseStack matrices, int mouseX, int mouseY, float partialTick)
+	{
+		super.render(matrices, mouseX, mouseY, partialTick);
+		
+		this.renderLate(matrices, mouseX, mouseY, partialTick);
 		
 		this.renderTooltip(matrices, mouseX, mouseY);
 	}

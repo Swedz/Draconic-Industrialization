@@ -152,6 +152,13 @@ loom {
 		client {
 			programArgs("--mimicPlayer", "Swedz")
 		}
+		clientMixinDebug {
+			inherit client
+
+			programArgs("--mimicPlayer", "Swedz")
+
+			vmArg "-Dmixin.debug=true"
+		}
 	}
 	accessWidenerPath = file("src/main/resources/draconic_industrialization.accessWidener")
 }

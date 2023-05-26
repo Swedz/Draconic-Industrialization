@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "draconic_industrialization:item/module/draconic_2x1",
+    "layer1": "draconic_industrialization:item/module/jump_2x1"
+  }
+}

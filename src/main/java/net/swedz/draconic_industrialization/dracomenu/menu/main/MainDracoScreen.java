@@ -1,12 +1,20 @@
 package net.swedz.draconic_industrialization.dracomenu.menu.main;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.api.tier.DracoColor;
 import net.swedz.draconic_industrialization.dracomenu.DracoMenuGridHelper;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoMenu;
@@ -15,6 +23,8 @@ import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.ModuleCo
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlot;
+import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
 import net.swedz.draconic_industrialization.packet.serverbound.dracomenu.InsertModuleDracoMenuPacket;
 import net.swedz.draconic_industrialization.packet.serverbound.dracomenu.TakeModuleDracoMenuPacket;
@@ -92,6 +102,62 @@ public final class MainDracoScreen extends DracoScreen
 		return super.mouseClicked(mx, my, button);
 	}
 	
+	@SuppressWarnings("deprecation")
+	private void renderModuleItem(ItemStack stack, int x, int y, boolean scale)
+	{
+		stack = stack.copy();
+		if(scale)
+		{
+			stack.getOrCreateTag().putBoolean(DraconicIndustrialization.id("in_draco_gui").toString(), true);
+		}
+		
+		final DracoModuleItem moduleItem = (DracoModuleItem) stack.getItem();
+		
+		final DracoGridSlotShape shape = moduleItem.moduleReference().gridShape();
+		final float xScale = scale ? shape.width() : 1;
+		final float yScale = scale ? shape.height() : 1;
+		
+		this.setBlitOffset(200);
+		itemRenderer.blitOffset = 200;
+		
+		BakedModel model = itemRenderer.getModel(stack, null, null, 0);
+		
+		minecraft.getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
+		RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+		PoseStack posestack = RenderSystem.getModelViewStack();
+		posestack.pushPose();
+		posestack.translate(x, y, this.getBlitOffset() + 100);
+		posestack.translate(8 * xScale, 8 * yScale, 0);
+		posestack.scale(1, -1, 1);
+		posestack.scale(16, 16, 16);
+		posestack.scale(xScale, yScale, 1);
+		RenderSystem.applyModelViewMatrix();
+		PoseStack posestack1 = new PoseStack();
+		MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+		boolean doesntUseBlockLight = !model.usesBlockLight();
+		if(doesntUseBlockLight)
+		{
+			Lighting.setupForFlatItems();
+		}
+		
+		itemRenderer.render(stack, ItemTransforms.TransformType.GUI, false, posestack1, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, model);
+		multibuffersource$buffersource.endBatch();
+		RenderSystem.enableDepthTest();
+		if(doesntUseBlockLight)
+		{
+			Lighting.setupFor3DItems();
+		}
+		
+		posestack.popPose();
+		RenderSystem.applyModelViewMatrix();
+		
+		this.setBlitOffset(0);
+		itemRenderer.blitOffset = 0;
+	}
+	
 	private void renderGrid(PoseStack matrices, int mouseX, int mouseY, DracoColor color, DracoItemConfiguration itemConfiguration)
 	{
 		RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -111,10 +177,28 @@ public final class MainDracoScreen extends DracoScreen
 				
 				fill(matrices, x, y, mx, my, (gridHelper.shouldUseAltTile(coordX, coordY) ? TILE_COLOR_0 : TILE_COLOR_1).getRGB());
 				
-				itemConfiguration.grid().getExactly(coordX, coordY).ifPresent((entry) ->
-						itemRenderer.renderGuiItem(new ItemStack(entry.module().reference().item()), x, y));
-				
-				if(gridHelper.isHovering(coordX, coordY, mouseX, mouseY))
+				Optional<DracoGridEntry> optionalEntry = itemConfiguration.grid().get(coordX, coordY);
+				if(optionalEntry.isPresent())
+				{
+					DracoGridEntry entry = optionalEntry.get();
+					if(entry.x() == coordX && entry.y() == coordY)
+					{
+						this.renderModuleItem(new ItemStack(entry.module().reference().item()), x, y, true);
+					}
+					if(gridHelper.isHovering(coordX, coordY, mouseX, mouseY))
+					{
+						for(DracoGridSlot slot : entry.occupiedSlots())
+						{
+							renderSlotHighlight(
+									matrices,
+									gridHelper.slotStartX(slot.x(), slot.y()),
+									gridHelper.slotStartY(slot.x(), slot.y()),
+									this.getBlitOffset()
+							);
+						}
+					}
+				}
+				else if(gridHelper.isHovering(coordX, coordY, mouseX, mouseY))
 				{
 					renderSlotHighlight(matrices, x, y, this.getBlitOffset());
 				}
@@ -158,6 +242,25 @@ public final class MainDracoScreen extends DracoScreen
 					this.renderComponentTooltip(matrices, entry.module().tooltip(itemConfiguration.item()), mouseX, mouseY);
 				});
 			}
+		}
+	}
+	
+	private void renderCarriedItem(ItemStack itemStack, int mouseX, int mouseY)
+	{
+		boolean scale = mouseY > topPos && mouseY < topPos + 116 &&
+				mouseX > leftPos + 34 && mouseX < leftPos + 209;
+		this.renderModuleItem(itemStack, mouseX - 8, mouseY - 8, scale);
+	}
+	
+	@Override
+	public void render(PoseStack matrices, int mouseX, int mouseY, float partialTick)
+	{
+		super.render(matrices, mouseX, mouseY, partialTick);
+		
+		ItemStack itemStack = draggingItem.isEmpty() ? menu.getCarried() : draggingItem;
+		if(!itemStack.isEmpty() && itemStack.getItem() instanceof DracoModuleItem)
+		{
+			this.renderCarriedItem(itemStack, mouseX, mouseY);
 		}
 	}
 }
