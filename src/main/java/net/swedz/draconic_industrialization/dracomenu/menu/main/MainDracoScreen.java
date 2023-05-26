@@ -127,31 +127,31 @@ public final class MainDracoScreen extends DracoScreen
 		RenderSystem.enableBlend();
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
-		PoseStack posestack = RenderSystem.getModelViewStack();
-		posestack.pushPose();
-		posestack.translate(x, y, this.getBlitOffset() + 100);
-		posestack.translate(8 * xScale, 8 * yScale, 0);
-		posestack.scale(1, -1, 1);
-		posestack.scale(16, 16, 16);
-		posestack.scale(xScale, yScale, 1);
+		PoseStack matrices = RenderSystem.getModelViewStack();
+		matrices.pushPose();
+		matrices.translate(x, y, this.getBlitOffset() + 100);
+		matrices.translate(8 * xScale, 8 * yScale, 0);
+		matrices.scale(1, -1, 1);
+		matrices.scale(16, 16, 16);
+		matrices.scale(xScale, yScale, 1);
 		RenderSystem.applyModelViewMatrix();
-		PoseStack posestack1 = new PoseStack();
-		MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+		PoseStack matrices2 = new PoseStack();
+		MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 		boolean doesntUseBlockLight = !model.usesBlockLight();
 		if(doesntUseBlockLight)
 		{
 			Lighting.setupForFlatItems();
 		}
 		
-		itemRenderer.render(stack, ItemTransforms.TransformType.GUI, false, posestack1, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, model);
-		multibuffersource$buffersource.endBatch();
+		itemRenderer.render(stack, ItemTransforms.TransformType.GUI, false, matrices2, bufferSource, 15728880, OverlayTexture.NO_OVERLAY, model);
+		bufferSource.endBatch();
 		RenderSystem.enableDepthTest();
 		if(doesntUseBlockLight)
 		{
 			Lighting.setupFor3DItems();
 		}
 		
-		posestack.popPose();
+		matrices.popPose();
 		RenderSystem.applyModelViewMatrix();
 		
 		this.setBlitOffset(0);
