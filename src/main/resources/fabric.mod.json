@@ -40,7 +40,8 @@
   "accessWidener": "draconic_industrialization.accesswidener",
   "custom": {
     "cardinal-components": [
-      "draconic_industrialization:item.draco"
+      "draconic_industrialization:item.draco",
+      "draconic_industrialization:item.energy"
     ]
   },
 

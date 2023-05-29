@@ -15,4 +15,9 @@ public interface DracoItem
 	{
 		return DraconicIndustrializationCardinalComponents.DRACO.get(itemStack);
 	}
+	
+	default DracoItemEnergy dracoEnergy(ItemStack itemStack)
+	{
+		return DraconicIndustrializationCardinalComponents.ENERGY.get(itemStack);
+	}
 }

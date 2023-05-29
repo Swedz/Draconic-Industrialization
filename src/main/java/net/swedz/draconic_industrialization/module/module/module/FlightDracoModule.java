@@ -4,10 +4,13 @@ import io.github.ladysnake.pal.VanillaAbilities;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
+import net.swedz.draconic_industrialization.module.DracoModuleTick;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
 import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
@@ -41,6 +44,15 @@ public final class FlightDracoModule extends DracoModule
 	public boolean hasStuffToConfigure()
 	{
 		return false;
+	}
+	
+	@Override
+	public void tick(DracoModuleTick tick, ItemStack stack, Level level, Player player)
+	{
+		if(player.getItemBySlot(EquipmentSlot.CHEST) == stack && player.getAbilities().flying)
+		{
+			tick.euCost += 1024;
+		}
 	}
 	
 	public static void initializeListener()

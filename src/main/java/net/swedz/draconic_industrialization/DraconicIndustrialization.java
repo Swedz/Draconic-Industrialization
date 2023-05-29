@@ -60,7 +60,7 @@ public final class DraconicIndustrialization implements ModInitializer
 		FlightDracoModule.initializeListener();
 		
 		EnergyStorage.ITEM.registerForItems(
-				(stack, context) -> ((DracoItem) stack.getItem()).dracoConfiguration(stack).energyStorage(context),
+				(stack, context) -> ((DracoItem) stack.getItem()).dracoEnergy(stack).createStorage(context),
 				DIItems.WYVERN_ARMOR, DIItems.DRACONIC_ARMOR, DIItems.CHAOTIC_ARMOR
 		);
 	}

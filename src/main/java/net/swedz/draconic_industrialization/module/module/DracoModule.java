@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.swedz.draconic_industrialization.api.attributes.AccumulatedAttributeWrappers;
 import net.swedz.draconic_industrialization.api.nbt.NBTSerializerWithParam;
 import net.swedz.draconic_industrialization.api.nbt.NBTTagWrapper;
@@ -14,6 +16,7 @@ import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.ModuleOptionWidget;
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
+import net.swedz.draconic_industrialization.module.DracoModuleTick;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 
 import java.util.List;
@@ -84,6 +87,10 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 	}
 	
 	public void applyAttributes(AccumulatedAttributeWrappers attributes, DracoItem item)
+	{
+	}
+	
+	public void tick(DracoModuleTick tick, ItemStack stack, Level level, Player player)
 	{
 	}
 	
