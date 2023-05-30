@@ -16,11 +16,10 @@ import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
 import net.swedz.draconic_industrialization.module.module.DracoModules;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public final class FlightDracoModule extends DracoModule
 {
-	private static final UUID ATTRIBUTE_ID = UUID.fromString("5863eaf8-fa94-11ed-be56-0242ac120002");
+	private static final long EU_COST = 1024;
 	
 	public FlightDracoModule(DracoModuleReference reference)
 	{
@@ -51,7 +50,7 @@ public final class FlightDracoModule extends DracoModule
 	{
 		if(player.getAbilities().flying)
 		{
-			tick.euCost += 1024;
+			tick.euCost += EU_COST;
 		}
 	}
 	
@@ -63,7 +62,8 @@ public final class FlightDracoModule extends DracoModule
 			for(ServerPlayer player : level.players())
 			{
 				ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
-				if(chestplate.getItem() instanceof DraconicArmorItem dracoChestplate)
+				if(chestplate.getItem() instanceof DraconicArmorItem dracoChestplate &&
+						dracoChestplate.dracoEnergy(chestplate).energy() >= EU_COST)
 				{
 					Optional<FlightDracoModule> optionalFlightModule = dracoChestplate.dracoConfiguration(chestplate).getModule(DracoModules.FLIGHT);
 					if(optionalFlightModule.isPresent())
