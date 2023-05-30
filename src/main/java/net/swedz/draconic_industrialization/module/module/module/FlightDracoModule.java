@@ -49,7 +49,7 @@ public final class FlightDracoModule extends DracoModule
 	@Override
 	public void tick(DracoModuleTick tick, ItemStack stack, Level level, Player player)
 	{
-		if(player.getItemBySlot(EquipmentSlot.CHEST) == stack && player.getAbilities().flying)
+		if(player.getAbilities().flying)
 		{
 			tick.euCost += 1024;
 		}

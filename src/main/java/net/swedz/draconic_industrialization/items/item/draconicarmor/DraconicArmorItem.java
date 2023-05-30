@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.swedz.draconic_industrialization.api.EnergyAPIWorkaround;
+import net.swedz.draconic_industrialization.api.EquipmentSlotHelper;
 import net.swedz.draconic_industrialization.api.tier.DracoTier;
 import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import net.swedz.draconic_industrialization.module.DracoItem;
@@ -143,7 +144,7 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected)
 	{
-		if(!level.isClientSide && entity instanceof Player player)
+		if(!level.isClientSide && entity instanceof Player player && EquipmentSlotHelper.isItemInCorrectSlot(player, stack))
 		{
 			final DracoItemConfiguration itemConfiguration = this.dracoConfiguration(stack);
 			final DracoItemEnergy energy = this.dracoEnergy(stack);
