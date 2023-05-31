@@ -1,0 +1,15 @@
+{
+  "parent": "item/generated",
+  "overrides": [
+    {
+      "model": "draconic_industrialization:item/module_shield_draconic_in_gui",
+      "predicate": {
+        "draconic_industrialization:in_draco_gui": 1
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "draconic_industrialization:item/module/draconic",
+    "layer1": "draconic_industrialization:item/module/shield"
+  }
+}

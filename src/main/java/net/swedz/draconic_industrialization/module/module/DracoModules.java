@@ -92,6 +92,16 @@ public final class DracoModules
 			ShieldDracoModule.class, (r) -> new ShieldDracoModule(r, 20, 20, 1, 25000, 10 * 20),
 			() -> DIItems.MODULE_SHIELD_WYVERN
 	);
+	public static final DracoModuleReference<ShieldDracoModule> SHIELD_DRACONIC = register(
+			"shield", "ShieldDraconic", DracoTier.DRACONIC, DracoGridSlotShape.of(2, 1),
+			ShieldDracoModule.class, (r) -> new ShieldDracoModule(r, 50, 10, 1, 25000, 5 * 20),
+			() -> DIItems.MODULE_SHIELD_DRACONIC
+	);
+	public static final DracoModuleReference<ShieldDracoModule> SHIELD_CHAOTIC = register(
+			"shield", "ShieldChaotic", DracoTier.CHAOTIC, DracoGridSlotShape.of(2, 2),
+			ShieldDracoModule.class, (r) -> new ShieldDracoModule(r, 100, 2, 1, 25000, 20),
+			() -> DIItems.MODULE_SHIELD_CHAOTIC
+	);
 	
 	private static <M extends DracoModule> DracoModuleReference<M> register(String id, String key, DracoTier tier, DracoGridSlotShape gridShape, Class<M> moduleClass, DracoModuleCreator<M> creator, Supplier<Item> itemSupplier)
 	{

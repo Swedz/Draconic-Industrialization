@@ -1,9 +1,9 @@
 {
   "values": [
-    "draconic_industrialization:crystal_node",
     "draconic_industrialization:draconium_block",
-    "draconic_industrialization:adamantine_coil",
     "draconic_industrialization:awakened_draconium_block",
-    "draconic_industrialization:draconium_ore"
+    "draconic_industrialization:draconium_ore",
+    "draconic_industrialization:crystal_node",
+    "draconic_industrialization:adamantine_coil"
   ]
 }

@@ -71,6 +71,8 @@ public final class DIItems
 	public static final Item MODULE_ENERGY_DRACONIC = module("module_energy_draconic", "Energy Module (Draconic)", DracoModules.ENERGY_DRACONIC);
 	public static final Item MODULE_ENERGY_CHAOTIC  = module("module_energy_chaotic", "Energy Module (Chaotic)", DracoModules.ENERGY_CHAOTIC);
 	public static final Item MODULE_SHIELD_WYVERN   = module("module_shield_wyvern", "Shield Module (Wyvern)", DracoModules.SHIELD_WYVERN);
+	public static final Item MODULE_SHIELD_DRACONIC = module("module_shield_draconic", "Shield Module (Draconic)", DracoModules.SHIELD_DRACONIC);
+	public static final Item MODULE_SHIELD_CHAOTIC  = module("module_shield_chaotic", "Shield Module (Chaotic)", DracoModules.SHIELD_CHAOTIC);
 	
 	public static Set<DIItem> all()
 	{
