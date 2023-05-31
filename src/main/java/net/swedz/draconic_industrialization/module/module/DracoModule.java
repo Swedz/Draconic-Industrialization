@@ -16,6 +16,8 @@ import net.swedz.draconic_industrialization.dracomenu.menu.DracoScreen;
 import net.swedz.draconic_industrialization.dracomenu.menu.moduleconfig.option.ModuleOptionWidget;
 import net.swedz.draconic_industrialization.items.item.DracoModuleItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
+import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
+import net.swedz.draconic_industrialization.module.DracoItemEnergy;
 import net.swedz.draconic_industrialization.module.DracoModuleTick;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridSlotShape;
 
@@ -90,7 +92,7 @@ public abstract class DracoModule implements NBTSerializerWithParam<DracoModule,
 	{
 	}
 	
-	public void tick(DracoModuleTick tick, ItemStack stack, Level level, Player player)
+	public void tick(DracoModuleTick tick, ItemStack stack, DracoItemConfiguration itemConfiguration, DracoItemEnergy itemEnergy, Level level, Player player)
 	{
 	}
 	

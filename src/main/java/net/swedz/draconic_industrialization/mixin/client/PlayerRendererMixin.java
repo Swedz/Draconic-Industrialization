@@ -39,23 +39,26 @@ public class PlayerRendererMixin
 		if(!player.isInvisible() && chestplateItem.getItem() instanceof DraconicArmorItem armorItem)
 		{
 			final DracoItemConfiguration configuration = armorItem.dracoConfiguration(chestplateItem);
-			final DracoColor color = configuration.getModuleOrCreate(DracoModules.COLORIZER).color;
-			final DraconicArmorShieldType shieldType = configuration.getModuleOrCreate(DracoModules.ARMOR_APPERANCE).shield;
-			
-			float partialTick = Minecraft.getInstance().getFrameTime();
-			float tick = (float) player.tickCount + partialTick;
-			
-			final VertexConsumer vertexConsumer = ShieldRenderTypes.getVertexConsumer(shieldType, buffer, player.tickCount + partialTick);
-			rendererArm.render(
-					matrices, vertexConsumer,
-					packedLight, OverlayTexture.NO_OVERLAY,
-					color.red, color.green, color.blue, 1f
-			);
-			rendererArmwear.render(
-					matrices, vertexConsumer,
-					packedLight, OverlayTexture.NO_OVERLAY,
-					color.red, color.green, color.blue, 1f
-			);
+			if(configuration.shields() > 0)
+			{
+				final DracoColor color = configuration.getModuleOrCreate(DracoModules.COLORIZER).color;
+				final DraconicArmorShieldType shieldType = configuration.getModuleOrCreate(DracoModules.ARMOR_APPERANCE).shield;
+				
+				float partialTick = Minecraft.getInstance().getFrameTime();
+				float tick = (float) player.tickCount + partialTick;
+				
+				final VertexConsumer vertexConsumer = ShieldRenderTypes.getVertexConsumer(shieldType, buffer, player.tickCount + partialTick);
+				rendererArm.render(
+						matrices, vertexConsumer,
+						packedLight, OverlayTexture.NO_OVERLAY,
+						color.red, color.green, color.blue, 1f
+				);
+				rendererArmwear.render(
+						matrices, vertexConsumer,
+						packedLight, OverlayTexture.NO_OVERLAY,
+						color.red, color.green, color.blue, 1f
+				);
+			}
 		}
 	}
 }

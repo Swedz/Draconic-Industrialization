@@ -136,6 +136,15 @@ public final class DracoModuleGrid implements NBTSerializer<DracoModuleGrid>
 		return entry;
 	}
 	
+	public <M extends DracoModule> List<M> getModules(Class<M> module)
+	{
+		return this.entries().stream()
+				.map(DracoGridEntry::module)
+				.filter((m) -> module.isAssignableFrom(m.getClass()))
+				.map((m) -> (M) m)
+				.toList();
+	}
+	
 	@Override
 	public void read(NBTTagWrapper tag)
 	{

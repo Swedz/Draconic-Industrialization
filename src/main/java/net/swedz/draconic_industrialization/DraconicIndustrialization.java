@@ -15,6 +15,7 @@ import net.swedz.draconic_industrialization.entity.DIEntities;
 import net.swedz.draconic_industrialization.items.DIItems;
 import net.swedz.draconic_industrialization.module.DracoItem;
 import net.swedz.draconic_industrialization.module.module.module.FlightDracoModule;
+import net.swedz.draconic_industrialization.module.module.module.ShieldDracoModule;
 import net.swedz.draconic_industrialization.packet.DIPacketChannels;
 import net.swedz.draconic_industrialization.packet.PacketType;
 import net.swedz.draconic_industrialization.particles.DIParticles;
@@ -58,6 +59,7 @@ public final class DraconicIndustrialization implements ModInitializer
 		DIPacketChannels.registerAllListeners(PacketType.SERVERBOUND);
 		
 		FlightDracoModule.initializeListener();
+		ShieldDracoModule.initializeListener();
 		
 		EnergyStorage.ITEM.registerForItems(
 				(stack, context) -> ((DracoItem) stack.getItem()).dracoEnergy(stack).createStorage(context),

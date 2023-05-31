@@ -10,6 +10,8 @@ import net.minecraft.world.level.Level;
 import net.swedz.draconic_industrialization.DraconicIndustrialization;
 import net.swedz.draconic_industrialization.items.item.draconicarmor.DraconicArmorItem;
 import net.swedz.draconic_industrialization.module.DracoItem;
+import net.swedz.draconic_industrialization.module.DracoItemConfiguration;
+import net.swedz.draconic_industrialization.module.DracoItemEnergy;
 import net.swedz.draconic_industrialization.module.DracoModuleTick;
 import net.swedz.draconic_industrialization.module.module.DracoModule;
 import net.swedz.draconic_industrialization.module.module.DracoModuleReference;
@@ -46,7 +48,7 @@ public final class FlightDracoModule extends DracoModule
 	}
 	
 	@Override
-	public void tick(DracoModuleTick tick, ItemStack stack, Level level, Player player)
+	public void tick(DracoModuleTick tick, ItemStack stack, DracoItemConfiguration itemConfiguration, DracoItemEnergy itemEnergy, Level level, Player player)
 	{
 		if(player.getAbilities().flying)
 		{

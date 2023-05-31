@@ -99,4 +99,19 @@ public record NBTTagWrapper(CompoundTag tag)
 	{
 		tag.putInt(key, value);
 	}
+	
+	public long getLong(String key)
+	{
+		return tag.getLong(key);
+	}
+	
+	public long getLongOrDefault(String key, long defaultValue)
+	{
+		return tag.contains(key) ? tag.getLong(key) : defaultValue;
+	}
+	
+	public void setLong(String key, long value)
+	{
+		tag.putLong(key, value);
+	}
 }

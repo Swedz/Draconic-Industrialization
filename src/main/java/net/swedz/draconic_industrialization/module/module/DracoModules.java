@@ -12,6 +12,7 @@ import net.swedz.draconic_industrialization.module.module.module.ColorizerDracoM
 import net.swedz.draconic_industrialization.module.module.module.EnergyDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.FlightDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.JumpDracoModule;
+import net.swedz.draconic_industrialization.module.module.module.ShieldDracoModule;
 import net.swedz.draconic_industrialization.module.module.module.SpeedDracoModule;
 
 import java.util.Map;
@@ -84,6 +85,12 @@ public final class DracoModules
 			"energy", "EnergyChaotic", DracoTier.CHAOTIC, DracoGridSlotShape.single(),
 			EnergyDracoModule.class, (r) -> new EnergyDracoModule(r, 64000000, 1000000),
 			() -> DIItems.MODULE_ENERGY_CHAOTIC
+	);
+	
+	public static final DracoModuleReference<ShieldDracoModule> SHIELD_WYVERN = register(
+			"shield", "ShieldWyvern", DracoTier.WYVERN, DracoGridSlotShape.single(),
+			ShieldDracoModule.class, (r) -> new ShieldDracoModule(r, 20, 20, 1, 25000, 10 * 20),
+			() -> DIItems.MODULE_SHIELD_WYVERN
 	);
 	
 	private static <M extends DracoModule> DracoModuleReference<M> register(String id, String key, DracoTier tier, DracoGridSlotShape gridShape, Class<M> moduleClass, DracoModuleCreator<M> creator, Supplier<Item> itemSupplier)

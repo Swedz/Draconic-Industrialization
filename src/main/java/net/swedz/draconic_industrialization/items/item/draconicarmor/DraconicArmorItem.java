@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -147,11 +148,11 @@ public final class DraconicArmorItem extends GeckoArmorItem implements IAnimatab
 		if(!level.isClientSide && entity instanceof Player player && EquipmentSlotHelper.isItemInCorrectSlot(player, stack))
 		{
 			final DracoItemConfiguration itemConfiguration = this.dracoConfiguration(stack);
-			final DracoItemEnergy energy = this.dracoEnergy(stack);
+			final DracoItemEnergy itemEnergy = this.dracoEnergy(stack);
 			
-			DracoModuleTick tick = new DracoModuleTick();
-			itemConfiguration.modules().forEach((m) -> m.tick(tick, stack, level, player));
-			tick.apply(EnergyAPIWorkaround.context(player, stack), itemConfiguration, energy);
+			DracoModuleTick tick = new DracoModuleTick(((ServerLevel) level).getServer().getTickCount());
+			itemConfiguration.modules().forEach((m) -> m.tick(tick, stack, itemConfiguration, itemEnergy, level, player));
+			tick.apply(EnergyAPIWorkaround.context(player, stack), itemConfiguration, itemEnergy);
 		}
 	}
 }

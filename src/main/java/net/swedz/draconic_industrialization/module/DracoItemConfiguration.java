@@ -14,10 +14,10 @@ import net.swedz.draconic_industrialization.module.module.DracoModules;
 import net.swedz.draconic_industrialization.module.module.grid.DracoGridEntry;
 import net.swedz.draconic_industrialization.module.module.grid.DracoModuleGrid;
 import net.swedz.draconic_industrialization.module.module.module.EnergyDracoModule;
+import net.swedz.draconic_industrialization.module.module.module.ShieldDracoModule;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class DracoItemConfiguration extends ItemComponent
@@ -31,6 +31,9 @@ public final class DracoItemConfiguration extends ItemComponent
 	private DracoModuleGrid grid;
 	
 	private long energyCapacity, energyMaxIO;
+	
+	private List<ShieldDracoModule> shieldModules;
+	private long shields, maxShields;
 	
 	public DracoItemConfiguration(ItemStack itemStack)
 	{
@@ -56,13 +59,13 @@ public final class DracoItemConfiguration extends ItemComponent
 			CompoundTag gridTag = this.hasTag("Grid", CcaNbtType.COMPOUND) ? this.getTag("Grid", CcaNbtType.COMPOUND) : new CompoundTag();
 			grid = new DracoModuleGrid(item).deserialize(gridTag);
 			
-			List<EnergyDracoModule> energyModules = grid.entries().stream()
-					.map(DracoGridEntry::module)
-					.filter((m) -> EnergyDracoModule.class.isAssignableFrom(m.getClass()))
-					.map((m) -> (EnergyDracoModule) m)
-					.toList();
+			List<EnergyDracoModule> energyModules = grid.getModules(EnergyDracoModule.class);
 			energyCapacity = energyModules.stream().mapToLong(EnergyDracoModule::capacity).sum();
 			energyMaxIO = energyModules.stream().mapToLong(EnergyDracoModule::io).sum();
+			
+			shieldModules = grid.getModules(ShieldDracoModule.class);
+			shields = shieldModules.stream().mapToLong(ShieldDracoModule::shields).sum();
+			maxShields = shieldModules.stream().mapToLong(ShieldDracoModule::maxShields).sum();
 			
 			valid = true;
 		}
@@ -88,7 +91,7 @@ public final class DracoItemConfiguration extends ItemComponent
 	
 	public <M extends DracoModule> List<M> getModules(DracoModuleReference<M> module)
 	{
-		return this.moduleStream(module).collect(Collectors.toList());
+		return this.moduleStream(module).toList();
 	}
 	
 	public <M extends DracoModule> long countModules(DracoModuleReference<M> module)
@@ -116,6 +119,24 @@ public final class DracoItemConfiguration extends ItemComponent
 	{
 		this.grid();
 		return energyMaxIO;
+	}
+	
+	public List<ShieldDracoModule> shieldModules()
+	{
+		this.grid();
+		return List.copyOf(shieldModules);
+	}
+	
+	public long shields()
+	{
+		this.grid();
+		return shields;
+	}
+	
+	public long maxShields()
+	{
+		this.grid();
+		return maxShields;
 	}
 	
 	public void save()
